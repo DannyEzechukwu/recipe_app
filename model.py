@@ -151,19 +151,23 @@ class Comment(db.Model):
                     index = True, 
                     nullable = False)
     
+    created_at = db.Column(db.DateTime, 
+                    default = datetime.now())
+    
     #Comment can belong to one user
     user = db.relationship("User", back_populates = "comments")
     #Comment can belong to one meal
     meal = db.relationship("Meal", back_populates = "comments")
     
-    created_at = db.Column(db.DateTime, 
-                             default = datetime.now())
+
 
     def __repr__(self): 
         return f'<Comment comment_id = {self.comment_id}, comment_user_id={self.comment_user_id}>'
     
 #Ingredients Table
-class Ingredient(db.Model): 
+class Ingredient(db.Model):
+    __tablename__ = "ingredients"
+
     ingredient_id = db.Column(db.Integer, 
                         primary_key = True,
                         autoincrement = True)
@@ -185,6 +189,7 @@ class Ingredient(db.Model):
     
     #An ingredient can belong to one meal
     meal = db.relationship("Meal", back_populates = "ingredients")
+
     def __repr__(self): 
         return f'<Ingredient ingredient_id = {self.ingredient_id}, ingredient_meal_id= {self.ingredient_meal_id}, ingredient_name = {self.ingredient_name}>'
 
