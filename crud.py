@@ -253,5 +253,7 @@ def get_ingredients_by_meal_id(ingredient_meal_id):
     return Ingredient.query.filter(ingredient_meal_id  == ingredient_meal_id).all()
 
 
-
+if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
 
