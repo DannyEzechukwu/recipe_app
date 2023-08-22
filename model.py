@@ -53,8 +53,6 @@ class User(db.Model):
     
     def __repr__(self): 
           return f'<User user_id = {self.user_id}, email = {self.email}>'
-    
-    
 
 #Meal Table
 class Meal(db.Model): 
@@ -66,7 +64,8 @@ class Meal(db.Model):
     
     meal_name = db.Column(db.String, 
                     index = True, 
-                    nullable = False)
+                    nullable = False,
+                    unique = True)
     
     category = db.Column(db.String, 
                     index = True, 
@@ -82,12 +81,10 @@ class Meal(db.Model):
                     nullable = False)
     
     meal_image_url = db.Column(db.String,
-                    index = True, 
-                    nullable = False)
+                    index = True)
     
     meal_video_url = db.Column(db.String,
-                    index = True, 
-                    nullable = False)
+                    index = True)
     
     #Meal can have many comments
     comments = db.relationship("Comment", back_populates = "meal")
@@ -100,7 +97,7 @@ class Meal(db.Model):
     def __repr__(self): 
         return f'<Meal meal_id = {self.meal_id}, name = {self.meal_name}, area = {self.area}>'
     
-#Ratings Table
+#Rating Table
 class Rating(db.Model): 
     __tablename__ = "ratings"
 
@@ -131,7 +128,7 @@ class Rating(db.Model):
     def __repr__(self): 
           return f'<Rating user_id = {self.user_id}, meal_id = {self.rating_user_id}, score = {self.score}>'
     
-#Comments Table
+#Comment Table
 class Comment(db.Model): 
     __tablename__ = "comments"
 
@@ -164,7 +161,7 @@ class Comment(db.Model):
     def __repr__(self): 
         return f'<Comment comment_id = {self.comment_id}, comment_user_id={self.comment_user_id}>'
     
-#Ingredients Table
+#Ingredient Table
 class Ingredient(db.Model):
     __tablename__ = "ingredients"
 
