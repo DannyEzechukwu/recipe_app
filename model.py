@@ -23,9 +23,8 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, 
-                        primary_key = True,
-                        autoincrement = True)
-    
+                    primary_key = True)
+
     fname = db.Column(db.String, 
                     index = True, 
                     nullable = False)
@@ -60,7 +59,7 @@ class Meal(db.Model):
 
     meal_id = db.Column(db.Integer, 
                     primary_key = True,
-                    autoincrement = True)
+                    nullable = False)
     
     meal_name = db.Column(db.String, 
                     index = True, 
@@ -93,7 +92,6 @@ class Meal(db.Model):
     #Meal can have many ingredients
     ingredients = db.relationship("Ingredient", back_populates = "meal")
     
-    
     def __repr__(self): 
         return f'<Meal meal_id = {self.meal_id}, name = {self.meal_name}, area = {self.area}>'
     
@@ -102,11 +100,11 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, 
-                        primary_key = True,
-                        autoincrement = True)
+                        primary_key = True)
     
     rating_user_id = db.Column(db.Integer,
                     db.ForeignKey('users.user_id'),
+                    nullable = False,
                     index = True)
     
     rating_meal_id = db.Column(db.Integer,
@@ -126,15 +124,14 @@ class Rating(db.Model):
     meal = db.relationship("Meal", back_populates = "ratings")
     
     def __repr__(self): 
-          return f'<Rating user_id = {self.user_id}, meal_id = {self.rating_user_id}, score = {self.score}>'
+          return f'<Rating user_id = {self.rating_user_id}, meal_id = {self.rating_meal_id}, score = {self.score}>'
     
 #Comment Table
 class Comment(db.Model): 
     __tablename__ = "comments"
 
-    comment_id = db.Column(db.Integer, 
-                    primary_key = True,
-                    autoincrement = True)
+    comment_id = db.Column(db.Integer,
+                    primary_key = True)
     
     comment_user_id = db.Column(db.Integer,
                     db.ForeignKey('users.user_id'),
@@ -156,8 +153,6 @@ class Comment(db.Model):
     #Comment can belong to one meal
     meal = db.relationship("Meal", back_populates = "comments")
     
-
-
     def __repr__(self): 
         return f'<Comment comment_id = {self.comment_id}, comment_user_id={self.comment_user_id}>'
     
@@ -166,8 +161,7 @@ class Ingredient(db.Model):
     __tablename__ = "ingredients"
 
     ingredient_id = db.Column(db.Integer, 
-                        primary_key = True,
-                        autoincrement = True)
+                        primary_key = True)
     
     ingredient_meal_id = db.Column(db.Integer,
                     db.ForeignKey('meals.meal_id'),
@@ -177,7 +171,7 @@ class Ingredient(db.Model):
                     index = True, 
                     nullable = False)
     
-    ingredient_measure = db.Column(db.Integer,
+    ingredient_measure = db.Column(db.String,
                     index = True, 
                     nullable = False)
     
@@ -189,9 +183,6 @@ class Ingredient(db.Model):
 
     def __repr__(self): 
         return f'<Ingredient ingredient_id = {self.ingredient_id}, ingredient_meal_id= {self.ingredient_meal_id}, ingredient_name = {self.ingredient_name}>'
-
-    
-   
 
 
 if __name__ == "__main__":

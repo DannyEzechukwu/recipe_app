@@ -5,7 +5,7 @@ from model import db, connect_to_db,  User, Meal, Rating, Comment, Ingredient
 
 #User crud functions
 #Create user object
-def create_user(fname, lname, email, password): 
+def create_user(fname, lname, email, password):
     user = User(fname = fname, lname = lname, email = email, password = password)
     return user
 
@@ -25,8 +25,9 @@ def get_user_by_email(email):
 #Meal crud functions
 
 #Create meal object
-def create_meal(meal_name, category, area, recipe, meal_image_url = None,  meal_video_url = None):
-    meal = Meal(meal_name = meal_name,
+def create_meal(meal_id, meal_name, category, area, recipe, meal_image_url = None,  meal_video_url = None):
+    meal = Meal(meal_id = meal_id, 
+                meal_name = meal_name,
                 category = category,
                 area = area, 
                 recipe = recipe, 
