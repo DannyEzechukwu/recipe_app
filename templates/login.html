@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Create an Account{% endblock %}
+
+{% block body %}
+  <h1>Get ready to Enjoy a Delicious Experience</h1>
+
+  <form action="/confirm_user" method = "POST">
+        
+        <p>
+            <input type="email" class = "login-form" name="email" 
+            placeholder="email@example.com">
+        </p>
+
+        <p>
+            <input type="password" class = "login-form" name="password" 
+            placeholder = "password">
+        </p>
+
+        <p>
+            <input type="Submit" class = "button" value = "Enter">
+        </p>
+  </form>
+
+{% endblock %}

@@ -103,7 +103,7 @@ last_names = ['Smith',
 comments = [
             "This tasted okay. I do not think I added enough salt. 🧂",
             "Love this one. Made it a couple of times this week. 💯",
-            "This wasn't my favorite. ", 
+            "This wasn't my favorite.", 
             "Where has this been all my life.",
             "I was way to heavy with the salt. Almost choked to death!",
             "Super happy my friend recommended this app!",
@@ -113,11 +113,15 @@ comments = [
             "This app is a life saver. Hopefully the creator adds more soon.", 
             "This app saves me so much money. 💰", 
             "I am going to stick with eating out.", 
-            "So much food so little time. 🤤🤤🤤"
-            "Not usually something I go for, but it ended up working out."
-            "After eating this, I think it is safe to say that I am looking into other apps."
-            "Solid. Nothing to write home about. It got the job done. "
-            "This site is a keeper. Kid's enjoyed this one. 👧🏻"]
+            "So much food so little time. 🤤🤤🤤",
+            "Not usually something I go for, but it ended up working out.",
+            "After eating this, I think it is safe to say that I am looking into other apps.",
+            "Solid. Nothing to write home about. It got the job done. ",
+            "This site is a keeper. Kid's enjoyed this one. 👧🏻",
+            "10/10. This app is a keeper! ✅",
+            "Mehhh.",
+            "Same dish tasted better on a different app. 🤷🏾‍♂️",
+            "Anyone got the mobile version??"]
 
 #Container to hold user objects to add to database 
 user_objects = []

@@ -19,7 +19,7 @@ def get_user_by_id(user_id):
 
 #Get a user object by their email
 def get_user_by_email(email): 
-    return User.query.filter(User.email == email).first()
+    return User.query.filter((User.email == email)).first()
 
 #-----------------------------------------------------------------------------------
 #Meal crud functions
@@ -35,6 +35,24 @@ def create_meal(meal_id, meal_name, category, area, recipe, meal_image_url = Non
                 meal_video_url = meal_video_url)
     
     return meal
+
+#Get all meal categories with no dupes
+def get_all_categories(): 
+    
+    category_set = set()
+    for meal in Meal.query.all(): 
+        category_set.add(meal.category)
+    
+    return category_set
+
+#Get all meal areas with no dupes
+def get_all_areas(): 
+    
+    area_set = set()
+    for meal in Meal.query.all(): 
+        area_set.add(meal.area)
+    
+    return area_set
 
 #Get all meal objects in database
 def get_all_meals(): 

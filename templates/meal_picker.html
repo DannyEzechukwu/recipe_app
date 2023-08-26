@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Get A Meal{% endblock %}
+
+{% block body %}
+  <h1>Selection Time!</h1>
+    
+  <H2> Use the dropdown boxes to select choices to pick a meal!</H2>
+    <p> * The top choices will return an output of meals that satisfy all of these requirements. </p>
+
+  <form>
+        <label for = "and-category">Category:</label>
+        <select name = "and-category" id = "and-category"> 
+            {% for category in categories %}
+                <option value = "{{ category }}"> {{ category }} </option>
+            {% endfor %}
+        </select>
+
+        <label for = "and-area">Area:</label>
+        <select name = "and-area" id = "and-area"> 
+            {% for area in areas %}
+                <option value = "{{ area }}"> {{ area }} </option>
+            {% endfor %}
+        </select>
+      
+        <label for = "and-ingredients1">Ingredient1:</label>
+        <select name = "and-ingredient1" id = "and-ingredient1"> 
+            {% for ingredient in ingredients %}
+                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+            {% endfor %}
+        </select>
+
+        <label for = "and-ingredients2">Ingredient2:</label>
+        <select name = "and-ingredient2" id = "and-ingredient2"> 
+            {% for ingredient in ingredients %}
+                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+            {% endfor %}
+        </select>
+
+        <label for = "and-ingredients3">Ingredient3:</label>
+        <select name = "and-ingredient3" id = "and-ingredient3"> 
+            {% for ingredient in ingredients %}
+                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+            {% endfor %}
+        </select>
+
+        <input  type = "submit" class = "button" value ="get meals"/>
+  </form>
+
+  <H2>Bon Appétit!</H2>
+  <div id = "returned-meals">
+    
+  </div>
+
+{% endblock %}

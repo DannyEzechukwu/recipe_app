@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Create an Account{% endblock %}
+
+{% block body %}
+  <h1>Join Eats & Speaks</h1>
+    <p> Becoming a user is easy!</p>
+    <p> All you need is a name, email, and password! </p>
+
+  <form action="new_user" method = "POST">
+        <p>
+         <input type="text" class = "create-account-form" name="fname" 
+            placeholder="first name">
+        </p>
+        <p>
+            <input type="text" class = "create-account-form" name="lname" 
+            placeholder="last name">
+        </p>
+        <p>
+            <input type="email" class = "create-account-form" name="email" 
+            placeholder="email@example.com">
+        </p>
+
+        <p>
+            <input type="password" class = "create-account-form" name="password" 
+            placeholder = "password">
+        </p>
+
+        <p>
+            <input type="Submit" class = "button" value="Join">
+        </p>
+  </form>
+
+{% endblock %}
