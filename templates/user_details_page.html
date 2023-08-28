@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.fname }}'s - Details{% endblock %}
+
+{% block body %}
+
+<h1>{{ user.fname }}'s last 6 Ratings and Comments</h1>
+
+<table class="meal-rating-and-comment-table">
+    <thead> 
+        <tr>
+            <th>Name of Meal</th>
+            <th> Meal Image 😋</th>
+            <th> Rating</th>
+            <th>Comment</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for element in meal_scores_comments_and_times[-6:] %}
+        <tr>
+            <td>{{ element[0][0] }}</td>
+            <td>
+                <a href = "/recipe/{{ element[0][0] }}/{{ element[0][1] }}">
+                <img src = "{{ element[1] }}" alt ="{{ element[0] }}" width="100" height= "100"/>
+                </a>
+            </td>
+            <td>{{ element[2] }}</td>
+            <td>{{ element[3] }}</td>
+            <td>{{ element[4] }}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+<br>
+
+<form action ="/get_a_meal">
+    <input type = "submit" class="button" value="Discover new meals"/>
+</form>
+
+{% endblock %}

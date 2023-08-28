@@ -62,6 +62,10 @@ def get_all_meals():
 def get_meal_by_id(meal_id): 
    return Meal.query.get(meal_id)
 
+#Get a meal object by its name
+def get_meal_by_name_and_id(meal_name, meal_id): 
+   return Meal.query.filter((Meal.meal_name == meal_name) & (Meal.meal_id == meal_id )).first()
+
 #Get meal objects by ingredients only
 def get_meal_by_ingredients(*ingredients):
     """Obtain a list of meals from an input of ingredient(s)"""
@@ -238,11 +242,11 @@ def get_comment_by_id(comment_id):
 
 #Get comments by user_id
 def get_comments_by_user_id(comment_user_id): 
-    return Rating.query.filter(Comment.comment_user_id == comment_user_id).all()
+    return Comment.query.filter(Comment.comment_user_id == comment_user_id).all()
 
 #Get comments by meal_id
 def get_comments_by_meal_id(comment_meal_id): 
-    return Rating.query.filter(Comment.comment_meal_id == comment_meal_id).all()
+    return Comment.query.filter(Comment.comment_meal_id == comment_meal_id).all()
 
 #-----------------------------------------------------------------------------------
 #Ingredient crud functions

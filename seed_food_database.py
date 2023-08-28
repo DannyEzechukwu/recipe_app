@@ -109,10 +109,10 @@ comments = [
             "Super happy my friend recommended this app!",
             "I probably wouldn't eat this again.🤮",
             "Just starting to get into cooking again. Great first start. 👨🏾‍🍳",
-            "So many doshes to pick from. I almost couldn\'t choose.", 
-            "This app is a life saver. Hopefully the creator adds more soon.", 
+            "So many dishes to pick from. I almost couldn\'t choose.", 
+            "This app is a life saver. Hopefully the creator adds more meals soon.", 
             "This app saves me so much money. 💰", 
-            "I am going to stick with eating out.", 
+            "I am going to stick with eating out. 🍔", 
             "So much food so little time. 🤤🤤🤤",
             "Not usually something I go for, but it ended up working out.",
             "After eating this, I think it is safe to say that I am looking into other apps.",
@@ -121,7 +121,9 @@ comments = [
             "10/10. This app is a keeper! ✅",
             "Mehhh.",
             "Same dish tasted better on a different app. 🤷🏾‍♂️",
-            "Anyone got the mobile version??"]
+            "Anyone got the mobile version??",
+            "This is my love language. ❤️", 
+            "No way this app should be free! Too much value!"]
 
 #Container to hold user objects to add to database 
 user_objects = []

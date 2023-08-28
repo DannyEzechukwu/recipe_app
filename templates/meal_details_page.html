@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ meal.meal_name }} Recipe {% endblock %}
+
+{% block body %}
+
+<h1> Recipe for {{ meal.meal_name }}</h1>
+
+<img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 
+ class = "meal-details-image" width ="500" height ="500" />
+
+<p> To make {{meal.meal_name}}, you'll need: </p>
+
+{% for ingredient in meal_ingredients %}
+<div class = "meal-ingredients"> 
+    <img src = "{{ ingredient.ingredient_image_url }}" width = "100" height="100" /><br>
+    <p>{{ingredient.ingredient_measure}} of {{ingredient.ingredient_name }}</p>
+</div>
+{% endfor %}
+
+
+<br>
+
+<form action ="/get_a_meal">
+    <input type = "submit" class="button" value="Discover new meals"/>
+</form>
+
+{% endblock %}

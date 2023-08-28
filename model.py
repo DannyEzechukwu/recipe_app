@@ -154,7 +154,7 @@ class Comment(db.Model):
     meal = db.relationship("Meal", back_populates = "comments")
     
     def __repr__(self): 
-        return f'<Comment comment_id = {self.comment_id}, comment_user_id={self.comment_user_id}>'
+        return f'<Comment comment_id = {self.comment_id}, comment_meal_id={self.comment_meal_id}>'
     
 #Ingredient Table
 class Ingredient(db.Model):
