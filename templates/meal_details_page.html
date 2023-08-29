@@ -4,25 +4,77 @@
 
 {% block body %}
 
-<h1> Recipe for {{ meal.meal_name }}</h1>
+<h1> {{ meal.meal_name.title() }} Recipe</h1>
 
-<img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 
- class = "meal-details-image" width ="500" height ="500" />
+<H2>Average Rating : {{ average_score }} / 6 </H2>
 
-<p> To make {{meal.meal_name}}, you'll need: </p>
+<div class ="meal-visuals-container">
+    <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 
+    class = "meal-details-image" width ="500" height ="500" />
+    <iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen>
+    </iframe>
+    <br>
+    <p><a href ="{{ meal.meal_video_url}}">{{ meal.meal_name.title()}} Video</a></p>
+</div> 
+
+
+
+<H3 class = "recipe-title">To make {{meal.meal_name}}, you'll need:</H3>
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
-    <img src = "{{ ingredient.ingredient_image_url }}" width = "100" height="100" /><br>
+    <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name}}" width = "100" height="100" /><br>
     <p>{{ingredient.ingredient_measure}} of {{ingredient.ingredient_name }}</p>
 </div>
 {% endfor %}
+<br>
 
+<H3 calss = "recipe instructions">Instructions:</H3>
+<p>{{ meal.recipe }}</p>
+
+
+<form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" method = "POST">
+    <fieldset class="rating">
+        <legend>Rate this meal</legend>
+        <input type="radio" id="rate1" name="rating" value="1">
+        <label for="rate1">1 - Nasty🤮</label>
+        <input type="radio" id="rate2" name="rating" value="2">
+        <label for="rate2">2 - Not Great 😒</label>
+        <input type="radio" id="rate3" name="rating" value="3">
+        <label for="rate3">3 - Okay 👌</label>
+        <input type="radio" id="rate4" name="rating" value="4">
+        <label for="rate4">4 - Decent 😏</label>
+        <input type="radio" id="rate5" name="rating" value="5">
+        <label for="rate5">5 - Really Good 😃</label>
+        <input type="radio" id="rate6" name="rating" value="6">
+        <label for="rate6">6 - Delicious 😋</label>
+        <span class="focus-ring"></span>
+     </fieldset>
+
+    <br>
+    {% for i in range (meal_comments_list|length)  %}
+    <div class = "previous-meal-comments">
+        <p>
+        {{ meal_comments_list[i][2] }}
+        </p>
+        <p>
+        {{ meal_comments_list[i][0] }} {{ meal_comments_list[i][1] }} <br> {{ meal_comments_list[i][3] }}
+        </p>
+    </div>
+    {% endfor %}
+    <textarea name = "comment">
+    </textarea>
+    <input type="submit" class = "button" value="Post">
+</form>
 
 <br>
 
 <form action ="/get_a_meal">
     <input type = "submit" class="button" value="Discover new meals"/>
+</form>
+
+<form action ="/user_profile/{{user.user_id}}">
+    <input type = "submit" class="button" value="Back to Profile Page"/>
 </form>
 
 {% endblock %}

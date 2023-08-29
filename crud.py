@@ -64,7 +64,7 @@ def get_meal_by_id(meal_id):
 
 #Get a meal object by its name
 def get_meal_by_name_and_id(meal_name, meal_id): 
-   return Meal.query.filter((Meal.meal_name == meal_name) & (Meal.meal_id == meal_id )).first()
+   return Meal.query.filter((Meal.meal_name == meal_name) & (Meal.meal_id == meal_id)).first()
 
 #Get meal objects by ingredients only
 def get_meal_by_ingredients(*ingredients):

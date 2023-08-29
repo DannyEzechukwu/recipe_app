@@ -19,6 +19,9 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def welcome_page(): 
     
+    if "id" in session: 
+        session.pop('id')
+    
     return render_template('welcome_page.html')
 
 # Route containing form to create account
@@ -47,7 +50,7 @@ def register_user():
         db.session.commit()
 
         flash('New user added!')
-        return redirect("/meal_picker")
+        return redirect("/user_profile/<int:user_id>")
 
 # Route containing form to input email and password
 # to access application
@@ -129,7 +132,8 @@ def user_profile(user_id):
 
 #MEAL DISPLAYS
 
-#Route that allows user to input data for meals they would like returned
+#Route that allows user to input data for meals they would 
+#like returned
 @app.route("/get_a_meal")
 def get_meals(): 
 
@@ -183,17 +187,72 @@ def get_meals_to_display():
     
     return jsonify({"meals" : frontend_meals})
 
+
+#Meal display that is shown once a meal is clicked
+#Data from this route is sent to /add_rating_and comment POST route
 @app.route("/recipe/<meal_name>/<int:meal_id>")
 def show_meal_details(meal_name, meal_id): 
 
+    #User in current session. Will be used to create 
+    #a button to go back to profile page in meal_details_page.html
+    user = crud.get_user_by_id(session["id"])
+
+    #Obtain the meal of interest given meal_name 
+    #and meal_id parameters
     meal = crud.get_meal_by_name_and_id(meal_name, meal_id)
 
+    #Use meal relationships to get list of ingredients and comments
     meal_ingredients = meal.ingredients
     meal_comments = meal.comments
+    
+    meal_comments_list = []
+    
+    for object in meal_comments: 
+        user_for_comment = crud.get_user_by_id(object.comment_user_id)
+        meal_comments_list.append((user_for_comment.fname, user_for_comment.lname, object.comment, object.created_at))
 
-    return render_template("meal_details_page.html", meal = meal, 
-                           meal_ingredients = meal_ingredients)
+    #Analyze meal_rating to get average rating
+    meal_ratings = meal.ratings
+    meal_rating_score_list = []
 
+    for rating in meal_ratings:
+        meal_rating_score_list.append(rating.score)
+    
+    average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
+
+    return render_template("meal_details_page.html", user = user,  
+                           meal = meal, 
+                           meal_ingredients = meal_ingredients,
+                           average_score  = average_score,
+                           meal_comments_list = meal_comments_list)
+#----------------------------------------------------------------------
+
+#ADDING DATA TO  DATABASE
+
+#Creating a new rating and add it to the database
+@app.route("/add_rating_and_comment/<meal_name>/<int:meal_id>", methods = ["POST"])
+def add_rating(meal_name, meal_id):
+    
+    #Identify user in the session
+    user_id = session["id"]
+    #Rating score and comment from web page retrieved from 
+    score = request.form.get("rating")
+    comment = request.form.get("comment")
+
+    #Create rating and comment Add both to database
+    new_rating = crud.create_rating(user_id, meal_id, score)
+    new_comment = crud.create_comment(user_id, meal_id, comment)
+    db.session.add(new_rating)
+    db.session.add(new_comment)
+    db.session.commit()
+
+    flash("Comment and Rating Added!")
+
+    return redirect(f"/recipe/{meal_name}/{meal_id}")
+
+
+
+   
 
 if __name__ == "__main__":
     connect_to_db(app)
