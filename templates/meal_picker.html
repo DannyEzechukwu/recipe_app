@@ -6,49 +6,49 @@
   <h1>Selection Time!</h1>
     
   <H2> Use the dropdown boxes to select choices to pick a meal!</H2>
-    <p> * The top choices will return an output of meals that satisfy all of these requirements. </p>
+    <p> * Your choices will return an output of 16 meals.</p>
 
-  <form>
-        <label for = "and-category">Category:</label>
-        <select name = "and-category" id = "and-category"> 
+  <form id="get-meal-options">
+        <label for = "category">Category:</label>
+        <select name = "category" id = "category"> 
             {% for category in categories %}
                 <option value = "{{ category }}"> {{ category }} </option>
             {% endfor %}
         </select>
 
-        <label for = "and-area">Area:</label>
-        <select name = "and-area" id = "and-area"> 
+        <label for = "area">Area:</label>
+        <select name = "area" id = "area"> 
             {% for area in areas %}
                 <option value = "{{ area }}"> {{ area }} </option>
             {% endfor %}
         </select>
       
-        <label for = "and-ingredients1">Ingredient1:</label>
-        <select name = "and-ingredient1" id = "and-ingredient1"> 
+        <label for = "ingredients1">Ingredient1:</label>
+        <select name = "ingredient1" id = "ingredient1"> 
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}
         </select>
 
-        <label for = "and-ingredients2">Ingredient2:</label>
-        <select name = "and-ingredient2" id = "and-ingredient2"> 
+        <label for = "ingredient2">Ingredient2:</label>
+        <select name = "ingredient2" id = "ingredient2"> 
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}
         </select>
 
-        <label for = "and-ingredients3">Ingredient3:</label>
-        <select name = "and-ingredient3" id = "and-ingredient3"> 
+        <label for = "ingredient3">Ingredient3:</label>
+        <select name = "ingredient3" id = "ingredient3"> 
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}
         </select>
 
-        <input  type = "submit" class = "button" value ="get meals"/>
+        <input  type = "submit" id ="submit-form-button" class = "button" value ="Get Meals"/>
   </form>
 
   <H2>Bon Appétit!</H2>
-  <div id = "returned-meals">
+  <div class = "returned-meals" id = "returned-meals">
   </div>
 
 {% endblock %}

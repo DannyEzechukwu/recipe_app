@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 
 from model import connect_to_db, db
 
+import random
+
 import crud
 
 from jinja2 import StrictUndefined
@@ -48,9 +50,10 @@ def register_user():
         new_user = crud.create_user(fname, lname, email, password)
         db.session.add(new_user)
         db.session.commit()
+        session["id"] = new_user.user_id
 
         flash('New user added!')
-        return redirect("/user_profile/<int:user_id>")
+        return redirect(f"/user_profile/{session['id']}")
 
 # Route containing form to input email and password
 # to access application
@@ -133,12 +136,12 @@ def user_profile(user_id):
 #MEAL DISPLAYS
 
 #Route that allows user to input data for meals they would 
-#like returned
+#like returned. Data goes to api/meals
 @app.route("/get_a_meal")
 def get_meals(): 
 
-    categories = crud.get_all_categories()
-    areas = crud.get_all_areas()
+    categories = sorted(crud.get_all_categories())
+    areas = sorted(crud.get_all_areas())
 
     ingredients_set = set()
     ingredients = crud.get_all_ingredients()
@@ -154,6 +157,7 @@ def get_meals():
 
 
 #Route to run ajax on meals page as inputs are changed
+#Data comes from /get_a_meal
 @app.route("/api/meals")
 def get_meals_to_display(): 
     
@@ -161,31 +165,30 @@ def get_meals_to_display():
     #front end
     frontend_meals = []
 
-    category = request.args.get("and-category")
-    area = request.args.get("and-area")
-    ingredient1 = request.args.get("and-ingredient1")
-    ingredient2 = request.args.get("and-ingredient2")
-    ingredient3 = request.args.get("and-ingredient3")
+    category = request.args.get("category")
+    area = request.args.get("area")
+    ingredient1 = request.args.get("ingredient1")
+    ingredient2 = request.args.get("ingredient2")
+    ingredient3 = request.args.get("ingredient3")
 
   
-    meal_objects_list = crud.get_meal_by_ingredient_and_category_and_area(ingredient1,
+    meal_objects_list = crud.get_meal_by_ingredient_or_category_or_area(ingredient1,
                                                     ingredient2,
                                                     ingredient3,
-                                                    category, 
-                                                    area)
+                                                    category = category, 
+                                                    area = area)
     
-
     for meal_object in meal_objects_list: 
         frontend_meals.append({
+            "id": meal_object.meal_id,
             "name": meal_object.meal_name , 
-            "category": meal_object.meal_category ,
-            "area":  meal_object.area, 
-            "recipe" : meal_object.recipe, 
-            "meal_image_url": meal_object.meal_image_url,
-            "meal_video_url": meal_object.meal_video_url
-            })
+            "image": meal_object.meal_image_url, 
+            "category": meal_object.category ,
+            "area":  meal_object.area
+        })
     
-    return jsonify({"meals" : frontend_meals})
+    
+    return jsonify({"meals" : random.sample(frontend_meals, 16)})
 
 
 #Meal display that is shown once a meal is clicked
@@ -215,10 +218,13 @@ def show_meal_details(meal_name, meal_id):
     meal_ratings = meal.ratings
     meal_rating_score_list = []
 
+    average_score = 0 
     for rating in meal_ratings:
         meal_rating_score_list.append(rating.score)
+        
+        if meal_rating_score_list:
+            average_score += round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
     
-    average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
 
     return render_template("meal_details_page.html", user = user,  
                            meal = meal, 

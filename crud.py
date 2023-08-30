@@ -149,49 +149,52 @@ def get_meal_by_ingredient_or_category_or_area(*ingredients, category, area):
     or area are true""" 
     #Create a container to hold all meal objects returned when meal_id
     #is used to filter
-    meal_results = []
 
     #Loop through ingredients in *ingredienst tuple
     for ingredient in ingredients:
         #Meal_objects is variable for meals returned from get_meal_by_ingredients function
         #Expetced result is a list of meal_objects
         meal_objects = get_meal_by_ingredients(ingredient)
+
+        meal_objects.extend(Meal.query.filter((Meal.category == category) | (Meal.area == area)).all())
+    
+        return list(set(meal_objects))
     
     #Condition for if meal objects is an empty list
-    if meal_objects ==[]:
-        #return filter result for category or area
-        return Meal.query.filter((Meal.category == category) | (Meal.area == area)).all()
+    # if meal_objects ==[]:
+    #     #return filter result for category or area
+    #     return Meal.query.filter((Meal.category == category) | (Meal.area == area)).all()
     
-    #Condition for if category is not provided
-    elif category == None:
-        #Loop through meal_objects list
-        for meal_object in meal_objects: 
-            #Append filter result for area or meal_id to meal_results
-            return Meal.query.filter((Meal.area == area) | (Meal.meal_id == meal_object.meal_id)).all()
+    # #Condition for if category is not provided
+    # elif category == None:
+    #     #Loop through meal_objects list
+    #     for meal_object in meal_objects: 
+    #         #Append filter result for area or meal_id to meal_results
+    #         return Meal.query.filter((Meal.area == area) | (Meal.meal_id == meal_object.meal_id)).all()
 
-    #Condition for if area is not provided
-    elif area == None: 
-        #Loop through meal_objects list
-        for meal_object in meal_objects: 
-            #Append filter result for category or meal_id to meal_results
-            return Meal.query.filter((Meal.category == category) | (Meal.meal_id == meal_object.meal_id)).all()
+    # #Condition for if area is not provided
+    # elif area == None: 
+    #     #Loop through meal_objects list
+    #     for meal_object in meal_objects: 
+    #         #Append filter result for category or meal_id to meal_results
+    #         return Meal.query.filter((Meal.category == category) | (Meal.meal_id == meal_object.meal_id)).all()
 
-    #Condition for if meal_objects is an empty list and area is not provided
-    elif meal_objects == [] and area == None: 
-        #Return filter result for category
-        return Meal.query.filter(Meal.category == category).all()
+    # #Condition for if meal_objects is an empty list and area is not provided
+    # elif meal_objects == [] and area == None: 
+    #     #Return filter result for category
+    #     return Meal.query.filter(Meal.category == category).all()
     
-    #Condition for if meal_objects is an empty list and category is not provided
-    elif meal_objects == [] and category == None: 
-        #Return filter result for area 
-        return Meal.query.filter(Meal.area == area).all()
+    # #Condition for if meal_objects is an empty list and category is not provided
+    # elif meal_objects == [] and category == None: 
+    #     #Return filter result for area 
+    #     return Meal.query.filter(Meal.area == area).all()
     
-    #Condition for if category and area not provided
-    elif category == None and area == None: 
-        #Loop through meal_objects list
-        for meal_object in meal_objects:
-            #Append filter result for meal_id to meal_results
-            return meal_results(Meal.query.get(meal_object.meal_id))
+    # #Condition for if category and area not provided
+    # elif category == None and area == None: 
+    #     #Loop through meal_objects list
+    #     for meal_object in meal_objects:
+    #         #Append filter result for meal_id to meal_results
+    #         return meal_results(Meal.query.get(meal_object.meal_id))
 
 
 #------------------------------------------------------------------------------------------

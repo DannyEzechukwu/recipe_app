@@ -6,7 +6,11 @@
 
 <h1> {{ meal.meal_name.title() }} Recipe</h1>
 
+{% if average_score %}
 <H2>Average Rating : {{ average_score }} / 6 </H2>
+{% else %}
+<H2>A Rating Awaits!</H2>
+{% endif %}
 
 <div class ="meal-visuals-container">
     <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 

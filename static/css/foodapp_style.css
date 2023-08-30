@@ -1,25 +1,39 @@
 /* Recipe Page Styles */
 
 div.meal-details-visuals-container {
-    display: inline-block;
+  display: inline-block;
 }
 
 H3.recipe-title{
-    text-align: center;
+  text-align: center;
 }
 
 div.meal-ingredients {
-    border-radius: 3px;
-    width: 11em;
-    /* height: 15em; */ 
-    display: inline-block;
-  }
+  border-radius: 3px;
+  width: 11em;
+  /* height: 15em; */ 
+  display: inline-block;
+}
 
-  div.previous-meal-comments {
-    border-radius: 3px;
-    border: 3px solid black;
-    width: 11em;
-    height: 10em;
-    margin: 2em;
-    padding: 1em;
-  }
+div.previous-meal-comments {
+  border-radius: 3px;
+  border: 3px solid black;
+  width: 11em;
+  height: 10em;
+  margin: 2em;
+  padding: 1em;
+}
+
+.meal-item {
+  width: 16em;
+  height: 16em;
+  margin: 2em;
+  padding: 1em;
+  display: inline-block;
+}
+
+.mini-meal{
+  height: 120px;
+  width: 120px;
+}
+
