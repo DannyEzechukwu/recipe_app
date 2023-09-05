@@ -87,43 +87,42 @@ def confirm():
 #Route that displays a user's 6 most recent ratings and comments
 @app.route("/user_profile/<int:user_id>")
 def user_profile(user_id):
-    if 'id' in session: 
 
-        #Identify user by value of session["id"]
-        user = crud.get_user_by_id(user_id)
+    #Identify user by value of user_id
+    user = crud.get_user_by_id(user_id)
 
-        #Container to hold name of meals rated
-        meals_scored = []
-        #Container to hold rated meal image url
-        rated_meal_images = []
-        #Container to rating scores
-        rating_scores = []
-        #Container to hold comment user maid on meal
-        meal_comments = []
-        #Container to hold  dates and times scores were given
-        rating_and_comment_created_at = []
+    #Container to hold name of meals rated
+    meals_scored = []
+    #Container to hold rated meal image url
+    rated_meal_images = []
+    #Container to rating scores
+    rating_scores = []
+    #Container to hold comment user maid on meal
+    meal_comments = []
+    #Container to hold  dates and times scores were given
+    rating_and_comment_created_at = []
 
-        #List of ratings given by user in the session
-        ratings = crud.get_ratings_by_user_id(user_id)
-        for rating in ratings:
-            rating_scores.append(rating.score)
-            rating_and_comment_created_at.append(rating.created_at)
+    #List of ratings given by user in the session
+    ratings = crud.get_ratings_by_user_id(user_id)
+    for rating in ratings:
+        rating_scores.append(rating.score)
+        rating_and_comment_created_at.append(rating.created_at)
 
-            meal = crud.get_meal_by_id(rating.rating_meal_id)
-            meals_scored.append((meal.meal_name , meal.meal_id))
-            rated_meal_images.append(meal.meal_image_url)
-        
-        comments = crud.get_comments_by_user_id(user_id)
-        for comment in comments:
-            meal_comments.append(comment.comment)
+        meal = crud.get_meal_by_id(rating.rating_meal_id)
+        meals_scored.append((meal.meal_name , meal.meal_id))
+        rated_meal_images.append(meal.meal_image_url)
+    
+    comments = crud.get_comments_by_user_id(user_id)
+    for comment in comments:
+        meal_comments.append(comment.comment)
 
-        #Zip lists to get elements in following format
-        #(name_of_meal, score, time_created)
-        meal_scores_comments_and_times = list(zip(meals_scored, 
-                                    rated_meal_images, 
-                                    rating_scores, 
-                                    meal_comments, 
-                                    rating_and_comment_created_at ))
+    #Zip lists to get elements in following format
+    #(name_of_meal, score, time_created)
+    meal_scores_comments_and_times = list(zip(meals_scored, 
+                                rated_meal_images, 
+                                rating_scores, 
+                                meal_comments, 
+                                rating_and_comment_created_at ))
 
 
     return render_template("user_details_page.html", 
@@ -140,17 +139,19 @@ def user_profile(user_id):
 @app.route("/get_a_meal")
 def get_meals(): 
 
+    user = crud.get_user_by_id(session["id"])
     categories = sorted(crud.get_all_categories())
     areas = sorted(crud.get_all_areas())
 
     ingredients_set = set()
     ingredients = crud.get_all_ingredients()
     for ingredient in ingredients: 
-        ingredients_set.add(ingredient.ingredient_name)
+        ingredients_set.add(ingredient.ingredient_name.title())
     
     ingredients_list = sorted(list(ingredients_set))
 
     return render_template("meal_picker.html", 
+                    user = user, 
                     categories = categories,
                     areas = areas,
                     ingredients = ingredients_list)
@@ -187,7 +188,7 @@ def get_meals_to_display():
             "area":  meal_object.area
         })
     
-    
+    #Return josinified output that can be retrieved by fetch call in JS
     return jsonify({"meals" : random.sample(frontend_meals, 16)})
 
 
@@ -223,42 +224,133 @@ def show_meal_details(meal_name, meal_id):
         meal_rating_score_list.append(rating.score)
         
         if meal_rating_score_list:
-            average_score += round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
+            average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
+    
+    print(average_score)
     
 
-    return render_template("meal_details_page.html", user = user,  
+    return render_template("meal_details_page.html", 
+                           user = user,  
                            meal = meal, 
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
                            meal_comments_list = meal_comments_list)
+
+#Route to let users create their own meal to add to the database
+#Data is sent to /add_a_meal
+@app.route("/create_a_meal")
+def create_a_meal(): 
+    user = crud.get_user_by_id(session["id"])
+
+    return render_template("add_a_meal.html", 
+                    user = user)
 #----------------------------------------------------------------------
 
 #ADDING DATA TO  DATABASE
 
 #Creating a new rating and add it to the database
 @app.route("/add_rating_and_comment/<meal_name>/<int:meal_id>", methods = ["POST"])
-def add_rating(meal_name, meal_id):
+def add_rating_and_comment(meal_name, meal_id):
     
     #Identify user in the session
     user_id = session["id"]
     #Rating score and comment from web page retrieved from 
     score = request.form.get("rating")
-    comment = request.form.get("comment")
+    comment = request.form.get("comment-field")
+    
+    #Handle no comment being added
+    if not comment: 
+        flash("Please add your thoughts. We'd love to hear form you!")
 
     #Create rating and comment Add both to database
-    new_rating = crud.create_rating(user_id, meal_id, score)
-    new_comment = crud.create_comment(user_id, meal_id, comment)
-    db.session.add(new_rating)
-    db.session.add(new_comment)
-    db.session.commit()
+    else: 
+        new_rating = crud.create_rating(user_id, meal_id, score)
+        new_comment = crud.create_comment(user_id, meal_id, comment)
+        db.session.add(new_rating)
+        db.session.add(new_comment)
+        db.session.commit()
 
-    flash("Comment and Rating Added!")
+        flash("Comment and Rating Added!")
 
     return redirect(f"/recipe/{meal_name}/{meal_id}")
 
 
+#Creating a new meal and ingredients and add it to the database
+@app.route("/add_a_meal", methods = ["POST"])
+def add_meal_and_ingredients(): 
 
-   
+    #Retrieve data from the form in the /create_a_meal route
+    meal_id = int(request.form.get("meal-id"))
+    meal_name = request.form.get("meal-name").title()
+    category = request.form.get("meal-category").title()
+    area = request.form.get("meal-area").title()
+    recipe = request.form.get("meal-recipe")
+    meal_image_url = request.form.get("meal-image")
+    meal_video_url = request.form.get("meal-video")
+    
+    #List to hold Ingredient data from form 
+    ingredient_tuple_list = []
+
+    #Loop from 1 - 12 since you can only include a max of 
+    #12 ingredients
+    for i in range(1, 13): 
+        ingredient_name = request.form.get(f"ingredient{i}")
+        ingredient_measure = request.form.get(f"measure{i}")
+        ingredient_image = request.form.get(f"image{i}")
+        ingredient_tuple_list.append((ingredient_name, ingredient_measure, ingredient_image))
+
+    #List comprehension to obtain elements with actual data
+    ingredient_tuple_list_with_data = [element for element in ingredient_tuple_list if element != (None, None, None)]
+    
+    #Condition to create meal object and ingredients
+    if not crud.get_meal_by_id(meal_id): 
+        new_meal = crud.create_meal(meal_id, 
+                    meal_name, 
+                    category, 
+                    area, 
+                    recipe,
+                    meal_image_url, 
+                    meal_video_url)
+        
+        db.session.add(new_meal)
+        db.session.commit()
+
+        #Loop through tuples in ingredient list data
+        for tuple in ingredient_tuple_list_with_data: 
+            #Check to see if the ingredient already exists within database
+            if crud.get_ingredient_by_name(tuple[0]): 
+                #If ingredient does exist, use existing name and image to identify ingredient
+                new_ingredient = crud.create_ingredient(meal_id,
+                    crud.get_ingredient_by_name(tuple[0]).ingredient_name,
+                    tuple[1],
+                    crud.get_ingredient_by_name(tuple[0]).ingredient_image_url)
+            
+                db.session.add(new_ingredient)
+                db.session.commit()
+        
+            #If ingredient does exist, use inputs from form to identify ingredient
+            else:
+                new_ingredient = crud.create_ingredient(meal_id,
+                    tuple [0],
+                    tuple[1],
+                    tuple[2])
+            
+                db.session.add(new_ingredient)
+                db.session.commit()
+
+        flash("New Meal Added and Ingredients Added!")
+
+    else: 
+        flash("Generate a new meal id!")
+
+    
+
+    return redirect("/create_a_meal")
+
+
+
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)

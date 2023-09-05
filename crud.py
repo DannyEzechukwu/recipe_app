@@ -273,10 +273,15 @@ def get_all_ingredients():
 
 #Get ingredient by ingredient_id
 def get_ingredient_by_id(ingredient_id): 
-    return Comment.query.get(ingredient_id)
+    return Ingredient.query.get(ingredient_id)
+
+#Get ingredient by ingredient_name
+def get_ingredient_by_name(ingredient_name): 
+    return Ingredient.query.filter(Ingredient.ingredient_name == ingredient_name.title()).first()
+    
 
 def get_ingredients_by_meal_id(ingredient_meal_id): 
-    return Ingredient.query.filter(ingredient_meal_id  == ingredient_meal_id).all()
+    return Ingredient.query.filter(Ingredient.ingredient_meal_id  == ingredient_meal_id).all()
 
 
 if __name__ == '__main__':

@@ -1,3 +1,11 @@
+/* All Buttons */
+
+.button{
+  color: white;
+  background-color: green;
+}
+
+
 /* Recipe Page Styles */
 
 div.meal-details-visuals-container {
@@ -24,6 +32,7 @@ div.previous-meal-comments {
   padding: 1em;
 }
 
+/* Get a Meal Page Styles */
 .meal-item {
   width: 16em;
   height: 16em;

@@ -6,7 +6,7 @@
   <h1>Selection Time!</h1>
     
   <H2> Use the dropdown boxes to select choices to pick a meal!</H2>
-    <p> * Your choices will return an output of 16 meals.</p>
+    <p> * Your choices will return an output of 16 meals that match the category, area, or any of the ingredients!</p>
 
   <form id="get-meal-options">
         <label for = "category">Category:</label>
@@ -44,11 +44,21 @@
             {% endfor %}
         </select>
 
-        <input  type = "submit" id ="submit-form-button" class = "button" value ="Get Meals"/>
+        <input  type = "submit" id ="submit-options-for-meal-button" class = "button" value ="Get Meals"/>
   </form>
 
   <H2>Bon Appétit!</H2>
   <div class = "returned-meals" id = "returned-meals">
   </div>
+
+
+
+    <form action ="/user_profile/{{user.user_id}}">
+        <input type = "submit" class="button" value="Back to Profile Page"/>
+    </form>
+
+    <form action ="/create_a_meal">
+        <input type = "submit" class="button" value="Create A New Meal"/>
+    </form>
 
 {% endblock %}

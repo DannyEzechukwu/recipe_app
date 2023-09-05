@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Create A Meal{% endblock %}
+
+{% block body %}
+  <h1>Add Your Own Meal! Make Sure It's Good!</h1>
+   
+
+  <form action="add_a_meal" class = "create-meal-form" method = "POST">
+        <p>
+         <button id = "get-meal-id">Generate Random Meal ID</button> <input type="number" id="meal-id" name="meal-id" placeholder="meal iD" required/>
+        </p>
+
+        <p>
+            Meal  Name: <input type="text" id="meal-id"  name="meal-name" placeholder="meal name" required/>
+        </p>
+
+        <p>
+           Category:  <input type="text" id="meal-category" name="meal-category"  placeholder="category" required/>
+        </p>
+
+        <p>
+            Area: <input type="text" id="meal-area" name="meal-area" placeholder = "area" required/>
+        </p>
+
+        <p>
+           Recipe: <textarea id="meal-recipe" name="meal-recipe" required></textarea>
+        </p>
+
+        <p>
+            Meal Image (url): <input type="text" id="meal-image" name="meal-image" placeholder = "meal image url"/>
+            
+        </p>
+        
+        <p>
+            Meal Video (url): <input type="text" id="meal-video" name="meal-video" placeholder = "video url" />
+        </p>
+
+        <div id="ingredients"> 
+            <H3> Add up to 12 different ingredients!</H3>
+        </div>
+        
+        <button class="button" id="ingredient-adder">Add Ingredient</button>
+        <button class="button" id="ingredient-remover">Remove Ingredient</button>
+
+        <p>
+            <input type = "submit" class="button" value= "Add Your Meal" />
+        </p>
+  </form>
+
+    <form action ="/get_a_meal">
+        <input type = "submit" class="button" value="Discover new meals"/>
+    </form>
+
+    <form action ="/user_profile/{{user.user_id}}">
+        <input type = "submit" class="button" value="Back to Profile Page"/>
+    </form>
+
+{% endblock %}

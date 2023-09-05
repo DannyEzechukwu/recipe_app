@@ -15,10 +15,22 @@
 <div class ="meal-visuals-container">
     <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 
     class = "meal-details-image" width ="500" height ="500" />
+
+    {% if meal.meal_video_url %}
     <iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen>
     </iframe>
+    {% else %}
+    <p> This meal does not contain a video. </p>
+
+    {% endif %}
+
     <br>
+    
+    {% if meal.meal_video_url %}
     <p><a href ="{{ meal.meal_video_url}}">{{ meal.meal_name.title()}} Video</a></p>
+    {% else %}
+    <p>This meal does not contain a video</p>
+    {% endif %}
 </div> 
 
 
@@ -28,7 +40,7 @@
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
     <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name}}" width = "100" height="100" /><br>
-    <p>{{ingredient.ingredient_measure}} of {{ingredient.ingredient_name }}</p>
+    <p>{{ingredient.ingredient_measure}} {{ingredient.ingredient_name }}</p>
 </div>
 {% endfor %}
 <br>
@@ -44,7 +56,7 @@
         <label for="rate1">1 - Nasty🤮</label>
         <input type="radio" id="rate2" name="rating" value="2">
         <label for="rate2">2 - Not Great 😒</label>
-        <input type="radio" id="rate3" name="rating" value="3">
+        <input type="radio" id="rate3" name="rating" value="3" checked>
         <label for="rate3">3 - Okay 👌</label>
         <input type="radio" id="rate4" name="rating" value="4">
         <label for="rate4">4 - Decent 😏</label>
@@ -56,6 +68,7 @@
      </fieldset>
 
     <br>
+    
     {% for i in range (meal_comments_list|length)  %}
     <div class = "previous-meal-comments">
         <p>
@@ -66,9 +79,8 @@
         </p>
     </div>
     {% endfor %}
-    <textarea name = "comment">
-    </textarea>
-    <input type="submit" class = "button" value="Post">
+    <textarea id = "comment-field" name = "comment-field"></textarea>
+    <input type="submit" id = "submit-comment-button" class = "button" value="Post">
 </form>
 
 <br>
@@ -79,6 +91,10 @@
 
 <form action ="/user_profile/{{user.user_id}}">
     <input type = "submit" class="button" value="Back to Profile Page"/>
+</form>
+
+<form action ="/create_a_meal">
+    <input type = "submit" class="button" value="Create A New Meal"/>
 </form>
 
 {% endblock %}
