@@ -189,8 +189,10 @@ def get_meals_to_display():
         })
     
     #Return josinified output that can be retrieved by fetch call in JS
-    return jsonify({"meals" : random.sample(frontend_meals, 16)})
-
+    if len(frontend_meals) >= 16:
+        return jsonify({"meals" : random.sample(frontend_meals, 16)})
+    else:
+        return jsonify({"meals" : frontend_meals})
 
 #Meal display that is shown once a meal is clicked
 #Data from this route is sent to /add_rating_and comment POST route
@@ -240,6 +242,7 @@ def show_meal_details(meal_name, meal_id):
 #Data is sent to /add_a_meal
 @app.route("/create_a_meal")
 def create_a_meal(): 
+    #Identify user in the session
     user = crud.get_user_by_id(session["id"])
 
     return render_template("add_a_meal.html", 
@@ -277,7 +280,10 @@ def add_rating_and_comment(meal_name, meal_id):
 
 #Creating a new meal and ingredients and add it to the database
 @app.route("/add_a_meal", methods = ["POST"])
-def add_meal_and_ingredients(): 
+def add_meal_and_ingredients():
+
+    #Identify user in the session
+    user = crud.get_user_by_id(session["id"])
 
     #Retrieve data from the form in the /create_a_meal route
     meal_id = int(request.form.get("meal-id"))
@@ -300,7 +306,7 @@ def add_meal_and_ingredients():
         ingredient_tuple_list.append((ingredient_name, ingredient_measure, ingredient_image))
 
     #List comprehension to obtain elements with actual data
-    ingredient_tuple_list_with_data = [element for element in ingredient_tuple_list if element != (None, None, None)]
+    ingredient_data = [element for element in ingredient_tuple_list if element != (None, None, None)]
     
     #Condition to create meal object and ingredients
     if not crud.get_meal_by_id(meal_id): 
@@ -316,7 +322,7 @@ def add_meal_and_ingredients():
         db.session.commit()
 
         #Loop through tuples in ingredient list data
-        for tuple in ingredient_tuple_list_with_data: 
+        for tuple in ingredient_data: 
             #Check to see if the ingredient already exists within database
             if crud.get_ingredient_by_name(tuple[0]): 
                 #If ingredient does exist, use existing name and image to identify ingredient
@@ -328,25 +334,33 @@ def add_meal_and_ingredients():
                 db.session.add(new_ingredient)
                 db.session.commit()
         
-            #If ingredient does exist, use inputs from form to identify ingredient
-            else:
-                new_ingredient = crud.create_ingredient(meal_id,
-                    tuple [0],
-                    tuple[1],
-                    tuple[2])
+            # #If ingredient does exist, use inputs from form to identify ingredient
+            # else:
+            #     new_ingredient = crud.create_ingredient(meal_id,
+            #         tuple [0],
+            #         tuple[1],
+            #         tuple[2])
             
-                db.session.add(new_ingredient)
-                db.session.commit()
+            #     db.session.add(new_ingredient)
+            #     db.session.commit()
 
         flash("New Meal Added and Ingredients Added!")
+        return redirect(f"/recipe/{meal_name}/{meal_id}")
+
 
     else: 
-        flash("Generate a new meal id!")
+        flash("This meal id already exist in our database. Generate a new one!")
+        return render_template("add_a_meal_with_updated_id.html", 
+                        user = user, 
+                        meal_name = meal_name, 
+                        category = category, 
+                        area = area, 
+                        recipe = recipe, 
+                        meal_image_url = meal_image_url, 
+                        meal_video_url = meal_video_url, 
+                        ingredient_data = ingredient_data)
 
-    
-
-    return redirect("/create_a_meal")
-
+   
 
 
 

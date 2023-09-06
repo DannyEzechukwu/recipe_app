@@ -59,6 +59,7 @@ class Meal(db.Model):
 
     meal_id = db.Column(db.Integer, 
                     primary_key = True,
+                    autoincrement = True,
                     nullable = False)
     
     meal_name = db.Column(db.String, 
