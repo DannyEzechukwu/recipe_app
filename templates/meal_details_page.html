@@ -9,7 +9,7 @@
 {% if average_score %}
 <H2>Average Rating : {{ average_score }} / 6 </H2>
 {% else %}
-<H2>A Rating Awaits!</H2>
+<H2>Your Rating Awaits!</H2>
 {% endif %}
 
 <div class ="meal-visuals-container">
@@ -28,8 +28,6 @@
     
     {% if meal.meal_video_url %}
     <p><a href ="{{ meal.meal_video_url}}">{{ meal.meal_name.title()}} Video</a></p>
-    {% else %}
-    <p>This meal does not contain a video</p>
     {% endif %}
 </div> 
 
@@ -48,10 +46,13 @@
 <H3 calss = "recipe instructions">Instructions:</H3>
 <p>{{ meal.recipe }}</p>
 
+<H3>
+    {{ meal_comments_list|length }} Reviews Left <br>
+    Leave review number {{ meal_comments_list|length + 1 }}!
+</H3>
 
 <form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" method = "POST">
     <fieldset class="rating">
-        <legend>Rate this meal</legend>
         <input type="radio" id="rate1" name="rating" value="1">
         <label for="rate1">1 - Nasty🤮</label>
         <input type="radio" id="rate2" name="rating" value="2">

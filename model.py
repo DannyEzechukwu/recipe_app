@@ -59,13 +59,11 @@ class Meal(db.Model):
 
     meal_id = db.Column(db.Integer, 
                     primary_key = True,
-                    autoincrement = True,
                     nullable = False)
     
     meal_name = db.Column(db.String, 
                     index = True, 
-                    nullable = False,
-                    unique = True)
+                    nullable = False)
     
     category = db.Column(db.String, 
                     index = True, 
@@ -79,6 +77,10 @@ class Meal(db.Model):
     recipe = db.Column(db.Text,
                     index = True, 
                     nullable = False)
+    
+    meal_api_id = db.Column(db.Integer, 
+                    unique = True, 
+                    nullable = True)
     
     meal_image_url = db.Column(db.String,
                     index = True)

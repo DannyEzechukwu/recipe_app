@@ -30,7 +30,7 @@ ingredient_objects = []
 for letter in first_letters:
     if meal_data[letter]['meals']:
         for meal_dictionary in meal_data[letter]['meals']: 
-            meal_id = int(meal_dictionary["idMeal"])
+            meal_api_id = int(meal_dictionary["idMeal"])
             meal_name = meal_dictionary['strMeal']
             category = meal_dictionary["strCategory"]
             area = meal_dictionary["strArea"]
@@ -38,18 +38,18 @@ for letter in first_letters:
             meal_image_url = meal_dictionary["strMealThumb"]
             meal_video_url = meal_dictionary["strYoutube"]
             
-            meal_object = crud.create_meal(meal_id,
-                                meal_name, 
+            meal_object = crud.create_meal(meal_name, 
                                 category, 
                                 area,
-                                recipe, 
+                                recipe,
+                                meal_api_id,
                                 meal_image_url, 
                                 meal_video_url)
             
             meal_objects.append(meal_object)
             model.db.session.add_all(meal_objects)
             model.db.session.commit()
-
+             
             #Access each key in eah meal dictionary that exists in list 
             #returned from meal_data[letter]["meals"]
             for key in meal_dictionary:
@@ -61,7 +61,7 @@ for letter in first_letters:
                     #Return "chef's preference" if measurementis not available
                     measurement = meal_dictionary.get(f'strMeasure{measure_ingredient_number}', "chef's preference")
                     #Create a tuple that contains ingredient name, measurement and meal_id
-                    ingredient_tuple  = (meal_id, meal_dictionary[key].title(), measurement,)
+                    ingredient_tuple  = (meal_object.meal_id, meal_dictionary[key].title(), measurement,)
                     ingredients.append(ingredient_tuple)
 
                     #Loop through each tuple in ingredients set

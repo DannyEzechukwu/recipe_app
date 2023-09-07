@@ -46,3 +46,8 @@ div.previous-meal-comments {
   width: 120px;
 }
 
+/* add_a_meal Page Styles */
+.required-asterisk{
+  color: red;
+
+}

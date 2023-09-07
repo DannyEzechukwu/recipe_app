@@ -245,8 +245,12 @@ def create_a_meal():
     #Identify user in the session
     user = crud.get_user_by_id(session["id"])
 
+    #Current total of meals in database
+    total_meals_in_db = crud.get_all_meals()
+
     return render_template("add_a_meal.html", 
-                    user = user)
+                    user = user, 
+                    total_meals_in_db = total_meals_in_db)
 #----------------------------------------------------------------------
 
 #ADDING DATA TO  DATABASE
@@ -254,7 +258,7 @@ def create_a_meal():
 #Creating a new rating and add it to the database
 @app.route("/add_rating_and_comment/<meal_name>/<int:meal_id>", methods = ["POST"])
 def add_rating_and_comment(meal_name, meal_id):
-    
+
     #Identify user in the session
     user_id = session["id"]
     #Rating score and comment from web page retrieved from 
@@ -282,17 +286,32 @@ def add_rating_and_comment(meal_name, meal_id):
 @app.route("/add_a_meal", methods = ["POST"])
 def add_meal_and_ingredients():
 
+    #Current total of meals in database
+    total_meals_in_db = crud.get_all_meals()
+    #Increment meals in database total by 1 
+    increase_total_meals_in_db = len(total_meals_in_db) + 1
+
     #Identify user in the session
     user = crud.get_user_by_id(session["id"])
 
     #Retrieve data from the form in the /create_a_meal route
-    meal_id = int(request.form.get("meal-id"))
     meal_name = request.form.get("meal-name").title()
-    category = request.form.get("meal-category").title()
-    area = request.form.get("meal-area").title()
+    
+    if request.form.get("meal-category"): 
+        category = request.form.get("meal-category").title()
+    else: 
+        category = "Miscellaneous"
+
+    if request.form.get("meal-area"):
+        area = request.form.get("meal-area").title()
+    else: 
+        area = "Unknown"
+    
     recipe = request.form.get("meal-recipe")
     meal_image_url = request.form.get("meal-image")
     meal_video_url = request.form.get("meal-video")
+    meal_api_id = None
+    
     
     #List to hold Ingredient data from form 
     ingredient_tuple_list = []
@@ -302,19 +321,18 @@ def add_meal_and_ingredients():
     for i in range(1, 13): 
         ingredient_name = request.form.get(f"ingredient{i}")
         ingredient_measure = request.form.get(f"measure{i}")
-        ingredient_image = request.form.get(f"image{i}")
-        ingredient_tuple_list.append((ingredient_name, ingredient_measure, ingredient_image))
+        ingredient_tuple_list.append((ingredient_name, ingredient_measure))
 
     #List comprehension to obtain elements with actual data
-    ingredient_data = [element for element in ingredient_tuple_list if element != (None, None, None)]
+    ingredient_data = [element for element in ingredient_tuple_list if element != (None, None)]
     
     #Condition to create meal object and ingredients
-    if not crud.get_meal_by_id(meal_id): 
-        new_meal = crud.create_meal(meal_id, 
-                    meal_name, 
+    if not crud.get_meal_by_id(increase_total_meals_in_db ): 
+        new_meal = crud.create_meal(meal_name, 
                     category, 
                     area, 
                     recipe,
+                    meal_api_id,
                     meal_image_url, 
                     meal_video_url)
         
@@ -322,50 +340,18 @@ def add_meal_and_ingredients():
         db.session.commit()
 
         #Loop through tuples in ingredient list data
-        for tuple in ingredient_data: 
-            #Check to see if the ingredient already exists within database
-            if crud.get_ingredient_by_name(tuple[0]): 
-                #If ingredient does exist, use existing name and image to identify ingredient
-                new_ingredient = crud.create_ingredient(meal_id,
-                    crud.get_ingredient_by_name(tuple[0]).ingredient_name,
-                    tuple[1],
-                    crud.get_ingredient_by_name(tuple[0]).ingredient_image_url)
-            
-                db.session.add(new_ingredient)
-                db.session.commit()
+        for ingredient_tuple in ingredient_data: 
+            new_ingredient = crud.create_ingredient(increase_total_meals_in_db ,
+                ingredient_tuple[0],
+                ingredient_tuple[1],
+                f"https://themealdb.com/images/ingredients/{ingredient_tuple[0]}.png")
         
-            # #If ingredient does exist, use inputs from form to identify ingredient
-            # else:
-            #     new_ingredient = crud.create_ingredient(meal_id,
-            #         tuple [0],
-            #         tuple[1],
-            #         tuple[2])
-            
-            #     db.session.add(new_ingredient)
-            #     db.session.commit()
+            db.session.add(new_ingredient)
+            db.session.commit()
 
-        flash("New Meal Added and Ingredients Added!")
-        return redirect(f"/recipe/{meal_name}/{meal_id}")
-
-
-    else: 
-        flash("This meal id already exist in our database. Generate a new one!")
-        return render_template("add_a_meal_with_updated_id.html", 
-                        user = user, 
-                        meal_name = meal_name, 
-                        category = category, 
-                        area = area, 
-                        recipe = recipe, 
-                        meal_image_url = meal_image_url, 
-                        meal_video_url = meal_video_url, 
-                        ingredient_data = ingredient_data)
-
+        flash(f"Meal Number {len(total_meals_in_db) + 1} and It's Ingredients Have Been Added!")
+        return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
    
-
-
-
-
-
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)

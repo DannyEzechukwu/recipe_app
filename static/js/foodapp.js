@@ -51,39 +51,24 @@ if (theMealFormButton){
 }
 
 
-// Generate random meal id between 55,000 and 60,000 on
-// add_a_meal page
-const generateMealIdButton = document.getElementById("get-meal-id");
-const mealId = document.getElementById("meal-id");
-
-if (generateMealIdButton){
-  generateMealIdButton.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    mealId.value = randomId = Math.floor(Math.random() * (60000 - 55000) + 55000);
-  })
-}
-
-
 //Include or Remove ingredients for the meal being added on the add_a_meal page
 const ingredientAdderButton = document.getElementById("ingredient-adder");
 const ingredientRemoverButton = document.getElementById('ingredient-remover');
 const addedIngredientsSection = document.getElementById("ingredients");
 // unique identifier for id and name for ingredient elements
-let idIncrementer = 0;
+let idIncrementer = 1;
 // incrementer to keep number of ingredients added to no more than 12 
-let ingredientsAdded = 0; 
+
 
 if (ingredientAdderButton){
   ingredientAdderButton.addEventListener("click", (evt) => {
     evt.preventDefault();
-    if (ingredientsAdded < 12){
-      ingredientsAdded ++;
+    if (idIncrementer < 12){
       idIncrementer ++;
       addedIngredientsSection.insertAdjacentHTML("beforeend", 
       `<p>
-          Ingredient${idIncrementer}: <input type="text"  name="ingredient${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" />
-          Measure:  <input type="text"  name="measure${idIncrementer}" id="measure${idIncrementer}" placeholder="measure" />
-          Ingredient Image (url):  <input type="text" name="image${idIncrementer}" id="image${idIncrementer}" placeholder="ingredient image url" />
+          Ingredient${idIncrementer}: <input type="text"  name="ingredient${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" required/>
+          Measure:  <input type="text"  name="measure${idIncrementer}" id="measure${idIncrementer}" placeholder="measure" required/>
       </p>`
       )
     } else{
@@ -98,6 +83,7 @@ if (ingredientRemoverButton){
     evt.preventDefault();
     if (addedIngredientsSection.childNodes.length > 2){
       addedIngredientsSection.lastChild.remove();
+      idIncrementer --;
     } else{
       alert("No ingredients to remove");
     }

@@ -3,43 +3,45 @@
 {% block title %}Create A Meal{% endblock %}
 
 {% block body %}
-  <h1>Add Your Own Meal! Make Sure It's Good!</h1>
+  <h1>Add Meal Number {{ total_meals_in_db|length + 1  }}! Make Sure It's Good!</h1>
    
 
-  <form action="add_a_meal" class = "create-meal-form" method = "POST">
+  <form action="add_a_meal" class = "create-meal-form" method = "POST"> 
         <p>
-         <button id = "get-meal-id">Generate Random Meal ID</button> <input type="number" id="meal-id" name="meal-id" placeholder="meal iD" required/>
-        </p>
-
-        
-        <p>
+            <label for="meal-name">Required<span class="required-asterisk">*</span></label><br>
             Meal  Name: <input type="text" id="meal-name"  name="meal-name" placeholder="meal name" required/>
         </p>
 
         <p>
-           Category:  <input type="text" id="meal-category" name="meal-category"  placeholder="category" required/>
+           Category:  <input type="text" id="meal-category" name="meal-category"  placeholder="category" />
         </p>
 
         <p>
-            Area: <input type="text" id="meal-area" name="meal-area" placeholder = "area" required/>
+            Area: <input type="text" id="meal-area" name="meal-area" placeholder = "area" />
         </p>
 
         <p>
-           Recipe: <textarea id="meal-recipe" name="meal-recipe" required></textarea>
+            <label for="meal-recipe">Required<span class="required-asterisk">*</span></label><br>
+            Recipe: <textarea id="meal-recipe" name="meal-recipe" required></textarea>
         </p>
 
         <p>
+            <label for="meal-image">Required<span class="required-asterisk">*</span></label><br>
             Meal Image (url): <input type="text" id="meal-image" name="meal-image" placeholder = "meal image url" required/>
-            
         </p>
         
         <p>
-            Meal Video (url): <input type="text" id="meal-video" name="meal-video" placeholder = "video url" required/>
+            Meal Video (url): <input type="text" id="meal-video" name="meal-video" placeholder = "video url" />
         </p>
 
         <div id="ingredients"> 
             <H3> Add up to 12 different ingredients!</H3>
+            <label for="ingredient1">Required<span class="required-asterisk">*</span></label><br>
+            Ingredient1: <input type="text"  name="ingredient1" id="ingredient1" placeholder="ingredient" required/>
+            Measure:  <input type="text"  name="measure1" id="measure2" placeholder="measure" required/>
         </div>
+
+        <br>
         
         <button class="button" id="ingredient-adder">Add Ingredient</button>
         <button class="button" id="ingredient-remover">Remove Ingredient</button>

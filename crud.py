@@ -25,12 +25,12 @@ def get_user_by_email(email):
 #Meal crud functions
 
 #Create meal object
-def create_meal(meal_id, meal_name, category, area, recipe, meal_image_url = None,  meal_video_url = None):
-    meal = Meal(meal_id = meal_id, 
-                meal_name = meal_name,
+def create_meal(meal_name, category, area, recipe, meal_api_id = None, meal_image_url = None,  meal_video_url = None):
+    meal = Meal(meal_name = meal_name,
                 category = category,
                 area = area, 
-                recipe = recipe, 
+                recipe = recipe,
+                meal_api_id = meal_api_id,
                 meal_image_url = meal_image_url, 
                 meal_video_url = meal_video_url)
     
@@ -160,43 +160,6 @@ def get_meal_by_ingredient_or_category_or_area(*ingredients, category, area):
     
         return list(set(meal_objects))
     
-    #Condition for if meal objects is an empty list
-    # if meal_objects ==[]:
-    #     #return filter result for category or area
-    #     return Meal.query.filter((Meal.category == category) | (Meal.area == area)).all()
-    
-    # #Condition for if category is not provided
-    # elif category == None:
-    #     #Loop through meal_objects list
-    #     for meal_object in meal_objects: 
-    #         #Append filter result for area or meal_id to meal_results
-    #         return Meal.query.filter((Meal.area == area) | (Meal.meal_id == meal_object.meal_id)).all()
-
-    # #Condition for if area is not provided
-    # elif area == None: 
-    #     #Loop through meal_objects list
-    #     for meal_object in meal_objects: 
-    #         #Append filter result for category or meal_id to meal_results
-    #         return Meal.query.filter((Meal.category == category) | (Meal.meal_id == meal_object.meal_id)).all()
-
-    # #Condition for if meal_objects is an empty list and area is not provided
-    # elif meal_objects == [] and area == None: 
-    #     #Return filter result for category
-    #     return Meal.query.filter(Meal.category == category).all()
-    
-    # #Condition for if meal_objects is an empty list and category is not provided
-    # elif meal_objects == [] and category == None: 
-    #     #Return filter result for area 
-    #     return Meal.query.filter(Meal.area == area).all()
-    
-    # #Condition for if category and area not provided
-    # elif category == None and area == None: 
-    #     #Loop through meal_objects list
-    #     for meal_object in meal_objects:
-    #         #Append filter result for meal_id to meal_results
-    #         return meal_results(Meal.query.get(meal_object.meal_id))
-
-
 #------------------------------------------------------------------------------------------
 #Rating crud functions
 
