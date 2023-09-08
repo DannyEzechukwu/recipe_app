@@ -21,7 +21,9 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def welcome_page(): 
     
-    if "id" in session: 
+    if "id" in session:
+        user = crud.get_user_by_id(session["id"])
+        flash(f"Keep calm and cook on {user.fname}!")
         session.pop('id')
     
     return render_template('welcome_page.html')
@@ -136,7 +138,7 @@ def user_profile(user_id):
 
 #Route that allows user to input data for meals they would 
 #like returned. Data goes to api/meals
-@app.route("/get_a_meal")
+@app.route("/get_meals")
 def get_meals(): 
 
     user = crud.get_user_by_id(session["id"])

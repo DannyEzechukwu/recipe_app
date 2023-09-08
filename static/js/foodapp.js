@@ -89,21 +89,3 @@ if (ingredientRemoverButton){
     }
   })
 }
-
-// Add a Meal
-// JS handle submit event on the form to prevent default behavior
-// JS build the object for the new meal that you are going to submit
-/*  
-{ category: "beef", area: "America", ingredients: [
-  {name: "food1", quantity: "5 cups"},
-  {name: "food2", quantity: "3 Tbsp"}
-] }
-
-fetch("/create_meal", {}) // set type to POST, and add above object as the body
-
-
-BACKEND
-request.form.get() ^ object as a complete object
-additional processing so that it becomes a meal object with a list of ingredients
-add that object to the database all at once
-*/

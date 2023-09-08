@@ -17,11 +17,9 @@
     class = "meal-details-image" width ="500" height ="500" />
 
     {% if meal.meal_video_url %}
-    <iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen>
-    </iframe>
+        <iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen></iframe>
     {% else %}
-    <p> This meal does not contain a video. </p>
-
+        <p>This meal does not contain a video.</p>
     {% endif %}
 
     <br>
@@ -37,7 +35,7 @@
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
-    <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name}}" width = "100" height="100" /><br>
+    <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name }}" width = "100" height="100" /><br>
     <p>{{ingredient.ingredient_measure}} {{ingredient.ingredient_name }}</p>
 </div>
 {% endfor %}
@@ -86,7 +84,7 @@
 
 <br>
 
-<form action ="/get_a_meal">
+<form action ="/get_meals">
     <input type = "submit" class="button" value="Discover new meals"/>
 </form>
 
