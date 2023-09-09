@@ -1,3 +1,71 @@
+/* Universal Styling */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Nav Bar Styling */
+.nav {
+  background-color: darkslategrey;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 0 1rem;
+  position: fixed;    /* Set the navbar to fixed position */
+  top: 0;             /* Stick it to the top of the viewport */
+  width: 100%;  
+}
+
+.user-profile-option {
+  font-size: 2rem;
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: .25rem;
+}
+
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav li:active{
+  background-color: #555;
+}
+
+.nav li:hover{
+  background-color: #777;
+}
+
+.content{
+  margin-top: 60px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+}
+
+/* Welcome Page Styles */
+.login-form{
+  text-align: center;
+}
+
+/*header class styles */
+.header{
+  text-align: center;
+}
+
+
 /* All Buttons */
 
 .button{

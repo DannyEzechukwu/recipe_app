@@ -3,11 +3,12 @@
 {% block title %}Create an Account{% endblock %}
 
 {% block body %}
-  <h1>Join Eats & Speaks</h1>
-    <p> Becoming a user is easy!</p>
-    <p> All you need is a name, email, and password! </p>
+  <h1 class="header">Join Eats & Speaks</h1>
+   
 
-  <form action="new_user" method = "POST">
+  <form action="/new_user" method = "POST" class ="login-form">
+    <p> Becoming a user is easy! All you need is a name, email, and password! </p>
+        
         <p>
          <input type="text" class = "create-account-form" name="fname" 
             placeholder="first name">

@@ -26,7 +26,7 @@ if (theMealFormButton){
 
     const queryString = `?category=${userCategory.value}&area=${userArea.value}&ingredient1=${ingredientOne.value}&ingredient2=${ingredientTwo.value}&ingredient3=${ingredientThree.value}`;
     
-    fetch(`/api/meals${queryString}`)
+    fetch(`/get_meals/json${queryString}`)
       .then((response) => response.json())
       .then((data) => {
         const mealsDiv = document.querySelector("#returned-meals");

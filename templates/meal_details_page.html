@@ -9,7 +9,7 @@
 {% if average_score %}
 <H2>Average Rating : {{ average_score }} / 6 </H2>
 {% else %}
-<H2>Your Rating Awaits!</H2>
+<H2>Awating Raitings!</H2>
 {% endif %}
 
 <div class ="meal-visuals-container">
@@ -79,21 +79,9 @@
     </div>
     {% endfor %}
     <textarea id = "comment-field" name = "comment-field"></textarea>
+    <br>
     <input type="submit" id = "submit-comment-button" class = "button" value="Post">
 </form>
 
-<br>
-
-<form action ="/get_meals">
-    <input type = "submit" class="button" value="Discover new meals"/>
-</form>
-
-<form action ="/user_profile/{{user.user_id}}">
-    <input type = "submit" class="button" value="Back to Profile Page"/>
-</form>
-
-<form action ="/create_a_meal">
-    <input type = "submit" class="button" value="Create A New Meal"/>
-</form>
-
+<script src="/static/js/Components.jsx" type="text/jsx"></script>
 {% endblock %}

@@ -47,7 +47,7 @@ def register_user():
 
     if crud.get_user_by_email(email): 
         flash('You cannot create an account with this email. Try again.')
-        return redirect('/')
+        return redirect('/create_account')
     else: 
         new_user = crud.create_user(fname, lname, email, password)
         db.session.add(new_user)
@@ -85,6 +85,15 @@ def confirm():
 #-------------------------------------------------------------------
 
 #USER PROFILE
+
+#Route to obtain user_id for React navbar
+@app.route("/get_user_id/json")
+def get_user_id(): 
+    user = crud.get_user_by_id(session["id"])
+    print(user)
+    if user: 
+        return jsonify({"user_id" : user.user_id})
+
 
 #Route that displays a user's 6 most recent ratings and comments
 @app.route("/user_profile/<int:user_id>")
@@ -161,7 +170,7 @@ def get_meals():
 
 #Route to run ajax on meals page as inputs are changed
 #Data comes from /get_a_meal
-@app.route("/api/meals")
+@app.route("/get_meals/json")
 def get_meals_to_display(): 
     
     #Create a list to append dictionary of outputs that will display on
@@ -344,8 +353,8 @@ def add_meal_and_ingredients():
         #Loop through tuples in ingredient list data
         for ingredient_tuple in ingredient_data: 
             new_ingredient = crud.create_ingredient(increase_total_meals_in_db ,
-                ingredient_tuple[0],
-                ingredient_tuple[1],
+                ingredient_tuple[0].title(),
+                ingredient_tuple[1].title(),
                 f"https://themealdb.com/images/ingredients/{ingredient_tuple[0]}.png")
         
             db.session.add(new_ingredient)
