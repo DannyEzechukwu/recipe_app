@@ -72,15 +72,16 @@ def login():
 def confirm():
     
     email = request.form.get("email")
+    password = request.form.get("password")
 
     current_user = crud.get_user_by_email(email)
 
-    if current_user: 
+    if current_user and current_user.password == password: 
         session["id"] = current_user.user_id
         flash("Login Successful!")
         return redirect(f"/user_profile/{current_user.user_id}")
     else: 
-        flash("Login Unsuccessful. Try again.")
+        flash("Username or password incorrect. Try again.")
         return redirect("/login")
 #-------------------------------------------------------------------
 
@@ -278,7 +279,7 @@ def add_rating_and_comment(meal_name, meal_id):
     
     #Handle no comment being added
     if not comment: 
-        flash("Please add your thoughts. We'd love to hear form you!")
+        flash("Comment and rating must be be added. Try again.")
 
     #Create rating and comment Add both to database
     else: 

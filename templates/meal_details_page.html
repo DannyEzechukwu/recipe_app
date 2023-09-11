@@ -49,7 +49,7 @@
     Leave review number {{ meal_comments_list|length + 1 }}!
 </H3>
 
-<form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" method = "POST">
+<form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" id= "review" method = "POST">
     <fieldset class="rating">
         <input type="radio" id="rate1" name="rating" value="1">
         <label for="rate1">1 - Nasty🤮</label>
@@ -74,7 +74,7 @@
         {{ meal_comments_list[i][2] }}
         </p>
         <p>
-        {{ meal_comments_list[i][0] }} {{ meal_comments_list[i][1] }} <br> {{ meal_comments_list[i][3] }}
+        Left by {{ meal_comments_list[i][0] }} {{ meal_comments_list[i][1] }} on {{ meal_comments_list[i][3] }}
         </p>
     </div>
     {% endfor %}

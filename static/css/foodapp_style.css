@@ -51,8 +51,117 @@ body {
   background-color: #777;
 }
 
-.content{
+/* Flash Message Styles - Yellow */
+.alert {
+  background: #ffdb9b;
+  padding: 20px 40px;
+  min-width: 420px;
+  position: absolute;
+  left: 0px;
+  top: 40px;
+  overflow: hidden;
+  border-radius: 4px;
+  border-left: 8px solid #ffa502;
+}
+
+.alert.hide{
+  animation: show_slide 1s ease forwards;
+}
+@keyframes show_slide{
+  0%{
+    transform:translateX(-100%)
+  }
+  80%{
+    transform: translateX(0%)
+  }
+  100%{
+    transform: translateX(10px)
+  }
+}
+
+.alert .msg{
+  font-size: 17px;
+  color: #ce8500;
+}
+
+.alert .close-btn {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffd080;
+  padding: 20px 18px;
+}
+
+.close-btn:hover{
+  background: #ffc766;
+}
+
+.close-btn .fa-times{
+  color: #ce8500;
+  font-size: 22px;
+  line-height: 40px;
+}
+
+/* Flash Message Styles - Red */
+.red-alert {
+  background: lightcoral;
+  padding: 20px 40px;
+  min-width: 420px;
+  position: absolute;
+  left: 0px;
+  top: 40px;
+  overflow: hidden;
+  border-radius: 4px;
+  border-left: 8px solid #b30300;
+}
+
+.red-alert.red-hide{
+  animation: show_slide 1s ease forwards;
+}
+@keyframes show_slide{
+  0%{
+    transform:translateX(-100%)
+  }
+  80%{
+    transform: translateX(0%)
+  }
+  100%{
+    transform: translateX(10px)
+  }
+}
+
+.red-alert .red-msg{
+  font-size: 17px;
+  color: #bd0300;
+}
+
+.red-alert .red-close-btn {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #b30300;
+  padding: 20px 18px;
+}
+
+.red-close-btn:hover{
+  background: #9e0300;
+}
+
+.red-close-btn .red-fa-times{
+  color: #9e0300;
+  font-size: 22px;
+  line-height: 40px;
+}
+
+/* Adjust content and flash message so that it is not covered by nav bar */
+.flash-message{
   margin-top: 60px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+}
+
+.content{
+  margin-top: 100px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
 }
 
 /* Welcome Page Styles */
@@ -94,7 +203,7 @@ div.meal-ingredients {
 div.previous-meal-comments {
   border-radius: 3px;
   border: 3px solid black;
-  width: 11em;
+  width: 15em;
   height: 10em;
   margin: 2em;
   padding: 1em;

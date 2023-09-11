@@ -22,8 +22,7 @@ with open('data/data.json') as f:
 #Wlill be used to populate database
 meal_objects = []
 
-#Initialize set to hold data for ingredients table
-#Will help avoid duplicates
+#Initialize kist to hold data for ingredients table
 ingredients = []
 ingredient_objects = []
 
@@ -132,7 +131,7 @@ user_objects = []
 for i in range (15):
     fname = f'Test{i}'
     lname = choice(last_names)
-    email = f'{fname}.{lname[0]}@gmail.com'.lower()
+    email = f'{fname}@gmail.com'.lower()
     password = 'test'
     user = crud.create_user(fname, lname, email, password)
     model.db.session.add(user)

@@ -17,6 +17,8 @@ def connect_to_db(flask_app, db_uri="postgresql:///food", echo=False):
 
         print("Connected to the db!")
 
+#Variable for date in the format of day of week, month, day, year 
+# date = datetime.now().date().strftime('%A, %B, %d %Y')
 
 #User Table
 class User(db.Model): 
@@ -42,8 +44,8 @@ class User(db.Model):
                     index = True, 
                     nullable = False)
     
-    created_at = db.Column(db.DateTime, 
-                            default = datetime.now())
+    created_at = db.Column(db.String, 
+                            default = datetime.now().date().strftime('%A, %B, %d %Y'))
     
     #User can have many comments
     comments = db.relationship("Comment", back_populates = "user")
@@ -88,6 +90,9 @@ class Meal(db.Model):
     meal_video_url = db.Column(db.String,
                     index = True)
     
+    created_at = db.Column(db.String, 
+                            default = datetime.now().date().strftime('%A, %B, %d %Y'))
+    
     #Meal can have many comments
     comments = db.relationship("Comment", back_populates = "meal")
     #Meal can have many ratings
@@ -118,8 +123,8 @@ class Rating(db.Model):
                     index = True, 
                     nullable = False)
     
-    created_at = db.Column(db.DateTime, 
-                        default = datetime.now())
+    created_at = db.Column(db.String, 
+                        default = datetime.now().date().strftime('%A, %B, %d %Y'))
     
     #Rating can belong to one user
     user = db.relationship("User", back_populates = "ratings")
@@ -148,8 +153,8 @@ class Comment(db.Model):
                     index = True, 
                     nullable = False)
     
-    created_at = db.Column(db.DateTime, 
-                    default = datetime.now())
+    created_at = db.Column(db.String, 
+                    default = datetime.now().date().strftime('%A, %B, %d %Y'))
     
     #Comment can belong to one user
     user = db.relationship("User", back_populates = "comments")
