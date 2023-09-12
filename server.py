@@ -184,12 +184,18 @@ def get_meals_to_display():
     ingredient2 = request.args.get("ingredient2")
     ingredient3 = request.args.get("ingredient3")
 
-  
-    meal_objects_list = crud.get_meal_by_ingredient_or_category_or_area(ingredient1,
-                                                    ingredient2,
-                                                    ingredient3,
+    meal_objects_list = crud.get_meal_by_ingredient_and_category_and_area(ingredient1 = ingredient1,
+                                                    ingredient2 = ingredient2,
+                                                    ingredient3 = ingredient3,
                                                     category = category, 
                                                     area = area)
+    
+
+    # meal_objects_list = crud.get_meal_by_ingredient_or_category_or_area(ingredient1,
+    #                                                 ingredient2,
+    #                                                 ingredient3,
+    #                                                 category = category, 
+    #                                                 area = area)
     
     for meal_object in meal_objects_list: 
         frontend_meals.append({
@@ -289,7 +295,7 @@ def add_rating_and_comment(meal_name, meal_id):
         db.session.add(new_comment)
         db.session.commit()
 
-        flash("Comment and Rating Added!")
+        flash("Comment and rating added!")
 
     return redirect(f"/recipe/{meal_name}/{meal_id}")
 
@@ -361,7 +367,7 @@ def add_meal_and_ingredients():
             db.session.add(new_ingredient)
             db.session.commit()
 
-        flash(f"Meal Number {len(total_meals_in_db) + 1} and It's Ingredients Have Been Added!")
+        flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
         return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
    
 if __name__ == "__main__":

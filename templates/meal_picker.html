@@ -10,35 +10,41 @@
 
   <form id="get-meal-options">
         <label for = "category">Category:</label>
-        <select name = "category" id = "category"> 
+        <select name = "category" id = "category">
+            <option value="None">None</option>
             {% for category in categories %}
                 <option value = "{{ category }}"> {{ category }} </option>
             {% endfor %}
         </select>
 
         <label for = "area">Area:</label>
-        <select name = "area" id = "area"> 
+        <select name = "area" id = "area">
+            <option value="None">None</option>
             {% for area in areas %}
                 <option value = "{{ area }}"> {{ area }} </option>
             {% endfor %}
         </select>
       
         <label for = "ingredients1">Ingredient1:</label>
-        <select name = "ingredient1" id = "ingredient1"> 
+        <select name = "ingredient1" id = "ingredient1">
+            <option value="None">None</option>
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}
         </select>
 
         <label for = "ingredient2">Ingredient2:</label>
-        <select name = "ingredient2" id = "ingredient2"> 
+        <select name = "ingredient2" id = "ingredient2">
+            <option value="None">None</option>
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}
         </select>
 
         <label for = "ingredient3">Ingredient3:</label>
+       
         <select name = "ingredient3" id = "ingredient3"> 
+            <option value="None">None</option>
             {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
             {% endfor %}

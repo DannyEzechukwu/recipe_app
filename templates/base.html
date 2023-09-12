@@ -22,8 +22,8 @@
         {% for msg in get_flashed_messages() %}
         {% if phrase not in msg%}
             <div class="alert hide" id = "flash">
-                <span class="msg">{{ msg }}</span>
-                <span class="close-btn" id="removeflash">
+            <span class="msg">{{ msg }}</span>
+            <span class="close-btn" id="removeflash">
                     <span class="fas fa-times">✅</span>
                 </span>
             </div>

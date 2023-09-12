@@ -75,7 +75,7 @@ def get_meal_by_ingredients(*ingredients):
     #If tomato returns salad, we do not want to get salad from onions as well
     meal_objects = set()
     #Loop through all of the ingredients entered in *ingredients tuple
-    for ingredient in ingredients: 
+    for ingredient in ingredients:
         #Create a list of ingredient objects for each ingredient in *ingredients tuple
         #by running a filter query to match the name of each ingredient
         ingredient_objects_list = Ingredient.query.filter(Ingredient.ingredient_name == ingredient).all()
@@ -86,62 +86,80 @@ def get_meal_by_ingredients(*ingredients):
             for meal_getter in ingredient_objects_list:
                 #Get a meal by running a get query to get meal_id in the meals table
                 #that exists as meal_id in the ingredients table
-                #Append each meal to the container
+                #Add each meal to the meal_objects set
                 meal_objects.add(Meal.query.get(meal_getter.ingredient_meal_id))
     
     #Turn meal_objects into an indexable list
     return list(meal_objects)
 
 #Get meal objects by ingredients AND category AND area
-def get_meal_by_ingredient_and_category_and_area(*ingredients, category = None, area = None):
+def get_meal_by_ingredient_and_category_and_area(ingredient1 = "None",
+                                                 ingredient2 = "None",
+                                                 ingredient3 = "None",
+                                                category = "None", 
+                                                area = "None"):
     """Obtain a list of meals if ingredients, 
     category, and area are true
     """
-    #Create a container to hold all meal objects returned when meal_id
+    #Create a container to hold all meal objects returned when function is called
     #is used to filter
     meal_results = []
-
-    #Loop through ingredients in *ingredienst tuple
-    for ingredient in ingredients:
-        #meal_objects is variable for meals returned from get_meal_by_ingredients function
-        #Expetced result is a list of unique meal_objects
-        meal_objects = get_meal_by_ingredients(ingredient)
     
+    #Create a container to hold all of the meals that are returned based on the ingredients entered
+    #and passed into get_meal_by_ingredients function
+    meal_objects =[]
+
+    # List returned from ingredients 1, 2 and 3
+    ingredient1_lst = get_meal_by_ingredients(ingredient1)
+    ingredient2_lst = get_meal_by_ingredients(ingredient2)
+    ingredient3_lst = get_meal_by_ingredients(ingredient3)
+
+    #Extend meal_ojects list by lists returned from
+    #get_meal_by_ingredients(ingredient1) ...
+    meal_objects.extend(ingredient1_lst)
+    meal_objects.extend(ingredient2_lst)
+    meal_objects.extend(ingredient3_lst)
+
     #Condition for if meal objects is an empty list 
     if meal_objects == []:
-        #return filter result for category and area
-        return Meal.query.filter((Meal.category == category) & (Meal.area == area)).all()
+        #Use extend method to include results from category and area filter
+        meal_results.extend(Meal.query.filter(Meal.category == category).all())
+        meal_results.extend(Meal.query.filter(Meal.area == area).all())
+        return meal_results
     
     #Condition for if category is not provided
-    elif category == None:
-        #Loop through meal_objects list
-        for meal_object in meal_objects: 
-            #Append filter result for area and meal_id to meal_results
-            return meal_results.append(Meal.query.filter((Meal.area == area) & (Meal.meal_id == meal_object.meal_id)))
+    elif category == "None":
+        #Use extend method to include results from area filter
+        #and meal_objects list
+        meal_results.extend(Meal.query.filter(Meal.area == area).all())
+        meal_results.extend(meal_objects)
+        return meal_results
 
-    #Condition for if area is not provided
-    elif area == None: 
-        #Loop through meal_objects list
-        for meal_object in meal_objects: 
-            #Append filter result for category and meal_id to meal_results
-            return meal_results.append(Meal.query.filter((Meal.category == category) & (Meal.meal_id == meal_object.meal_id)))
+    # Condition for if area is not provided
+    elif area == "None": 
+        #Use extend method to include results from category filter
+        #and meal_objects list
+        meal_results.extend(Meal.query.filter(Meal.category == category).all())
+        meal_results.extend(meal_objects)
+        return meal_results
 
     #Condition for if meal_objects is an empty list and area is not provided
-    elif meal_objects == [] and area == None: 
-        #Return filter result for category
-        return Meal.query.filter(Meal.category == category).all()
+    elif meal_objects == [] and area == "None": 
+        #Use extend method to include results from category filter only
+        return meal_results.extend((Meal.category == category).all())
     
     #Condition for if meal_objects is an empty list and category is not provided
-    elif meal_objects == [] and category == None: 
-        #Return filter result for area 
-        return Meal.query.filter(Meal.area == area).all()
+    elif meal_objects == [] and category == 'None': 
+        #Use extend method to include results from area filter only
+        return meal_results.extend(Meal.query.filter(Meal.area == area).all())
     
     #Condition for if category and area not provided
-    elif category == None and area == None: 
-        #Loop through meal_objects list
-        for meal_object in meal_objects:
-            #Append filter result for meal_id to meal_results
-            return meal_results.append(Meal.query.get(meal_object.meal_id))
+    else:
+        #Use extend method to include results from meal_objects only
+        meal_results.extend(meal_objects)
+        return meal_results
+    
+       
 
 #Get meal objects by ingredients OR category OR area
 def get_meal_by_ingredient_or_category_or_area(*ingredients, category, area):

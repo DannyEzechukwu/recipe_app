@@ -12,7 +12,7 @@ function NavComponent(){
     return(
         <nav className = "nav">
             <a href={user_profile_url} className ="user-profile-option">User Profile</a> 
-            <ul class="other-options">
+            <ul className="other-options">
                 <li><a href="/get_meals">Get Meal Ideas</a></li>
                 <li><a href="/create_a_meal">Add Your Own Dish</a></li>
                 <li><a href="/">Log Out To Start Cooking</a></li>
