@@ -91,7 +91,7 @@ def confirm():
 @app.route("/get_user_id/json")
 def get_user_id(): 
     user = crud.get_user_by_id(session["id"])
-    print(user)
+
     if user: 
         return jsonify({"user_id" : user.user_id})
 
@@ -100,46 +100,50 @@ def get_user_id():
 @app.route("/user_profile/<int:user_id>")
 def user_profile(user_id):
 
-    #Identify user by value of user_id
-    user = crud.get_user_by_id(user_id)
+    if "id" in session:   
+        #Identify user by value of user_id
+        user = crud.get_user_by_id(user_id)
 
-    #Container to hold name of meals rated
-    meals_scored = []
-    #Container to hold rated meal image url
-    rated_meal_images = []
-    #Container to rating scores
-    rating_scores = []
-    #Container to hold comment user maid on meal
-    meal_comments = []
-    #Container to hold  dates and times scores were given
-    rating_and_comment_created_at = []
+        #Container to hold name of meals rated
+        meals_scored = []
+        #Container to hold rated meal image url
+        rated_meal_images = []
+        #Container to rating scores
+        rating_scores = []
+        #Container to hold comment user maid on meal
+        meal_comments = []
+        #Container to hold  dates and times scores were given
+        rating_and_comment_created_at = []
 
-    #List of ratings given by user in the session
-    ratings = crud.get_ratings_by_user_id(user_id)
-    for rating in ratings:
-        rating_scores.append(rating.score)
-        rating_and_comment_created_at.append(rating.created_at)
+        #List of ratings given by user in the session
+        ratings = crud.get_ratings_by_user_id(user_id)
+        for rating in ratings:
+            rating_scores.append(rating.score)
+            rating_and_comment_created_at.append(rating.created_at)
 
-        meal = crud.get_meal_by_id(rating.rating_meal_id)
-        meals_scored.append((meal.meal_name , meal.meal_id))
-        rated_meal_images.append(meal.meal_image_url)
+            meal = crud.get_meal_by_id(rating.rating_meal_id)
+            meals_scored.append((meal.meal_name , meal.meal_id))
+            rated_meal_images.append(meal.meal_image_url)
+        
+        comments = crud.get_comments_by_user_id(user_id)
+        for comment in comments:
+            meal_comments.append(comment.comment)
+
+        #Zip lists to get elements in following format
+        #(name_of_meal, score, time_created)
+        meal_scores_comments_and_times = list(zip(meals_scored, 
+                                    rated_meal_images, 
+                                    rating_scores, 
+                                    meal_comments, 
+                                    rating_and_comment_created_at ))
+
+
+        return render_template("user_details_page.html", 
+                            user = user,
+                            meal_scores_comments_and_times = meal_scores_comments_and_times)
     
-    comments = crud.get_comments_by_user_id(user_id)
-    for comment in comments:
-        meal_comments.append(comment.comment)
-
-    #Zip lists to get elements in following format
-    #(name_of_meal, score, time_created)
-    meal_scores_comments_and_times = list(zip(meals_scored, 
-                                rated_meal_images, 
-                                rating_scores, 
-                                meal_comments, 
-                                rating_and_comment_created_at ))
-
-
-    return render_template("user_details_page.html", 
-                        user = user,
-                        meal_scores_comments_and_times = meal_scores_comments_and_times)
+    else: 
+        return redirect("/")
 
 
 #-------------------------------------------------------------------
@@ -150,23 +154,29 @@ def user_profile(user_id):
 #like returned. Data goes to api/meals
 @app.route("/get_meals")
 def get_meals(): 
-
-    user = crud.get_user_by_id(session["id"])
-    categories = sorted(crud.get_all_categories())
-    areas = sorted(crud.get_all_areas())
-
-    ingredients_set = set()
-    ingredients = crud.get_all_ingredients()
-    for ingredient in ingredients: 
-        ingredients_set.add(ingredient.ingredient_name.title())
     
-    ingredients_list = sorted(list(ingredients_set))
+    if "id" in session:   
+        user = crud.get_user_by_id(session["id"])
+        categories = sorted(crud.get_all_categories())
+        areas = sorted(crud.get_all_areas())
 
-    return render_template("meal_picker.html", 
-                    user = user, 
-                    categories = categories,
-                    areas = areas,
-                    ingredients = ingredients_list)
+        ingredients_set = set()
+        ingredients = crud.get_all_ingredients()
+        for ingredient in ingredients: 
+            ingredients_set.add(ingredient.ingredient_name.title())
+        
+        ingredients_list = sorted(list(ingredients_set))
+
+
+        return render_template("meal_picker.html", 
+                        user = user, 
+                        categories = categories,
+                        areas = areas,
+                        ingredients = ingredients_list)
+    
+    else: 
+        return redirect("/") 
+
 
 
 #Route to run ajax on meals page as inputs are changed
@@ -197,6 +207,7 @@ def get_meals_to_display():
     #                                                 category = category, 
     #                                                 area = area)
     
+
     for meal_object in meal_objects_list: 
         frontend_meals.append({
             "id": meal_object.meal_id,
@@ -260,15 +271,21 @@ def show_meal_details(meal_name, meal_id):
 #Data is sent to /add_a_meal
 @app.route("/create_a_meal")
 def create_a_meal(): 
-    #Identify user in the session
-    user = crud.get_user_by_id(session["id"])
+    
+    if "id" in session: 
+        
+        #Identify user in the session
+        user = crud.get_user_by_id(session["id"])
 
-    #Current total of meals in database
-    total_meals_in_db = crud.get_all_meals()
+        #Current total of meals in database
+        total_meals_in_db = crud.get_all_meals()
 
-    return render_template("add_a_meal.html", 
-                    user = user, 
-                    total_meals_in_db = total_meals_in_db)
+        return render_template("add_a_meal.html", 
+                        user = user, 
+                        total_meals_in_db = total_meals_in_db)
+
+    else: 
+        return redirect("/") 
 #----------------------------------------------------------------------
 
 #ADDING DATA TO  DATABASE

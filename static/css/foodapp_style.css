@@ -185,8 +185,12 @@ body {
 
 /* Recipe Page Styles */
 
-div.meal-details-visuals-container {
-  display: inline-block;
+div.meal-visual-container {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 H3.recipe-title{

@@ -35,7 +35,7 @@ for letter in first_letters:
             area = meal_dictionary["strArea"]
             recipe = meal_dictionary["strInstructions"].replace("\r\n", " ")
             meal_image_url = meal_dictionary["strMealThumb"]
-            meal_video_url = meal_dictionary["strYoutube"]
+            meal_video_url = meal_dictionary["strYoutube"].replace("watch?v=", "embed/")
             
             meal_object = crud.create_meal(meal_name, 
                                 category, 
@@ -58,7 +58,7 @@ for letter in first_letters:
                     measure_ingredient_number = key.removeprefix("strIngredient")
                     #Obtain the measurement that corresponds to the integer returned
                     #Return "chef's preference" if measurementis not available
-                    measurement = meal_dictionary.get(f'strMeasure{measure_ingredient_number}', "chef's preference")
+                    measurement = meal_dictionary.get(f'strMeasure{measure_ingredient_number}', "Chef's Preference")
                     #Create a tuple that contains ingredient name, measurement and meal_id
                     ingredient_tuple  = (meal_object.meal_id, meal_dictionary[key].title(), measurement,)
                     ingredients.append(ingredient_tuple)
@@ -128,7 +128,7 @@ comments = [
 user_objects = []
 
 #Create 30 users
-for i in range (15):
+for i in range (1, 16):
     fname = f'Test{i}'
     lname = choice(last_names)
     email = f'{fname}@gmail.com'.lower()
@@ -140,7 +140,7 @@ for i in range (15):
 
     
 #Create user ratings and comments
-    for _ in range(10):
+    for _ in range(1,11):
         random_meal = choice(meal_objects)
         score = randint(1, 6)
         comment = choice(comments)

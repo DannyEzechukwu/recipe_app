@@ -12,21 +12,8 @@
 <H2>Awating Raitings!</H2>
 {% endif %}
 
-<div class ="meal-visuals-container">
-    <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" 
-    class = "meal-details-image" width ="500" height ="500" />
-
-    {% if meal.meal_video_url %}
-        <iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen></iframe>
-    {% else %}
-        <p>This meal does not contain a video.</p>
-    {% endif %}
-
-    <br>
-    
-    {% if meal.meal_video_url %}
-    <p><a href ="{{ meal.meal_video_url}}">{{ meal.meal_name.title()}} Video</a></p>
-    {% endif %}
+<div class ="meal-visual-container">
+    <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" class = "meal-details-image" width ="500" height ="500" />
 </div> 
 
 
@@ -39,10 +26,18 @@
     <p>{{ingredient.ingredient_measure}} {{ingredient.ingredient_name }}</p>
 </div>
 {% endfor %}
-<br>
+
 
 <H3 calss = "recipe instructions">Instructions:</H3>
 <p>{{ meal.recipe }}</p>
+
+<div class ="meal-visual-container">
+{% if meal.meal_video_url %}
+<iframe width="500" height="500" src="{{ meal.meal_video_url }}" frameborder="0" allowfullscreen class="meal-details-video"></iframe>
+{% else %}
+<p>This meal does not contain a video.</p>
+{% endif %}
+</div>
 
 <H3>
     {{ meal_comments_list|length }} Reviews Left <br>
