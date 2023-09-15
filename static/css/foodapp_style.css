@@ -185,6 +185,10 @@ body {
 
 /* Recipe Page Styles */
 
+.recipe-title{
+  text-align: center;
+}
+
 div.meal-visual-container {
   margin: 0;
   padding: 0;
@@ -193,14 +197,22 @@ div.meal-visual-container {
   align-items: center;
 }
 
-H3.recipe-title{
+.votes{
   text-align: center;
+}
+
+.vote-button{
+  padding: 10px;
+}
+
+H3.instructions{
+  height: 5em;
 }
 
 div.meal-ingredients {
   border-radius: 3px;
   width: 11em;
-  /* height: 15em; */ 
+  height: 15em;
   display: inline-block;
 }
 

@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, connect_to_db,  User, Meal, Rating, Comment, Ingredient
+from model import db, connect_to_db,  User, Meal, Rating, Comment, Ingredient, Like, Dislike
 
 
 #User crud functions
@@ -263,6 +263,68 @@ def get_ingredient_by_name(ingredient_name):
 
 def get_ingredients_by_meal_id(ingredient_meal_id): 
     return Ingredient.query.filter(Ingredient.ingredient_meal_id  == ingredient_meal_id).all()
+
+#-----------------------------------------------------------------------------------
+#Like Crud Functions
+
+#Create Like object
+def create_like(like_user_id, like_meal_id):
+    like = Like(like_user_id = like_user_id,
+                like_meal_id = like_meal_id)
+    
+    return like
+
+#Get all like objects
+def get_all_likes(): 
+    return Like.query.all()
+
+#Get like by like_id
+def get_all_likes(like_id): 
+    return Like.query.get(like_id)
+
+#Get likes by user_id
+def get_likes_by_user_id(user_id): 
+    return Like.query.filter(Like.like_user_id == user_id).all()
+
+#Get likes by meal_id
+def get_likes_by_meal_id(meal_id): 
+   meal = Meal.query.get(meal_id)
+   return meal.likes
+
+#Get likes by meal_id and user_id
+def get_like_by_user_id_and_meal_id(user_id , meal_id):
+    return Like.query.filter((Like.like_user_id == user_id) & (Like.like_meal_id == meal_id)).first()
+    
+
+#-----------------------------------------------------------------------------------
+#Dislike Crud Functions
+
+#Create Dislike object
+def create_dislike(dislike_user_id, dislike_meal_id):
+    dislike = Dislike(dislike_user_id = dislike_user_id,
+                dislike_meal_id = dislike_meal_id)
+    
+    return dislike
+
+#Get all Dislike objects
+def get_all_dislike(): 
+    return Dislike.query.all()
+
+#Get Dislike by dislike_id
+def get_all_dislikes_by_user_id(dislike_id): 
+    return Dislike.query.get(dislike_id)
+
+#Get Dislike by user_id
+def get_dislikes_by_user_id(user_id): 
+    return Dislike.query.filter(Dislike.dislike_user_id == user_id).all()
+
+#Get Dislike by meal_id
+def get_dislikes_by_meal_id(meal_id): 
+    return Dislike.query.filter(Dislike.dislike_meal_id == meal_id).all()
+
+#Get likes by meal_id and user_id
+def get_dislike_by_user_id_and_meal_id(user_id , meal_id):
+    return Dislike.query.filter((Dislike.dislike_user_id == user_id) & (Dislike.dislike_meal_id == meal_id)).first()
 
 
 if __name__ == '__main__':

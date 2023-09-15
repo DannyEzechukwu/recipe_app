@@ -1,3 +1,5 @@
+// Nav Bar
+
 function NavComponent(){
     const [userId, seUserId] = React.useState(0);
 
@@ -22,3 +24,4 @@ function NavComponent(){
 }
 
 ReactDOM.render(<NavComponent />, document.getElementById('navroot'));
+

@@ -10,7 +10,7 @@ if (removeFlashButton) {
   })
 }
 
-// Renders meals based on inputs given on meal_details_poage
+// Renders meals based on inputs given on meal_picker.html
  
 const theMealFormButton = document.querySelector("#submit-options-for-meal-button");
 
@@ -39,6 +39,7 @@ if (theMealFormButton){
             <p>Category: ${meal.category}</p>
             <p>Area: ${meal.area}</p>
             <img src="${meal.image}" alt="${meal.name}" class="mini-meal" />
+            <p> Likes : ${meal.likes}</p>
             <br>
             <a href="/recipe/${meal.name}/${meal.id}">
               <button class = "button"> Explore Meal </button> 
@@ -51,7 +52,45 @@ if (theMealFormButton){
 }
 
 
-//Include or Remove ingredients for the meal being added on the add_a_meal page
+// Handles liking and disliking a meal on meal_details.html
+const userIDValue = document.getElementById("like-or-dislike-user-id").value;
+const mealIDValue = document.getElementById("like-or-dislike-meal-id").value;
+
+const likeForm = document.getElementById("like-form");
+const dislikeForm = document.getElementById("dislike-form");
+
+if(likeForm){
+likeForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  fetch(`/like/${userIDValue}/${mealIDValue}/json`)
+    .then((response) => response.json())
+    .then((data) =>{
+      let allLikes = document.getElementById("number-of-likes");
+      let allDislikes = document.getElementById("number-of-dislikes");
+      allLikes.innerText = data.totalLikes;
+      allDislikes.innerText = data.totalDislikes;
+    })
+  })
+}
+
+if(dislikeForm){
+  dislikeForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    fetch(`/dislike/${userIDValue}/${mealIDValue}/json`)
+      .then((response) => response.json())
+      .then((data) =>{
+        let allLikes = document.getElementById("number-of-likes");
+        let allDislikes = document.getElementById("number-of-dislikes");
+        allLikes.innerText = data.totalLikes;
+        allDislikes.innerText = data.totalDislikes;
+      })
+    })
+  }
+
+
+
+//Include or Remove ingredients for the meal being added on the add_a_meal.html
+
 const ingredientAdderButton = document.getElementById("ingredient-adder");
 const ingredientRemoverButton = document.getElementById('ingredient-remover');
 const addedIngredientsSection = document.getElementById("ingredients");

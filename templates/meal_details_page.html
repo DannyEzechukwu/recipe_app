@@ -4,21 +4,43 @@
 
 {% block body %}
 
-<h1> {{ meal.meal_name.title() }} Recipe</h1>
+<div class = "recipe-title">
+    <h1> {{ meal.meal_name.title() }} Recipe</h1>
 
-{% if average_score %}
-<H2>Average Rating : {{ average_score }} / 6 </H2>
-{% else %}
-<H2>Awating Raitings!</H2>
-{% endif %}
+    {% if average_score %}
+    <H2>Average Rating : {{ average_score }} / 6 </H2>
+    {% else %}
+    <H2>Awating Raitings!</H2>
+    {% endif %}
+</div>
 
 <div class ="meal-visual-container">
     <img src = "{{ meal.meal_image_url }}" alt = "picture of {{ meal.meal_name }}" class = "meal-details-image" width ="500" height ="500" />
 </div> 
 
+<br>
 
+<input type="hidden" name="user_id" id="like-or-dislike-user-id" value="{{user.user_id}}">
+<input type="hidden" name="meal_id" id="like-or-dislike-meal-id" value="{{meal.meal_id}}">
 
-<H3 class = "recipe-title">To make {{meal.meal_name}}, you'll need:</H3>
+<div class ="meal-visual-container">
+    <form id="like-form" action="/like/{{user.user_id}}/{{ meal.meal_id}}/json">
+        <input type = "submit" class = "button vote-button" value="👍"/>
+    </form>
+    &nbsp;
+    <div class="votes" id="number-of-likes">{{ meal_likes }}</div>
+
+    &nbsp;
+    &nbsp;
+
+    <form id="dislike-form" action = "/dislike/{{user.user_id}}/{{ meal.meal_id}}/json" method = "POST">
+        <input type = "submit" class = "button vote-button" value="👎"/>
+    </form>
+    &nbsp;
+    <div class = "votes" id="number-of-dislikes">{{ meal_dislikes }}</div>
+</div>
+
+<H3 class = "recipe-title instructions">To make {{meal.meal_name}}, you'll need:</H3>
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
@@ -27,9 +49,10 @@
 </div>
 {% endfor %}
 
-
-<H3 calss = "recipe instructions">Instructions:</H3>
-<p>{{ meal.recipe }}</p>
+<div class="recipe-title">
+    <H3>Instructions:</H3>
+    <p>{{ meal.recipe }}</p>
+</div>
 
 <div class ="meal-visual-container">
 {% if meal.meal_video_url %}

@@ -214,7 +214,8 @@ def get_meals_to_display():
             "name": meal_object.meal_name , 
             "image": meal_object.meal_image_url, 
             "category": meal_object.category ,
-            "area":  meal_object.area
+            "area":  meal_object.area,
+            "likes": len(meal_object.likes)
         })
     
     #Return josinified output that can be retrieved by fetch call in JS
@@ -229,16 +230,19 @@ def get_meals_to_display():
 def show_meal_details(meal_name, meal_id): 
 
     #User in current session. Will be used to create 
-    #a button to go back to profile page in meal_details_page.html
+    #create like and favorite
     user = crud.get_user_by_id(session["id"])
 
     #Obtain the meal of interest given meal_name 
     #and meal_id parameters
     meal = crud.get_meal_by_name_and_id(meal_name, meal_id)
 
-    #Use meal relationships to get list of ingredients and comments
+    #Use meal relationships to get list of ingredients, comments, likes, 
     meal_ingredients = meal.ingredients
     meal_comments = meal.comments
+    meal_likes = len(meal.likes)
+    print(meal_likes)
+    meal_dislikes = len(meal.dislikes)
     
     meal_comments_list = []
     
@@ -257,15 +261,14 @@ def show_meal_details(meal_name, meal_id):
         if meal_rating_score_list:
             average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
     
-    print(average_score)
-    
-
     return render_template("meal_details_page.html", 
                            user = user,  
                            meal = meal, 
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
-                           meal_comments_list = meal_comments_list)
+                           meal_comments_list = meal_comments_list,
+                           meal_likes = meal_likes,
+                           meal_dislikes = meal_dislikes)
 
 #Route to let users create their own meal to add to the database
 #Data is sent to /add_a_meal
@@ -386,6 +389,61 @@ def add_meal_and_ingredients():
 
         flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
         return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
+
+#Route to run ajax when user likes a meal
+@app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
+def liked_meal(user_id, meal_id): 
+    
+    toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
+    user_like = crud.get_like_by_user_id_and_meal_id(user_id, meal_id)
+    
+    total_meal_dislikes = len(crud.get_dislikes_by_meal_id(meal_id))
+    user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
+
+    if not user_like: 
+        added_like = crud.create_like(user_id, meal_id)
+        db.session.add(added_like)
+        db.session.commit()
+    
+    if user_dislike:
+        db.session.delete(user_dislike)
+        db.session.commit()
+        added_like = crud.create_like(user_id, meal_id)
+        db.session.add(added_like)
+        db.session.commit()
+
+    return jsonify({"totalLikes": toatal_meal_likes,
+                    "totalDislikes" : total_meal_dislikes })
+
+#Route to run ajax when user dislikes a meal
+@app.route("/dislike/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
+def disliked_meal(user_id, meal_id): 
+    
+    toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
+    user_like = crud.get_like_by_user_id_and_meal_id(user_id, meal_id)
+    
+    total_meal_dislikes = len(crud.get_dislikes_by_meal_id(meal_id))
+    user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
+
+
+    if not user_dislike: 
+        added_dislike = crud.create_dislike(user_id, meal_id)
+        db.session.add(added_dislike)
+        db.session.commit()
+        print(crud.get_likes_by_meal_id(meal_id))
+        
+    
+    if user_like:
+        db.session.delete(user_like)
+        db.session.commit()
+        added_dislike = crud.create_dislike(user_id, meal_id)
+        db.session.add(added_dislike)
+        db.session.commit()
+        print(crud.get_dislikes_by_meal_id(meal_id))
+        
+    return jsonify({"totalLikes": toatal_meal_likes,
+                    "totalDislikes" : total_meal_dislikes})
+
    
 if __name__ == "__main__":
     connect_to_db(app)

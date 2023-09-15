@@ -127,7 +127,7 @@ comments = [
 #Container to hold user objects to add to database 
 user_objects = []
 
-#Create 30 users
+#Create 15 users
 for i in range (1, 16):
     fname = f'Test{i}'
     lname = choice(last_names)
@@ -139,15 +139,21 @@ for i in range (1, 16):
     
 
     
-#Create user ratings and comments
-    for _ in range(1,11):
+    #Create user ratings comments
+    for _ in range(1,15):
         random_meal = choice(meal_objects)
         score = randint(1, 6)
         comment = choice(comments)
         rating = crud.create_rating(user.user_id, random_meal.meal_id, score)
         comment = crud.create_comment(user.user_id, random_meal.meal_id, comment)
+        like = crud.create_like(user.user_id, random_meal.meal_id)
+        dislike = crud.create_dislike(user.user_id, random_meal.meal_id)
+
         model.db.session.add(rating)
         model.db.session.add(comment)
+        model.db.session.add(like)
+        model.db.session.add(dislike)
+
 
 
  

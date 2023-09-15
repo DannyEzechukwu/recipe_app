@@ -51,6 +51,10 @@ class User(db.Model):
     comments = db.relationship("Comment", back_populates = "user")
     #User can have many ratings
     ratings = db.relationship("Rating", back_populates = "user")
+    #User can have many likes
+    likes = db.relationship("Like", back_populates = "user")
+    #User can have many favorites
+    dislikes = db.relationship("Dislike", back_populates = "user")
     
     def __repr__(self): 
           return f'<User user_id = {self.user_id}, email = {self.email}>'
@@ -99,6 +103,10 @@ class Meal(db.Model):
     ratings = db.relationship("Rating", back_populates = "meal")
     #Meal can have many ingredients
     ingredients = db.relationship("Ingredient", back_populates = "meal")
+    #Meal can have many likes
+    likes = db.relationship("Like", back_populates = "meal")
+    #Meal can be favorited many times
+    dislikes = db.relationship("Dislike", back_populates = "meal")
     
     def __repr__(self): 
         return f'<Meal meal_id = {self.meal_id}, name = {self.meal_name}, area = {self.area}>'
@@ -191,6 +199,54 @@ class Ingredient(db.Model):
 
     def __repr__(self): 
         return f'<Ingredient ingredient_id = {self.ingredient_id}, ingredient_meal_id= {self.ingredient_meal_id}, ingredient_name = {self.ingredient_name}>'
+
+#Like Table    
+class Like(db.Model):
+    __tablename__ = "likes"
+
+    like_id = db.Column(db.Integer, 
+                primary_key = True)
+    
+    like_user_id = db.Column(db.Integer,
+                    db.ForeignKey('users.user_id'),
+                    index = True)
+    
+    like_meal_id = db.Column(db.Integer,
+                    db.ForeignKey("meals.meal_id"),
+                    index = True)
+    
+    def __repr__(self): 
+        return f'<Like like_id = {self.like_id}, like_user_id= {self.like_user_id}, like_meal_id = {self.like_meal_id}>'
+    
+    #A like can belong to one user
+    user = db.relationship("User", back_populates = "likes")
+
+    #A like can belong to one meal
+    meal = db.relationship("Meal", back_populates = "likes")
+
+#Favorite Table
+class Dislike(db.Model):
+    __tablename__ = "dislikes"
+
+    dislike_id = db.Column(db.Integer, 
+                primary_key = True)
+    
+    dislike_user_id = db.Column(db.Integer,
+                    db.ForeignKey('users.user_id'),
+                    index = True)
+    
+    dislike_meal_id = db.Column(db.Integer,
+                    db.ForeignKey("meals.meal_id"),
+                    index = True)
+    
+    def __repr__(self): 
+        return f'<Dislike dislike_id = {self.dislike_id}, dislike_user_id= {self.dislike_user_id}, dislike_meal_id = {self.dislike_meal_id}>'
+
+    #A dislike can belong to one user
+    user = db.relationship("User", back_populates = "dislikes")
+
+    #A dislike can belong to one meal
+    meal = db.relationship("Meal", back_populates = "dislikes")
 
 
 if __name__ == "__main__":
