@@ -393,25 +393,33 @@ def add_meal_and_ingredients():
 #Route to run ajax when user likes a meal
 @app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
 def liked_meal(user_id, meal_id): 
-    
+   
+    #Get all likes for the meal on the page we are on
     toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
+
+    #Identify if the user in the session has already liked this meal
     user_like = crud.get_like_by_user_id_and_meal_id(user_id, meal_id)
     
+    #Get all dislikes for the meal on the page we are on
     total_meal_dislikes = len(crud.get_dislikes_by_meal_id(meal_id))
+
+    #Identify if the user in the session has already liked this meal
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
 
-    if not user_like: 
+    #Condition for if the user has not liked the meal on the page
+    if not user_like:
+        #Create a like object. Add it to the databse and commit the change
         added_like = crud.create_like(user_id, meal_id)
         db.session.add(added_like)
         db.session.commit()
     
+    #Condition for if the user has disliked the meal on the page
     if user_dislike:
+        #delete the user's dislike from the database
         db.session.delete(user_dislike)
+        #Commit the change for this deletion
         db.session.commit()
-        added_like = crud.create_like(user_id, meal_id)
-        db.session.add(added_like)
-        db.session.commit()
-
+        
     return jsonify({"totalLikes": toatal_meal_likes,
                     "totalDislikes" : total_meal_dislikes })
 
@@ -419,28 +427,32 @@ def liked_meal(user_id, meal_id):
 @app.route("/dislike/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
 def disliked_meal(user_id, meal_id): 
     
+    #Get all likes for the meal on the page we are on
     toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
+
+    #Identify if the user in the session has already liked this meal
     user_like = crud.get_like_by_user_id_and_meal_id(user_id, meal_id)
     
+    #Get all dislikes for the meal on the page we are on
     total_meal_dislikes = len(crud.get_dislikes_by_meal_id(meal_id))
+
+    #Identify if the user in the session has already liked this meal
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
 
-
+    #Condition for if the user has not disliked the meal on the page
     if not user_dislike: 
+        #Create a dislike option, add it to the database, commit the change
         added_dislike = crud.create_dislike(user_id, meal_id)
         db.session.add(added_dislike)
         db.session.commit()
-        print(crud.get_likes_by_meal_id(meal_id))
         
-    
+        
+    #Condition for if the user has liked the meal on the page
     if user_like:
+        #Delete the like object and commit the change
         db.session.delete(user_like)
         db.session.commit()
-        added_dislike = crud.create_dislike(user_id, meal_id)
-        db.session.add(added_dislike)
-        db.session.commit()
-        print(crud.get_dislikes_by_meal_id(meal_id))
-        
+    
     return jsonify({"totalLikes": toatal_meal_likes,
                     "totalDislikes" : total_meal_dislikes})
 
