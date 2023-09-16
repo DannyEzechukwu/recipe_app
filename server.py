@@ -241,7 +241,6 @@ def show_meal_details(meal_name, meal_id):
     meal_ingredients = meal.ingredients
     meal_comments = meal.comments
     meal_likes = len(meal.likes)
-    print(meal_likes)
     meal_dislikes = len(meal.dislikes)
     
     meal_comments_list = []
@@ -347,48 +346,83 @@ def add_meal_and_ingredients():
     
     recipe = request.form.get("meal-recipe")
     meal_image_url = request.form.get("meal-image")
-    meal_video_url = request.form.get("meal-video")
+    
+    if request.form.get("meal-video"):
+        if "https://www.youtube.com/" in request.form.get("meal-video"):
+            meal_video_url = request.form.get("meal-video").replace("watch?v=", "embed/")
+        else: 
+           meal_video_url = request.form.get("meal-video")
+    
     meal_api_id = None
-    
-    
-    #List to hold Ingredient data from form 
-    ingredient_tuple_list = []
 
-    #Loop from 1 - 12 since you can only include a max of 
-    #12 ingredients
-    for i in range(1, 13): 
-        ingredient_name = request.form.get(f"ingredient{i}")
-        ingredient_measure = request.form.get(f"measure{i}")
-        ingredient_tuple_list.append((ingredient_name, ingredient_measure))
-
-    #List comprehension to obtain elements with actual data
-    ingredient_data = [element for element in ingredient_tuple_list if element != (None, None)]
-    
-    #Condition to create meal object and ingredients
-    if not crud.get_meal_by_id(increase_total_meals_in_db ): 
-        new_meal = crud.create_meal(meal_name, 
+    #Create meal object, add it to database, commit change
+    new_meal = crud.create_meal(meal_name, 
                     category, 
                     area, 
                     recipe,
                     meal_api_id,
                     meal_image_url, 
                     meal_video_url)
-        
-        db.session.add(new_meal)
-        db.session.commit()
+    
+    db.session.add(new_meal)
+    db.session.commit()
 
-        #Loop through tuples in ingredient list data
-        for ingredient_tuple in ingredient_data: 
-            new_ingredient = crud.create_ingredient(increase_total_meals_in_db ,
-                ingredient_tuple[0].title(),
-                ingredient_tuple[1].title(),
-                f"https://themealdb.com/images/ingredients/{ingredient_tuple[0]}.png")
+    #List to hold Ingredient data from form 
+    ingredient_list = []
+
+    #Loop from 1 - 12 since you can only include a max of 
+    #12 ingredients
+    for i in range(1, 13):
+        #Get ingredient data from form
+        ingredient_name = request.form.get(f"in{i}")
+        ingredient_measure = request.form.get(f"measure{i}")
+        ingredient_url = request.form.get(f"url{i}")
         
-            db.session.add(new_ingredient)
+        # Obtain name measure and url from form inputs by user
+        #Use dictionary to store data for each ingredient
+        #Append each dictionary to a ingredient_list container
+        if ingredient_name is not None:
+            ingredient_list.append({
+            'name': ingredient_name.title(),
+            'measure': ingredient_measure.title(),
+            "url": ingredient_url 
+        })
+    
+    #Loop thorough each dictionary in the ingredient list
+    for dictionary in ingredient_list:
+        # Check if an ingredient with the same name already exists
+        # Create a variable and set it equal to the object returned if it does
+        existing_ingredient = crud.get_ingredient_by_name(dictionary["name"])
+
+        if existing_ingredient is not None:
+        # Use the existing ingredient to get name and url. Add to database and commit change
+            new_meal_ingredient = existing_ingredient
+                
+            new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
+                                new_meal_ingredient.ingredient_name, 
+                                ingredient_measure =  dictionary["measure"] , 
+                                ingredient_image_url = new_meal_ingredient.ingredient_image_url)
+                
+            db.session.add(new_meal_ingredient_object)
             db.session.commit()
+            
+        #     else:
+        #         if ingredient_image_url != None:
+        #             new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
+        #                         ingredient_name, 
+        #                         ingredient_measure, 
+        #                         ingredient_image_url)
+                
+        #             db.session.add(new_meal_ingredient_object)
+        #             db.session.commit()
+                
+        #         else:
+        #             flash(f"Please add an image for {ingredient_name}")
+        #             return redirect("/create_a_meal")
+            
+    flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
+    return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
 
-        flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
-        return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
 
 #Route to run ajax when user likes a meal
 @app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])

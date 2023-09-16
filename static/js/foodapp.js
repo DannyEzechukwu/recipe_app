@@ -53,8 +53,8 @@ if (theMealFormButton){
 
 
 // Handles liking and disliking a meal on meal_details.html
-const userIDValue = document.getElementById("like-or-dislike-user-id").value;
-const mealIDValue = document.getElementById("like-or-dislike-meal-id").value;
+const userIDValue = document.getElementById("like-or-dislike-user-id");
+const mealIDValue = document.getElementById("like-or-dislike-meal-id");
 
 const likeForm = document.getElementById("like-form");
 const dislikeForm = document.getElementById("dislike-form");
@@ -62,7 +62,7 @@ const dislikeForm = document.getElementById("dislike-form");
 if(likeForm){
 likeForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  fetch(`/like/${userIDValue}/${mealIDValue}/json`)
+  fetch(`/like/${userIDValue.value}/${mealIDValue.value}/json`)
     .then((response) => response.json())
     .then((data) =>{
       let allLikes = document.getElementById("number-of-likes");
@@ -76,7 +76,7 @@ likeForm.addEventListener("submit", (evt) => {
 if(dislikeForm){
   dislikeForm.addEventListener("submit", (evt) => {
     evt.preventDefault();
-    fetch(`/dislike/${userIDValue}/${mealIDValue}/json`)
+    fetch(`/dislike/${userIDValue.value}/${mealIDValue.value}/json`)
       .then((response) => response.json())
       .then((data) =>{
         let allLikes = document.getElementById("number-of-likes");
@@ -106,8 +106,9 @@ if (ingredientAdderButton){
       idIncrementer ++;
       addedIngredientsSection.insertAdjacentHTML("beforeend", 
       `<p>
-          Ingredient${idIncrementer}: <input type="text"  name="ingredient${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" required/>
+          Ingredient${idIncrementer}: <input type="text"  name="in${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" required/>
           Measure:  <input type="text"  name="measure${idIncrementer}" id="measure${idIncrementer}" placeholder="measure" required/>
+          Ingredient Image (url):  <input type="url"  name="url${idIncrementer}" id="url${idIncrementer}" placeholder="ingredient image url"/>
       </p>`
       )
     } else{

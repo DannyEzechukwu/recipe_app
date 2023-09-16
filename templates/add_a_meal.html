@@ -3,7 +3,7 @@
 {% block title %}Create A Meal{% endblock %}
 
 {% block body %}
-  <h1>Add Meal Number {{ total_meals_in_db|length + 1  }}! Make Sure It's Good!</h1>
+  <h1>Add The Next Meal! Make Sure It's Good!</h1>
    
 
   <form action="add_a_meal" class = "create-meal-form" method = "POST"> 
@@ -31,20 +31,21 @@
         </p>
         
         <p>
-            Meal Video (url): <input type="url" id="meal-video" name="meal-video" placeholder = "video url" />
+            Meal Video (url): <input type="url" id="meal-video" name="meal-video" placeholder = "meal video url" />
         </p>
 
         <div id="ingredients"> 
             <H3> Add up to 12 different ingredients!</H3>
             <label for="ingredient1">Required<span class="required-asterisk">*</span></label><br>
-            Ingredient1: <input type="text"  name="ingredient1" id="ingredient1" placeholder="ingredient" required/>
-            Measure:  <input type="text"  name="measure1" id="measure2" placeholder="measure" required/>
+            Ingredient1: <input type="text"  name="in1" id="ingredient1" placeholder="ingredient" required/>
+            Measure:  <input type="text"  name="measure1" id="measure1" placeholder="measure" required/>
+            Ingredient Image (url):  <input type="url"  name="url1" id="url1" placeholder="ingredient image url"/>
         </div>
 
         <br>
         
-        <button class="button" id="ingredient-adder">Add Ingredient</button>
-        <button class="button" id="ingredient-remover">Remove Ingredient</button>
+        <button type="button" class="button" id="ingredient-adder">Add Ingredient</button>
+        <button type="button" class="button" id="ingredient-remover">Remove Ingredient</button>
 
         <p>
             <input type = "submit" class="button" value= "Add Your Meal" />
