@@ -376,7 +376,10 @@ def add_meal_and_ingredients():
         #Get ingredient data from form
         ingredient_name = request.form.get(f"in{i}")
         ingredient_measure = request.form.get(f"measure{i}")
-        ingredient_url = request.form.get(f"url{i}")
+        if request.form.get(f"url{i}"):
+            ingredient_url = request.form.get(f"url{i}")
+        else: 
+            ingredient_url = None
         
         # Obtain name measure and url from form inputs by user
         #Use dictionary to store data for each ingredient
@@ -406,19 +409,22 @@ def add_meal_and_ingredients():
             db.session.add(new_meal_ingredient_object)
             db.session.commit()
             
-        #     else:
-        #         if ingredient_image_url != None:
-        #             new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
-        #                         ingredient_name, 
-        #                         ingredient_measure, 
-        #                         ingredient_image_url)
+        else:
+            if dictionary["url"] is None:
+                ingredient_name = dictionary["name"]
+                flash(f"Please add an image for {ingredient_name}")
+                return redirect("/create_a_meal")
+
+            else:
+                new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
+                                    ingredient_name = dictionary["name"], 
+                                    ingredient_measure = dictionary["measure"], 
+                                    ingredient_image_url = dictionary["url"])
                 
-        #             db.session.add(new_meal_ingredient_object)
-        #             db.session.commit()
+                db.session.add(new_meal_ingredient_object)
+                db.session.commit()
                 
-        #         else:
-        #             flash(f"Please add an image for {ingredient_name}")
-        #             return redirect("/create_a_meal")
+                
             
     flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
     return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
