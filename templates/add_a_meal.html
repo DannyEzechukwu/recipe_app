@@ -4,52 +4,62 @@
 
 {% block body %}
   <h1>Add The Next Meal! Make Sure It's Good!</h1>
-   
+  All fields marked with <span class="required-asterisk">*</span> are required
+  <br>
+  <br>
 
   <form action="add_a_meal" class = "create-meal-form" method = "POST"> 
-        <p>
-            <label for="meal-name">Required<span class="required-asterisk">*</span></label><br>
-            Meal  Name: <input type="text" id="meal-name"  name="meal-name" placeholder="meal name" required/>
-        </p>
+        <table>
+            <tr>
+                <td>Meal  Name<span class="required-asterisk">*</span></td> 
+                <td><input type="text" id="meal-name"  name="meal-name" placeholder="meal name" required/></td>  
+            </tr>
 
-        <p>
-           Category:  <input type="text" id="meal-category" name="meal-category"  placeholder="category" />
-        </p>
+            <tr>
+                <td>Category</td> 
+                <td><input type="text" id="meal-category" name="meal-category"  placeholder="category" /></td>
+            </tr>
 
-        <p>
-            Area: <input type="text" id="meal-area" name="meal-area" placeholder = "area" />
-        </p>
+            <tr>
+                <td>Area</td>
+                <td><input type="text" id="meal-area" name="meal-area" placeholder = "area" /></td>
+            </tr>
 
-        <p>
-            <label for="meal-recipe">Required<span class="required-asterisk">*</span></label><br>
-            Recipe: <textarea id="meal-recipe" name="meal-recipe" required></textarea>
-        </p>
+            <tr>
+                <td>Recipe<span class="required-asterisk">*</span></td>
+                <td><textarea id="meal-recipe" name="meal-recipe" rows="5" columns="60" required></textarea></td>
+            </tr>
 
-        <p>
-            <label for="meal-image">Required<span class="required-asterisk">*</span></label><br>
-            Meal Image (url): <input type="url" id="meal-image" name="meal-image" placeholder = "meal image url" required/>
-        </p>
+            <tr>
+                <td>Meal Image (url)<span class="required-asterisk">*</span></td> 
+                <td><input type="url" id="meal-image" name="meal-image" placeholder = "meal image url" required/></td>
+            </tr>
+            
+            <tr>
+                <td>Meal Video (url)</td> 
+                <td><input type="url" id="meal-video" name="meal-video" placeholder = "meal video url" /></td>
+            </tr>
+        </table>
+
+            <H3> Add up to 12 different ingredients! If it's not in the database we'll let you know!</H3>
+
+            <table id="ingredients">
+                <tr>
+                    <td>Ingredient1<span class="required-asterisk">*</span> <input type="text"  name="in1" id="ingredient1" placeholder="ingredient" required/></td>
+                    <td>Measure<span class="required-asterisk">*</span>  <input type="text"  name="measure1" id="measure1" placeholder="measure" required/></td>
+                    <td>Ingredient Image (url) <input type="url"  name="url1" id="url1" placeholder="ingredient image url"/></td>
+                </tr>
+            </table>
+
+            <br>
+            
+            <button type="button" class="button" id="ingredient-adder">Add Ingredient</button>
+            <button type="button" class="button" id="ingredient-remover">Remove Ingredient</button>
+
+            <p>
+                <input type = "submit" class="button" value= "Add Your Meal" />
+            </p>
         
-        <p>
-            Meal Video (url): <input type="url" id="meal-video" name="meal-video" placeholder = "meal video url" />
-        </p>
-
-        <div id="ingredients"> 
-            <H3> Add up to 12 different ingredients!</H3>
-            <label for="ingredient1">Required<span class="required-asterisk">*</span></label><br>
-            Ingredient1: <input type="text"  name="in1" id="ingredient1" placeholder="ingredient" required/>
-            Measure:  <input type="text"  name="measure1" id="measure1" placeholder="measure" required/>
-            Ingredient Image (url):  <input type="url"  name="url1" id="url1" placeholder="ingredient image url"/>
-        </div>
-
-        <br>
-        
-        <button type="button" class="button" id="ingredient-adder">Add Ingredient</button>
-        <button type="button" class="button" id="ingredient-remover">Remove Ingredient</button>
-
-        <p>
-            <input type = "submit" class="button" value= "Add Your Meal" />
-        </p>
   </form>
 
     <script src="/static/js/Components.jsx" type="text/jsx"></script>

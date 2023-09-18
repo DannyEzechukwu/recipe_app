@@ -105,11 +105,11 @@ if (ingredientAdderButton){
     if (idIncrementer < 12){
       idIncrementer ++;
       addedIngredientsSection.insertAdjacentHTML("beforeend", 
-      `<p>
-          Ingredient${idIncrementer}: <input type="text"  name="in${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" required/>
-          Measure:  <input type="text"  name="measure${idIncrementer}" id="measure${idIncrementer}" placeholder="measure" required/>
-          Ingredient Image (url):  <input type="url"  name="url${idIncrementer}" id="url${idIncrementer}" placeholder="ingredient image url"/>
-      </p>`
+      ` <tr>
+          <td>Ingredient${idIncrementer} <span class="required-asterisk">*</span> <input type="text"  name="in${idIncrementer}" id="ingredient${idIncrementer}" placeholder="ingredient" required/></td>
+          <td>Measure <span class="required-asterisk">*</span>  <input type="text"  name="measure${idIncrementer}" id="measure${idIncrementer}" placeholder="measure" required/></td>
+          <td>Ingredient Image (url)  <input type="url"  name="url${idIncrementer}" id="url${idIncrementer}" placeholder="ingredient image url"/></td>
+        </tr>`
       )
     } else{
       ingredientAdderButton.disabled = true;
@@ -121,11 +121,12 @@ if (ingredientAdderButton){
 if (ingredientRemoverButton){
   ingredientRemoverButton.addEventListener("click", (evt) => {
     evt.preventDefault();
-    if (addedIngredientsSection.childNodes.length > 2){
-      addedIngredientsSection.lastChild.remove();
+    if (addedIngredientsSection.rows.length > 1){
+      // addedIngredientsSection.lastChild.remove();
+      addedIngredientsSection.deleteRow(addedIngredientsSection.rows.length - 1);
       idIncrementer --;
     } else{
-      alert("No ingredients to remove");
+      alert("Meal must have at least 1 ingredient");
     }
   })
 }

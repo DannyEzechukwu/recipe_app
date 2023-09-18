@@ -408,14 +408,18 @@ def add_meal_and_ingredients():
                 
             db.session.add(new_meal_ingredient_object)
             db.session.commit()
+
             
         else:
+            #if ingredient does not exist in datbase
             if dictionary["url"] is None:
+                #Set the ingredient name to dictionary value in ingredient_list
                 ingredient_name = dictionary["name"]
                 flash(f"Please add an image for {ingredient_name}")
                 return redirect("/create_a_meal")
 
             else:
+                #Create new_meal object, add it to database, and commit change
                 new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
                                     ingredient_name = dictionary["name"], 
                                     ingredient_measure = dictionary["measure"], 
@@ -423,8 +427,7 @@ def add_meal_and_ingredients():
                 
                 db.session.add(new_meal_ingredient_object)
                 db.session.commit()
-                
-                
+                    
             
     flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
     return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
