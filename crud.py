@@ -25,10 +25,11 @@ def get_user_by_email(email):
 #Meal crud functions
 
 #Create meal object
-def create_meal(meal_name, category, area, recipe, meal_api_id = None, meal_image_url = None,  meal_video_url = None):
+def create_meal(meal_name, category, area, cook_time, recipe, meal_api_id = None, meal_image_url = None,  meal_video_url = None):
     meal = Meal(meal_name = meal_name,
                 category = category,
-                area = area, 
+                area = area,
+                cook_time = cook_time,
                 recipe = recipe,
                 meal_api_id = meal_api_id,
                 meal_image_url = meal_image_url, 
@@ -54,6 +55,14 @@ def get_all_areas():
     
     return area_set
 
+def get_all_cook_times():
+    cook_times_set = set()
+    for meal in Meal.query.all(): 
+        cook_times_set.add(meal.cook_time)
+    
+    return cook_times_set
+
+
 #Get all meal objects in database
 def get_all_meals(): 
     return Meal.query.all()
@@ -62,9 +71,13 @@ def get_all_meals():
 def get_meal_by_id(meal_id): 
    return Meal.query.get(meal_id)
 
+def get_meal_by_cook_time(cook_time):
+    return Meal.query.filter(Meal.cook_time == cook_time).all()
+
 #Get a meal object by its name
 def get_meal_by_name_and_id(meal_name, meal_id): 
    return Meal.query.filter((Meal.meal_name == meal_name) & (Meal.meal_id == meal_id)).first()
+
 
 #Get meal objects by ingredients only
 def get_meal_by_ingredients(*ingredients):

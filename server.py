@@ -144,8 +144,6 @@ def user_profile(user_id):
     
     else: 
         return redirect("/")
-
-
 #-------------------------------------------------------------------
 
 #MEAL DISPLAYS
@@ -176,8 +174,6 @@ def get_meals():
     
     else: 
         return redirect("/") 
-
-
 
 #Route to run ajax on meals page as inputs are changed
 #Data comes from /get_a_meal
@@ -215,6 +211,7 @@ def get_meals_to_display():
             "image": meal_object.meal_image_url, 
             "category": meal_object.category ,
             "area":  meal_object.area,
+            "cook_time" : meal_object.cook_time,
             "likes": len(meal_object.likes)
         })
     
@@ -287,7 +284,7 @@ def create_a_meal():
                         total_meals_in_db = total_meals_in_db)
 
     else: 
-        return redirect("/") 
+        return redirect("/")
 #----------------------------------------------------------------------
 
 #ADDING DATA TO  DATABASE
@@ -317,7 +314,6 @@ def add_rating_and_comment(meal_name, meal_id):
         flash("Comment and rating added!")
 
     return redirect(f"/recipe/{meal_name}/{meal_id}")
-
 
 #Creating a new meal and ingredients and add it to the database
 @app.route("/add_a_meal", methods = ["POST"])
@@ -352,6 +348,8 @@ def add_meal_and_ingredients():
             meal_video_url = request.form.get("meal-video").replace("watch?v=", "embed/")
         else: 
            meal_video_url = request.form.get("meal-video")
+    else: 
+        meal_video_url = None 
     
     meal_api_id = None
 
@@ -369,6 +367,7 @@ def add_meal_and_ingredients():
 
     #List to hold Ingredient data from form 
     ingredient_list = []
+    needs_image = []
 
     #Loop from 1 - 12 since you can only include a max of 
     #12 ingredients
@@ -408,30 +407,26 @@ def add_meal_and_ingredients():
                 
             db.session.add(new_meal_ingredient_object)
             db.session.commit()
-
+   
+        elif existing_ingredient is None and dictionary["url"] is not None:
+            #Create new_meal object, add it to database, and commit change
+            new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
+                                ingredient_name = dictionary["name"], 
+                                ingredient_measure = dictionary["measure"], 
+                                ingredient_image_url = dictionary["url"])
             
+            db.session.add(new_meal_ingredient_object)
+            db.session.commit()
+    
         else:
             #if ingredient does not exist in datbase
-            if dictionary["url"] is None:
-                #Set the ingredient name to dictionary value in ingredient_list
-                ingredient_name = dictionary["name"]
-                flash(f"Please add an image for {ingredient_name}")
-                return redirect("/create_a_meal")
-
-            else:
-                #Create new_meal object, add it to database, and commit change
-                new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
-                                    ingredient_name = dictionary["name"], 
-                                    ingredient_measure = dictionary["measure"], 
-                                    ingredient_image_url = dictionary["url"])
-                
-                db.session.add(new_meal_ingredient_object)
-                db.session.commit()
-                    
-            
+            #Set the ingredient name to dictionary["name"] in ingredient_list
+            ing_name = dictionary["name"]
+            needs_image.append(f"{ing_name}")
+            return render_template("required_ingredient_images.html", needs_image = needs_image)
+ 
     flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
-    return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")
-
+    return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")            
 
 #Route to run ajax when user likes a meal
 @app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])

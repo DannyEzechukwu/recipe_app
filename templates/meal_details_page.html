@@ -40,7 +40,7 @@
     <div class = "votes" id="number-of-dislikes">{{ meal_dislikes }}</div>
 </div>
 
-<H3 class = "recipe-title instructions">To make {{meal.meal_name}}, you'll need:</H3>
+<H3 class = "recipe-title instructions">To make {{meal.meal_name.title()}}, you'll need:</H3>
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 

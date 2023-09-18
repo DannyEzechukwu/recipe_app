@@ -12,24 +12,24 @@ if (removeFlashButton) {
 
 // Renders meals based on inputs given on meal_picker.html
  
-const theMealFormButton = document.querySelector("#submit-options-for-meal-button");
+const theMealForm = document.querySelector("#get-meal-options-form");
 
-if (theMealFormButton){
+if (theMealForm){
 
-  theMealFormButton.addEventListener('click', (evt) => {
+  theMealForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const userCategory = document.querySelector("#category");
-    const userArea  = document.querySelector("#area");
-    const ingredientOne  = document.querySelector("#ingredient1");
-    const ingredientTwo = document.querySelector("#ingredient2");
-    const ingredientThree = document.querySelector("#ingredient3");
+    const userCategory = document.querySelector("#category").value;
+    const userArea  = document.querySelector("#area").value;
+    const ingredientOne  = document.querySelector("#ingredient1").value;
+    const ingredientTwo = document.querySelector("#ingredient2").value;
+    const ingredientThree = document.querySelector("#ingredient3").value;
 
-    const queryString = `?category=${userCategory.value}&area=${userArea.value}&ingredient1=${ingredientOne.value}&ingredient2=${ingredientTwo.value}&ingredient3=${ingredientThree.value}`;
+    const queryString = `category=${userCategory}&area=${userArea}&ingredient1=${ingredientOne}&ingredient2=${ingredientTwo}&ingredient3=${ingredientThree}`;
     
-    fetch(`/get_meals/json${queryString}`)
+    fetch(`/get_meals/json?${queryString}`)
       .then((response) => response.json())
       .then((data) => {
-        const mealsDiv = document.querySelector("#returned-meals");
+        const mealsDiv = document.getElementById("returned-meals");
         mealsDiv.innerHTML = "";
         data.meals.forEach((meal) => {
           const mealDiv = document.createElement("div");
@@ -39,6 +39,7 @@ if (theMealFormButton){
             <p>Category: ${meal.category}</p>
             <p>Area: ${meal.area}</p>
             <img src="${meal.image}" alt="${meal.name}" class="mini-meal" />
+            <p>⏱️ : ${meal.cook_time} </p>
             <p> Likes : ${meal.likes}</p>
             <br>
             <a href="/recipe/${meal.name}/${meal.id}">

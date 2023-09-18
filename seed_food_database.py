@@ -14,6 +14,7 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 first_letters = 'abcdefghijklmnopqrstuvwxyz'
+cook_times = ["10 min", "15 min", "20 min", "30 min", "45 min", "1 hr"]
 
 with open('data/data.json') as f:
     meal_data = json.loads(f.read())
@@ -33,6 +34,7 @@ for letter in first_letters:
             meal_name = meal_dictionary['strMeal']
             category = meal_dictionary["strCategory"]
             area = meal_dictionary["strArea"]
+            cook_time = choice(cook_times)
             recipe = meal_dictionary["strInstructions"].replace("\r\n", " ")
             meal_image_url = meal_dictionary["strMealThumb"]
             meal_video_url = meal_dictionary["strYoutube"].replace("watch?v=", "embed/")
@@ -40,6 +42,7 @@ for letter in first_letters:
             meal_object = crud.create_meal(meal_name, 
                                 category, 
                                 area,
+                                cook_time,
                                 recipe,
                                 meal_api_id,
                                 meal_image_url, 
@@ -146,13 +149,9 @@ for i in range (1, 16):
         comment = choice(comments)
         rating = crud.create_rating(user.user_id, random_meal.meal_id, score)
         comment = crud.create_comment(user.user_id, random_meal.meal_id, comment)
-        like = crud.create_like(user.user_id, random_meal.meal_id)
-        dislike = crud.create_dislike(user.user_id, random_meal.meal_id)
-
         model.db.session.add(rating)
         model.db.session.add(comment)
-        model.db.session.add(like)
-        model.db.session.add(dislike)
+        
 
 
 
