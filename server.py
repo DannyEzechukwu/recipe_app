@@ -249,13 +249,17 @@ def show_meal_details(meal_name, meal_id):
     #Analyze meal_rating to get average rating
     meal_ratings = meal.ratings
     meal_rating_score_list = []
+    meal_rating_score_and_user_list = []
 
     average_score = 0 
     for rating in meal_ratings:
         meal_rating_score_list.append(rating.score)
+        meal_rating_score_and_user_list.append({"score": rating.score})
         
         if meal_rating_score_list:
             average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
+
+    
     
     return render_template("meal_details_page.html", 
                            user = user,  
@@ -263,6 +267,7 @@ def show_meal_details(meal_name, meal_id):
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
                            meal_comments_list = meal_comments_list,
+                           meal_rating_score_and_user_list = meal_rating_score_and_user_list,
                            meal_likes = meal_likes,
                            meal_dislikes = meal_dislikes)
 
@@ -272,7 +277,7 @@ def show_meal_details(meal_name, meal_id):
 def create_a_meal(): 
     
     if "id" in session: 
-        
+        cook_times = ["10 min", "15 min", "20 min", "30 min", "45 min", "60 min", "90 min"]
         #Identify user in the session
         user = crud.get_user_by_id(session["id"])
 
@@ -281,7 +286,8 @@ def create_a_meal():
 
         return render_template("add_a_meal.html", 
                         user = user, 
-                        total_meals_in_db = total_meals_in_db)
+                        total_meals_in_db = total_meals_in_db,
+                        cook_times = cook_times)
 
     else: 
         return redirect("/")
@@ -301,7 +307,7 @@ def add_rating_and_comment(meal_name, meal_id):
     
     #Handle no comment being added
     if not comment: 
-        flash("Comment and rating must be be added. Try again.")
+        flash("Comment required with rating. Try again.")
 
     #Create rating and comment Add both to database
     else: 
@@ -340,8 +346,10 @@ def add_meal_and_ingredients():
     else: 
         area = "Unknown"
     
+    cook_time = request.form.get("cook-time")
     recipe = request.form.get("meal-recipe")
     meal_image_url = request.form.get("meal-image")
+    
     
     if request.form.get("meal-video"):
         if "https://www.youtube.com/" in request.form.get("meal-video"):
@@ -356,7 +364,8 @@ def add_meal_and_ingredients():
     #Create meal object, add it to database, commit change
     new_meal = crud.create_meal(meal_name, 
                     category, 
-                    area, 
+                    area,
+                    cook_time,
                     recipe,
                     meal_api_id,
                     meal_image_url, 
@@ -425,7 +434,7 @@ def add_meal_and_ingredients():
             needs_image.append(f"{ing_name}")
             return render_template("required_ingredient_images.html", needs_image = needs_image)
  
-    flash(f"Meal number {len(total_meals_in_db) + 1} and It's ingredients have been added!")
+    flash(f"Meal {len(total_meals_in_db) + 1} and it's ingredients added!")
     return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")            
 
 #Route to run ajax when user likes a meal

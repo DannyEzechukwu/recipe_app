@@ -14,7 +14,7 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 first_letters = 'abcdefghijklmnopqrstuvwxyz'
-cook_times = ["10 min", "15 min", "20 min", "30 min", "45 min", "1 hr"]
+cook_times = ["10 min", "15 min", "20 min", "30 min", "45 min", "60 min", "90 min"]
 
 with open('data/data.json') as f:
     meal_data = json.loads(f.read())

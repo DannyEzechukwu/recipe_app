@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Required Images{% endblock %}
+
+{% block body %}
+<h4>The following ingedients are not in our database. Please add an image!</h4>
+
+{% for ingredient in needs_image %}
+    <p><em><strong>{{ ingredient }}</strong></em> needs an image</p>
+{% endfor %}
+
+<script src="/static/js/Components.jsx" type="text/jsx"></script>
+
+{% endblock %}

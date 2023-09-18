@@ -91,6 +91,9 @@
     {% for i in range (meal_comments_list|length)  %}
     <div class = "previous-meal-comments">
         <p>
+         <em><strong>Rating: {{meal_rating_score_and_user_list[i]["score"]}}</strong></em>
+        </p>
+        <p>
         {{ meal_comments_list[i][2] }}
         </p>
         <p>
