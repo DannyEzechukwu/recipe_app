@@ -17,7 +17,7 @@ function NavComponent(){
             <ul className="other-options">
                 <li><a href="/get_meals">Get Meal Ideas</a></li>
                 <li><a href="/create_a_meal">Add Your Own Dish</a></li>
-                <li><a href="/">Log Out To Start Cooking</a></li>
+                <li><a href="/">Log Out And Start Cooking</a></li>
             </ul>
         </nav>
     )

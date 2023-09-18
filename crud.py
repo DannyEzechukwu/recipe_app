@@ -333,9 +333,10 @@ def get_dislikes_by_user_id(user_id):
 
 #Get Dislike by meal_id
 def get_dislikes_by_meal_id(meal_id): 
-    return Dislike.query.filter(Dislike.dislike_meal_id == meal_id).all()
+    meal = Meal.query.get(meal_id)
+    return meal.dislikes
 
-#Get likes by meal_id and user_id
+#Get Dislikes by meal_id and user_id
 def get_dislike_by_user_id_and_meal_id(user_id , meal_id):
     return Dislike.query.filter((Dislike.dislike_user_id == user_id) & (Dislike.dislike_meal_id == meal_id)).first()
 

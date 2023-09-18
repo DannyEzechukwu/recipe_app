@@ -431,10 +431,10 @@ def add_meal_and_ingredients():
 #Route to run ajax when user likes a meal
 @app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
 def liked_meal(user_id, meal_id): 
-   
+    
     #Get all likes for the meal on the page we are on
     toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
-
+    
     #Identify if the user in the session has already liked this meal
     user_like = crud.get_like_by_user_id_and_meal_id(user_id, meal_id)
     
@@ -445,14 +445,14 @@ def liked_meal(user_id, meal_id):
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
 
     #Condition for if the user has not liked the meal on the page
-    if not user_like:
+    if user_like is None:
         #Create a like object. Add it to the databse and commit the change
         added_like = crud.create_like(user_id, meal_id)
         db.session.add(added_like)
         db.session.commit()
     
     #Condition for if the user has disliked the meal on the page
-    if user_dislike:
+    if user_like is None and user_dislike is not None:
         #delete the user's dislike from the database
         db.session.delete(user_dislike)
         #Commit the change for this deletion
@@ -476,21 +476,20 @@ def disliked_meal(user_id, meal_id):
 
     #Identify if the user in the session has already liked this meal
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user_id , meal_id)
-
+  
     #Condition for if the user has not disliked the meal on the page
-    if not user_dislike: 
+    if user_dislike is None: 
         #Create a dislike option, add it to the database, commit the change
         added_dislike = crud.create_dislike(user_id, meal_id)
         db.session.add(added_dislike)
         db.session.commit()
         
-        
     #Condition for if the user has liked the meal on the page
-    if user_like:
+    if user_dislike is None and user_like is not None:
         #Delete the like object and commit the change
         db.session.delete(user_like)
         db.session.commit()
-    
+
     return jsonify({"totalLikes": toatal_meal_likes,
                     "totalDislikes" : total_meal_dislikes})
 
