@@ -37,7 +37,7 @@ def create_account():
     
     return render_template("create_account.html")
 
-# Create a new user using the POST route new_user
+# Create a new user using the POST route /new_user
 # Add this user to the data base if the email dos not exist
 @app.route('/new_user', methods = ['POST'])
 def register_user():
@@ -56,7 +56,7 @@ def register_user():
         db.session.commit()
         session["id"] = new_user.user_id
 
-        flash('New user added!')
+        flash(f"Welcome {new_user.name.title()}!")
         return redirect(f"/user_profile/{session['id']}")
 
 # Route containing form to input email and password
@@ -69,7 +69,7 @@ def login():
 
 #Check if email is in db. If it is, allow the user 
 # to enter application and start session.
-#If it it not have them try to sign in again.
+#If it is not have them try to sign in again.
 @app.route("/confirm_user", methods = ["POST"])
 def confirm():
     
@@ -80,14 +80,14 @@ def confirm():
 
     if current_user and current_user.password == password: 
         session["id"] = current_user.user_id
-        flash("Login Successful!")
+        flash(f"Welcome back {current_user.fname.title()}!")
         return redirect(f"/user_profile/{current_user.user_id}")
     else: 
         flash("Username or password incorrect. Try again.")
         return redirect("/login")
 #-------------------------------------------------------------------
 
-#USER PROFILE
+# NAV BAR
 
 #Route to obtain user_id for React navbar
 @app.route("/get_user_id/json")
@@ -97,6 +97,9 @@ def get_user_id():
     if user: 
         return jsonify({"user_id" : user.user_id})
 
+#-------------------------------------------------------------------
+
+#USER PROFILE
 
 #Route that displays a user's 6 most recent ratings and comments
 @app.route("/user_profile/<int:user_id>")
@@ -177,7 +180,7 @@ def get_meals():
     else: 
         return redirect("/") 
 
-#Route to run ajax on meals page as inputs are changed
+#Route to run ajax on meals page as inputs are updated
 #Data comes from /get_a_meal
 @app.route("/get_meals/json")
 def get_meals_to_display(): 
@@ -186,27 +189,32 @@ def get_meals_to_display():
     #front end
     frontend_meals = []
 
-    category = request.args.get("category")
-    area = request.args.get("area")
-    ingredient1 = request.args.get("ingredient1")
-    ingredient2 = request.args.get("ingredient2")
-    ingredient3 = request.args.get("ingredient3")
-
-    meal_objects_list = crud.get_meal_by_ingredient_and_category_and_area(ingredient1 = ingredient1,
-                                                    ingredient2 = ingredient2,
-                                                    ingredient3 = ingredient3,
-                                                    category = category, 
-                                                    area = area)
+    #Create a dictionary to hold key value pairs in the form of str : ingredient(#)_input
+    #Primary use is to identify which ingrdient from inputs is in meal on frontend
+    in_dictionary = { "ingredient1" : request.args.get("ingredient1"),
+    "ingredient2" : request.args.get("ingredient2"),
+    "ingredient3" : request.args.get("ingredient3"),
+   "ingredient4" : request.args.get("ingredient4")}
     
+    #Function gets meals based on ingredient inputs
+    meal_objects_list = crud.get_meal_by_ingredients(in_dictionary["ingredient1"],
+                                                    in_dictionary["ingredient2"],
+                                                    in_dictionary["ingredient3"],
+                                                    in_dictionary["ingredient4"])
 
-    # meal_objects_list = crud.get_meal_by_ingredient_or_category_or_area(ingredient1,
-    #                                                 ingredient2,
-    #                                                 ingredient3,
-    #                                                 category = category, 
-    #                                                 area = area)
-    
-
-    for meal_object in meal_objects_list: 
+    #Loop through meal in meal object_list
+    for meal_object in meal_objects_list:
+        #Loop through ingredients from magical attribute .ingredients
+        #from database for each meal
+        for ingredient in meal_object.ingredients:
+            #Loop through the the values generated form the ingredients entered by
+            # user in in_dictionary 
+            for name in in_dictionary.values():
+                #Condition for if ingredient_name from magical attribute is
+                #equal to name value in in_dictionary
+                if ingredient.ingredient_name == name: 
+                    ingredient_of_interest = name
+        
         frontend_meals.append({
             "id": meal_object.meal_id,
             "name": meal_object.meal_name , 
@@ -214,6 +222,7 @@ def get_meals_to_display():
             "category": meal_object.category ,
             "area":  meal_object.area,
             "cook_time" : meal_object.cook_time,
+            "ingredient" : ingredient_of_interest,
             "likes": len(meal_object.likes)
         })
     
@@ -277,9 +286,9 @@ def show_meal_details(meal_name, meal_id):
 #Data is sent to /add_a_meal
 @app.route("/create_a_meal")
 def create_a_meal(): 
-    
+    cook_times = ["20 min", "30 min", "45 min", "60 min", "90 min", "120 min"]
+
     if "id" in session: 
-        cook_times = ["10 min", "15 min", "20 min", "30 min", "45 min", "60 min", "90 min"]
         #Identify user in the session
         user = crud.get_user_by_id(session["id"])
 

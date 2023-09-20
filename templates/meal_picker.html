@@ -3,59 +3,54 @@
 {% block title %}Get A Meal{% endblock %}
 
 {% block body %}
-  <h1>Selection Time!</h1>
+  <h1 class="header">Selection Time!</h1>
     
-  <H2> Use the dropdown boxes to select choices to pick a meal!</H2>
-    <p> * Your choices will return an output of meals that match the category, area, or any of the ingredients selected!</p>
+    <div class="header">
+        <H2> Use the options below to select choices to return meal ideas!</H2>
+        <p> Your choices will return an output of meals that contain any of the ingredients selected!</p>
 
-  <form action="/get_meals/json" id="get-meal-options-form">
-        <label for = "category">Category</label>
-        <select name = "category" id = "category">
-            <option value="None">None</option>
-            {% for category in categories %}
-                <option value = "{{ category }}"> {{ category }} </option>
-            {% endfor %}
-        </select>
-
-        <label for = "area">Area</label>
-        <select name = "area" id = "area">
-            <option value="None">None</option>
-            {% for area in areas %}
-                <option value = "{{ area }}"> {{ area }} </option>
-            {% endfor %}
-        </select>
-      
-        <label for = "ingredients1">Ingredient1</label>
-        <select name = "ingredient1" id = "ingredient1">
-            <option value="None">None</option>
-            {% for ingredient in ingredients %}
+        <form action="/get_meals/json" id="get-meal-options-form">      
+            <label for = "ingredients1">Ingredient1</label>
+            <select name = "ingredient1" id = "ingredient1">
+                <option value="None">None</option>
+                {% for ingredient in ingredients %}
                 <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-            {% endfor %}
-        </select>
+                {% endfor %}
+            </select>
 
-        <label for = "ingredient2">Ingredient2</label>
-        <!-- <input type = "text" name = "ingredient2" id = "ingredient2"> -->
-        <select name = "ingredient2" id = "ingredient2">
-            <option value="None">None</option>
-            {% for ingredient in ingredients %}
-                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-            {% endfor %}
-        </select>
+            <label for = "ingredient2">Ingredient2</label>
+            <!-- <input type = "text" name = "ingredient2" id = "ingredient2"> -->
+            <select name = "ingredient2" id = "ingredient2">
+                <option value="None">None</option>
+                {% for ingredient in ingredients %}
+                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+                {% endfor %}
+            </select>
 
-        <label for = "ingredient3">Ingredient3</label>
-        <select name = "ingredient3" id = "ingredient3"> 
-            <option value="None">None</option>
-            {% for ingredient in ingredients %}
-                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-            {% endfor %}
-        </select>
+            <label for = "ingredient3">Ingredient3</label>
+            <select name = "ingredient3" id = "ingredient3"> 
+                <option value="None">None</option>
+                {% for ingredient in ingredients %}
+                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+                {% endfor %}
+            </select>
 
-        <input  type = "submit" class = "button" value ="Get Meals"/>
-  </form>
+            <label for = "ingredient4">Ingredient4</label>
+            <select name = "ingredient4" id = "ingredient4"> 
+                <option value="None">None</option>
+                {% for ingredient in ingredients %}
+                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
 
-  <H2>Bon Appétit!</H2>
-  <div class = "returned-meals" id = "returned-meals">
-  </div>
+            <input  type = "submit" class = "button" value ="Get Meals"/>
+        </form>
+
+        <H2>Bon Appétit!</H2>
+        <div class = "returned-meals" id = "returned-meals"></div>
+    </div>
 
     <script src="/static/js/Components.jsx" type="text/jsx"></script>
 

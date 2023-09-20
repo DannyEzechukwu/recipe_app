@@ -18,13 +18,11 @@ if (theMealForm){
 
   theMealForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const userCategory = document.querySelector("#category").value;
-    const userArea  = document.querySelector("#area").value;
     const ingredientOne  = document.querySelector("#ingredient1").value;
     const ingredientTwo = document.querySelector("#ingredient2").value;
     const ingredientThree = document.querySelector("#ingredient3").value;
-
-    const queryString = `category=${userCategory}&area=${userArea}&ingredient1=${ingredientOne}&ingredient2=${ingredientTwo}&ingredient3=${ingredientThree}`;
+    const ingredientFour = document.querySelector("#ingredient4").value;
+    const queryString = `ingredient1=${ingredientOne}&ingredient2=${ingredientTwo}&ingredient3=${ingredientThree}&ingredient4=${ingredientFour}`;
     
     fetch(`/get_meals/json?${queryString}`)
       .then((response) => response.json())
@@ -39,13 +37,15 @@ if (theMealForm){
             <p>Category: ${meal.category}</p>
             <p>Area: ${meal.area}</p>
             <img src="${meal.image}" alt="${meal.name}" class="mini-meal" />
-            <p>⏱️ : ${meal.cook_time} </p>
-            <p> Likes : ${meal.likes}</p>
-            <br>
+            <p><em>Contains ${meal.ingredient}</em></p>
+            <p>⏱️${meal.cook_time} </p>
+            <p>👍 ${meal.likes}</p>
+            <p>
             <a href="/recipe/${meal.name}/${meal.id}">
               <button class = "button"> Explore Meal </button> 
             </a>
-          `;
+            </p>
+            `;
           mealsDiv.appendChild(mealDiv);
         });
       });
