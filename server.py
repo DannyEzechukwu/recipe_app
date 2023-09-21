@@ -245,32 +245,38 @@ def show_meal_details(meal_name, meal_id):
     #and meal_id parameters
     meal = crud.get_meal_by_name_and_id(meal_name, meal_id)
 
-    #Use meal relationships to get list of ingredients, comments, likes, 
+    #Use meal relationships to get list of ingredients, comments, number of likes,
+    # and number of dislikes 
     meal_ingredients = meal.ingredients
     meal_comments = meal.comments
     meal_likes = len(meal.likes)
     meal_dislikes = len(meal.dislikes)
     
+    #Container to hold tuples for user's name, comment, and time
+    #comment is created
     meal_comments_list = []
     
+    #Loop through list returned from meal.comments
     for object in meal_comments: 
+        #Obtain user by the comment_user_id attribute
         user_for_comment = crud.get_user_by_id(object.comment_user_id)
+        #Append tuple to container
         meal_comments_list.append((user_for_comment.fname, user_for_comment.lname, object.comment, object.created_at))
 
-    #Analyze meal_rating to get average rating
+    #Get list of ratings returned from a meal.ratings
     meal_ratings = meal.ratings
+    #Create a container to hold the scores given to a meal
     meal_rating_score_list = []
-    meal_rating_score_and_user_list = []
 
     average_score = 0 
     for rating in meal_ratings:
         meal_rating_score_list.append(rating.score)
-        meal_rating_score_and_user_list.append({"score": rating.score})
         
         if meal_rating_score_list:
             average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
 
-    
+    user_like = crud.get_like_by_user_id_and_meal_id(user.user_id , meal_id)
+    user_dislike = crud.get_dislike_by_user_id_and_meal_id(user.user_id, meal_id)
     
     return render_template("meal_details_page.html", 
                            user = user,  
@@ -278,9 +284,11 @@ def show_meal_details(meal_name, meal_id):
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
                            meal_comments_list = meal_comments_list,
-                           meal_rating_score_and_user_list = meal_rating_score_and_user_list,
+                           meal_rating_score_list = meal_rating_score_list,
                            meal_likes = meal_likes,
-                           meal_dislikes = meal_dislikes)
+                           meal_dislikes = meal_dislikes,
+                           user_like = user_like, 
+                           user_dislike = user_dislike)
 
 #Route to let users create their own meal to add to the database
 #Data is sent to /add_a_meal

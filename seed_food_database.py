@@ -102,30 +102,39 @@ last_names = ['Smith',
               'Bowens',
               'Irvin']
 
-comments = [
-            "This tasted okay. I do not think I added enough salt. 🧂",
-            "Love this one. Made it a couple of times this week. 💯",
-            "This wasn't my favorite.", 
-            "Where has this been all my life.",
-            "I was way to heavy with the salt. Almost choked to death!",
+good_comments = ["Love this one. Made it a couple of times this week 💯", 
+            "Where has this been all my life 🙏!!",
             "Super happy my friend recommended this app!",
-            "I probably wouldn't eat this again.🤮",
-            "Just starting to get into cooking again. Great first start. 👨🏾‍🍳",
-            "So many dishes to pick from. I almost couldn\'t choose.", 
-            "This app is a life saver. Hopefully the creator adds more meals soon.", 
-            "This app saves me so much money. 💰", 
-            "I am going to stick with eating out. 🍔", 
-            "So much food so little time. 🤤🤤🤤",
-            "Not usually something I go for, but it ended up working out.",
-            "After eating this, I think it is safe to say that I am looking into other apps.",
-            "Solid. Nothing to write home about. It got the job done. ",
-            "This site is a keeper. Kid's enjoyed this one. 👧🏻",
-            "10/10. This app is a keeper! ✅",
-            "Mehhh.",
-            "Same dish tasted better on a different app. 🤷🏾‍♂️",
-            "Anyone got the mobile version??",
-            "This is my love language. ❤️", 
-            "No way this app should be free! Too much value!"]
+            "Just starting to get into cooking again. Great first start 👨🏾‍🍳",
+            "So many dishes to pick from. I almost couldn\'t choose", 
+            "This app is a life saver. Hopefully they add more meals soon", 
+            "This app saves me so much money 💰",  
+            "So much food so little time 🤤🤤🤤",
+            "This app is a keeper. Kid's enjoyed this one 👧🏻.",
+            "10/10. This app is a keeper ✅!",
+            "This is my love language ❤️", 
+            "No way this app should be free! Too much value!"
+]
+
+average_comments = [
+    "This tasted okay. I do not think I added enough salt🧂.",
+    "I was way to heavy with the salt. Almost choked to death!",
+    "Not usually something I go for, but it ended up working out.",
+    "Solid. Nothing to write home about. It got the job done.",
+    "Mehhh",
+    "Anyone got the mobile version??",
+    "b-a-s-i-c"
+]
+
+bad_comments = [
+    "This wasn't my favorite",
+    "I wouldn't eat this again 🤮",
+    "I am going to stick with eating out 🍔",
+    "After eating this, I think it is safe to say that I am looking into other apps.",
+    "Same dish tasted better on a different app 🤷🏾‍♂️.",
+    "This one was just crazy. Who would eat this?!",
+    "Man, this was bad."
+]
 
 #Container to hold user objects to add to database 
 user_objects = []
@@ -146,7 +155,12 @@ for i in range (1, 16):
     for _ in range(1,15):
         random_meal = choice(meal_objects)
         score = randint(1, 6)
-        comment = choice(comments)
+        if score >=5:
+            comment = choice(good_comments)
+        elif score ==3 or score ==4:
+            comment = choice(average_comments)
+        else: 
+            comment = choice(bad_comments)
         rating = crud.create_rating(user.user_id, random_meal.meal_id, score)
         comment = crud.create_comment(user.user_id, random_meal.meal_id, comment)
         model.db.session.add(rating)

@@ -207,6 +207,14 @@ body {
   padding: 10px;
 }
 
+.buttonblue{
+  background-color: blue;
+}
+
+.buttonred{
+  background-color: red;
+}
+
 H3.instructions{
   height: 5em;
 }
@@ -215,7 +223,8 @@ H3.instructions{
   border-radius: 3px;
   width: 11em;
   height: 15em;
-  display: inline-block;
+  display: inline-table;
+  text-align: center;
 }
 
 .previous-meal-comments {
@@ -226,6 +235,13 @@ H3.instructions{
   margin: 2em;
   padding: 1em;
   display: block ;
+}
+
+.rating{
+  text-align: center;
+}
+#comment-field{
+  background-color: lightgoldenrodyellow ;
 }
 
 /* Get a Meal Page Styles */

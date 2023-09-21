@@ -24,8 +24,12 @@
 <input type="hidden" name="meal_id" id="like-or-dislike-meal-id" value="{{meal.meal_id}}">
 
 <div class ="meal-visual-container">
-    <form id="like-form" action="/like/{{user.user_id}}/{{ meal.meal_id}}/json">
-        <input type = "submit" class = "button vote-button" value="👍"/>
+    <form id="like-form" action="/like/{{user.user_id}}/{{ meal.meal_id}}/json" method="POST">
+        {% if user_like %}
+        <input type = "submit" id="vote-yes" class="buttonblue vote-button" value="👍"/>
+        {% else %}
+        <input type = "submit" id="vote-yes" class="button vote-button" value="👍" />
+        {% endif %}
     </form>
     &nbsp;
     <div class="votes" id="number-of-likes">{{ meal_likes }}</div>
@@ -34,7 +38,11 @@
     &nbsp;
 
     <form id="dislike-form" action = "/dislike/{{user.user_id}}/{{ meal.meal_id}}/json" method = "POST">
-        <input type = "submit" class = "button vote-button" value="👎"/>
+        {% if user_dislike %}
+        <input type = "submit" id="vote-no" class="buttonred vote-button" value="👎"/>
+        {% else %}
+        <input type = "submit" id="vote-no" class="button vote-button" value="👎"/>
+        {% endif %}
     </form>
     &nbsp;
     <div class = "votes" id="number-of-dislikes">{{ meal_dislikes }}</div>
@@ -44,8 +52,8 @@
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
-    <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name }}" width = "100" height="100" /><br>
-    <p>{{ingredient.ingredient_measure.title()}} {{ingredient.ingredient_name }}</p>
+    <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name }}" width = "100" height="100"/><br>
+    <p class>{{ingredient.ingredient_measure.title()}} {{ingredient.ingredient_name }}</p>
 </div>
 {% endfor %}
 
@@ -64,10 +72,7 @@
 {% endif %}
 </div>
 
-<H3>
-    {{ meal_comments_list|length }} Reviews Left <br>
-    Leave review number {{ meal_comments_list|length + 1 }}!
-</H3>
+<H3>Leave a comment and rating!</H3>
 
 <form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" id= "review" method = "POST">
     <fieldset class="rating">
@@ -91,17 +96,17 @@
     {% for i in range (meal_comments_list|length)  %}
     <div class = "previous-meal-comments">
         <p>
-         <em><strong>Rating: {{meal_rating_score_and_user_list[i]["score"]}}</strong></em>
+         <em><strong>Rating: {{ meal_rating_score_list[i] }}</strong></em>
         </p>
         <p>
         {{ meal_comments_list[i][2] }}
         </p>
-        <p>
-        Left by {{ meal_comments_list[i][0] }} {{ meal_comments_list[i][1] }} on {{ meal_comments_list[i][3] }}
+        <p style = "text-align: right;">
+        <em>Left by {{ meal_comments_list[i][0] }} {{ meal_comments_list[i][1] }} on {{ meal_comments_list[i][3] }}</em>
         </p>
     </div>
     {% endfor %}
-    <textarea id = "comment-field" name = "comment-field"></textarea>
+    <textarea id = "comment-field" name = "comment-field" rows="5" columns="60"></textarea>
     <br>
     <input type="submit" id = "submit-comment-button" class = "button" value="Post">
 </form>

@@ -1,5 +1,4 @@
 // Removes all flash messages
-
 const removeFlashButton = document.getElementById("removeflash");
 const elementToRemove = document.getElementById("flash");
 
@@ -10,12 +9,10 @@ if (removeFlashButton) {
   })
 }
 
-// Renders meals based on inputs given on meal_picker.html
- 
+// Renders meals based on inputs given on meal_picker.html 
 const theMealForm = document.querySelector("#get-meal-options-form");
 
 if (theMealForm){
-
   theMealForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const ingredientOne  = document.querySelector("#ingredient1").value;
@@ -60,6 +57,9 @@ const mealIDValue = document.getElementById("like-or-dislike-meal-id");
 const likeForm = document.getElementById("like-form");
 const dislikeForm = document.getElementById("dislike-form");
 
+const voteYes = document.getElementById("vote-yes");
+const voteNo = document.getElementById("vote-no");
+
 if(likeForm){
 likeForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -70,6 +70,8 @@ likeForm.addEventListener("submit", (evt) => {
       let allDislikes = document.getElementById("number-of-dislikes");
       allLikes.innerText = data.totalLikes;
       allDislikes.innerText = data.totalDislikes;
+      voteYes.style.backgroundColor = "blue";
+      voteNo.style.backgroundColor = "green";
     })
   })
 }
@@ -84,12 +86,11 @@ if(dislikeForm){
         let allDislikes = document.getElementById("number-of-dislikes");
         allLikes.innerText = data.totalLikes;
         allDislikes.innerText = data.totalDislikes;
-      })
+        voteNo.style.backgroundColor = "red";
+        voteYes.style.backgroundColor = "green";
     })
-  }
-
-
-
+  })
+}
 //Include or Remove ingredients for the meal being added on the add_a_meal.html
 
 const ingredientAdderButton = document.getElementById("ingredient-adder");
