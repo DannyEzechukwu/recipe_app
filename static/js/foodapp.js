@@ -91,8 +91,27 @@ if(dislikeForm){
     })
   })
 }
-//Include or Remove ingredients for the meal being added on the add_a_meal.html
 
+// Handles favoriting a meal on meal_details.html
+const favoriteForm = document.getElementById("favorite-form");
+const favorite = document.getElementById("favorite");
+
+if(favoriteForm){
+favoriteForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  fetch(`/favorite/${userIDValue.value}/${mealIDValue.value}/json`)
+    .then((response) => response.json())
+    .then((data) =>{
+      if (data.favorite == "yes") {
+        favorite.style.backgroundColor = "blue";
+      } else{
+        favorite.style.backgroundColor = "green";
+      } 
+    })
+  })
+}
+
+//Include or Remove ingredients for the meal being added on the add_a_meal.html
 const ingredientAdderButton = document.getElementById("ingredient-adder");
 const ingredientRemoverButton = document.getElementById('ingredient-remover');
 const addedIngredientsSection = document.getElementById("ingredients");

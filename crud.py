@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, connect_to_db,  User, Meal, Rating, Comment, Ingredient, Like, Dislike
+from model import db, connect_to_db,  User, Meal, Rating, Comment, Ingredient, Like, Dislike, Favorite
 
 
 #User crud functions
@@ -104,75 +104,6 @@ def get_meal_by_ingredients(*ingredients):
     
     #Turn meal_objects into an indexable list
     return list(meal_objects)
-
-#Get meal objects by ingredients AND category AND area
-def get_meal_by_ingredient_and_category_and_area(ingredient1 = "None",
-                                                 ingredient2 = "None",
-                                                 ingredient3 = "None",
-                                                category = "None", 
-                                                area = "None"):
-    """Obtain a list of meals if ingredients, 
-    category, and area are true
-    """
-    #Create a container to hold all meal objects returned when function is called
-    #is used to filter
-    meal_results = []
-    
-    #Create a container to hold all of the meals that are returned based on the ingredients entered
-    #and passed into get_meal_by_ingredients function
-    meal_objects =[]
-
-    # List returned from ingredients 1, 2 and 3
-    ingredient1_lst = get_meal_by_ingredients(ingredient1)
-    ingredient2_lst = get_meal_by_ingredients(ingredient2)
-    ingredient3_lst = get_meal_by_ingredients(ingredient3)
-
-    #Extend meal_ojects list by lists returned from
-    #get_meal_by_ingredients(ingredient1) ...
-    meal_objects.extend(ingredient1_lst)
-    meal_objects.extend(ingredient2_lst)
-    meal_objects.extend(ingredient3_lst)
-
-    #Condition for if meal objects is an empty list 
-    if meal_objects == []:
-        #Use extend method to include results from category and area filter
-        meal_results.extend(Meal.query.filter(Meal.category == category).all())
-        meal_results.extend(Meal.query.filter(Meal.area == area).all())
-        return meal_results
-    
-    #Condition for if category is not provided
-    elif category == "None":
-        #Use extend method to include results from area filter
-        #and meal_objects list
-        meal_results.extend(Meal.query.filter(Meal.area == area).all())
-        meal_results.extend(meal_objects)
-        return meal_results
-
-    # Condition for if area is not provided
-    elif area == "None": 
-        #Use extend method to include results from category filter
-        #and meal_objects list
-        meal_results.extend(Meal.query.filter(Meal.category == category).all())
-        meal_results.extend(meal_objects)
-        return meal_results
-
-    #Condition for if meal_objects is an empty list and area is not provided
-    elif meal_objects == [] and area == "None": 
-        #Use extend method to include results from category filter only
-        return meal_results.extend((Meal.category == category).all())
-    
-    #Condition for if meal_objects is an empty list and category is not provided
-    elif meal_objects == [] and category == 'None': 
-        #Use extend method to include results from area filter only
-        return meal_results.extend(Meal.query.filter(Meal.area == area).all())
-    
-    #Condition for if category and area not provided
-    else:
-        #Use extend method to include results from meal_objects only
-        meal_results.extend(meal_objects)
-        return meal_results
-    
-       
 
 #Get meal objects by ingredients OR category OR area
 def get_meal_by_ingredient_or_category_or_area(*ingredients, category, area):
@@ -292,7 +223,7 @@ def get_all_likes():
     return Like.query.all()
 
 #Get like by like_id
-def get_all_likes(like_id): 
+def get_like_by_id(like_id): 
     return Like.query.get(like_id)
 
 #Get likes by user_id
@@ -320,25 +251,56 @@ def create_dislike(dislike_user_id, dislike_meal_id):
     return dislike
 
 #Get all Dislike objects
-def get_all_dislike(): 
+def get_all_dislikes(): 
     return Dislike.query.all()
 
-#Get Dislike by dislike_id
-def get_all_dislikes_by_user_id(dislike_id): 
+#Get dislike by dislike_id
+def get_dislike_by_id(dislike_id): 
     return Dislike.query.get(dislike_id)
 
-#Get Dislike by user_id
+#Get dislike by user_id
 def get_dislikes_by_user_id(user_id): 
     return Dislike.query.filter(Dislike.dislike_user_id == user_id).all()
 
-#Get Dislike by meal_id
+#Get dislike by meal_id
 def get_dislikes_by_meal_id(meal_id): 
     meal = Meal.query.get(meal_id)
     return meal.dislikes
 
-#Get Dislikes by meal_id and user_id
+#Get dislikes by meal_id and user_id
 def get_dislike_by_user_id_and_meal_id(user_id , meal_id):
     return Dislike.query.filter((Dislike.dislike_user_id == user_id) & (Dislike.dislike_meal_id == meal_id)).first()
+
+#-----------------------------------------------------------------------------------
+#Favorite Crud Functions
+
+#Create Favorite object
+def create_favorite(favorite_user_id, favorite_meal_id):
+    favorite = Favorite(favorite_user_id = favorite_user_id,
+                favorite_meal_id = favorite_meal_id)
+    
+    return favorite
+
+#Get all favorite objects
+def get_all_favorites(): 
+    return Favorite.query.all()
+
+#Get favorite by favorite_id
+def get_favorite_by_id(favorite_id): 
+    return Favorite.query.get(favorite_id)
+
+#Get favorites by user_id
+def get_favorites_by_user_id(user_id): 
+    return Favorite.query.filter(Favorite.favorite_user_id == user_id).all()
+
+#Get favorites by meal_id
+def get_favorites_by_meal_id(meal_id): 
+    meal = Meal.query.get(meal_id)
+    return meal.favorites
+
+#Get Dislikes by meal_id and user_id
+def get_favorite_by_user_id_and_meal_id(user_id , meal_id):
+    return Favorite.query.filter((Favorite.favorite_user_id == user_id) & (Favorite.favorite_meal_id == meal_id)).first()
 
 
 if __name__ == '__main__':

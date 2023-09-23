@@ -277,6 +277,7 @@ def show_meal_details(meal_name, meal_id):
 
     user_like = crud.get_like_by_user_id_and_meal_id(user.user_id , meal_id)
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user.user_id, meal_id)
+    user_favorite = crud.get_favorite_by_user_id_and_meal_id(user.user_id, meal_id)
     
     return render_template("meal_details_page.html", 
                            user = user,  
@@ -288,7 +289,8 @@ def show_meal_details(meal_name, meal_id):
                            meal_likes = meal_likes,
                            meal_dislikes = meal_dislikes,
                            user_like = user_like, 
-                           user_dislike = user_dislike)
+                           user_dislike = user_dislike,
+                           user_favorite = user_favorite)
 
 #Route to let users create their own meal to add to the database
 #Data is sent to /add_a_meal
@@ -458,7 +460,7 @@ def add_meal_and_ingredients():
 
 #Route to run ajax when user likes a meal
 @app.route("/like/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
-def liked_meal(user_id, meal_id): 
+def like_meal(user_id, meal_id): 
     
     #Get all likes for the meal on the page we are on
     toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
@@ -491,7 +493,7 @@ def liked_meal(user_id, meal_id):
 
 #Route to run ajax when user dislikes a meal
 @app.route("/dislike/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
-def disliked_meal(user_id, meal_id): 
+def dislike_meal(user_id, meal_id): 
     
     #Get all likes for the meal on the page we are on
     toatal_meal_likes = len(crud.get_likes_by_meal_id(meal_id))
@@ -520,6 +522,24 @@ def disliked_meal(user_id, meal_id):
 
     return jsonify({"totalLikes": toatal_meal_likes,
                     "totalDislikes" : total_meal_dislikes})
+
+#Route to run ajax when user favorites a meal
+@app.route("/favorite/<int:user_id>/<int:meal_id>/json", methods = ["GET", "POST"])
+def favorite_meal(user_id, meal_id): 
+
+    #Identify if the user in the user in the session has favorited this meal
+    user_favorite = crud.get_favorite_by_user_id_and_meal_id(user_id, meal_id)
+
+    if user_favorite is None:
+        added_favorite = crud.create_favorite(user_id, meal_id)
+        db.session.add(added_favorite)
+        db.session.commit()
+        return jsonify({"favorite": "yes"})
+    
+    
+    db.session.delete(user_favorite)
+    db.session.commit()
+    return jsonify({"favorite": "no"})
 
    
 if __name__ == "__main__":
