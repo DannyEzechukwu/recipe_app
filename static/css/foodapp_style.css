@@ -57,9 +57,10 @@ body {
 .alert {
   background: #ffdb9b;
   padding: 20px 40px;
-  min-width: 450px;
+  min-width: auto;
   position: absolute;
   left: 0px;
+  right: 70%;
   top: 40px;
   overflow: hidden;
   border-radius: 4px;
@@ -109,9 +110,10 @@ body {
 .red-alert {
   background: lightcoral;
   padding: 20px 40px;
-  min-width: 450px;
+  min-width: 465px;
   position: absolute;
   left: 0px;
+  right: 70%;
   top: 40px;
   overflow: hidden;
   border-radius: 4px;
@@ -143,12 +145,12 @@ body {
   right: 0px;
   top: 50%;
   transform: translateY(-50%);
-  background: #b30300;
+  background: #e33532;
   padding: 20px 18px;
 }
 
 .red-close-btn:hover{
-  background: #9e0300;
+  background: #bc0f0c;
 }
 
 .red-close-btn .red-fa-times{
@@ -159,7 +161,7 @@ body {
 
 /* Adjust content and flash message so that it is not covered by nav bar */
 .flash-message{
-  margin-top: 60px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+  margin-top: 50px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
 }
 
 .content{

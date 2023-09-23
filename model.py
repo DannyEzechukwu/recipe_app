@@ -53,8 +53,10 @@ class User(db.Model):
     ratings = db.relationship("Rating", back_populates = "user")
     #User can have many likes
     likes = db.relationship("Like", back_populates = "user")
-    #User can have many favorites
+    #User can have many dislikes
     dislikes = db.relationship("Dislike", back_populates = "user")
+    #User can have many favorites
+    favorites = db.relationship("Favorite", back_populates = "user")
     
     def __repr__(self): 
           return f'<User user_id = {self.user_id}, email = {self.email}>'
@@ -106,10 +108,12 @@ class Meal(db.Model):
     ratings = db.relationship("Rating", back_populates = "meal")
     #Meal can have many ingredients
     ingredients = db.relationship("Ingredient", back_populates = "meal")
-    #Meal can have many likes
+    #Meal can be liked many times
     likes = db.relationship("Like", back_populates = "meal")
-    #Meal can be favorited many times
+    #Meal can be disliked many times
     dislikes = db.relationship("Dislike", back_populates = "meal")
+    #Meal can be favorited many times
+    favorites = db.relationship("Favorite", back_populates = "meal")
     
     def __repr__(self): 
         return f'<Meal meal_id = {self.meal_id}, name = {self.meal_name}, area = {self.area}>'
@@ -250,6 +254,29 @@ class Dislike(db.Model):
 
     #A dislike can belong to one meal
     meal = db.relationship("Meal", back_populates = "dislikes")
+
+class Favorite(db.Model):
+    __tablename__ = "favorites"
+
+    favorite_id = db.Column(db.Integer, 
+                primary_key = True)
+    
+    favorite_user_id = db.Column(db.Integer,
+                    db.ForeignKey('users.user_id'),
+                    index = True)
+    
+    favorite_meal_id = db.Column(db.Integer,
+                    db.ForeignKey("meals.meal_id"),
+                    index = True)
+    
+    def __repr__(self): 
+        return f'<Favorite favorite_id = {self.favorite_id}, favorite_user_id= {self.favorite_user_id}, favorite_meal_id = {self.favorite_meal_id}>'
+
+    #A favorite can belong to one user
+    user = db.relationship("User", back_populates = "favorites")
+
+    #A favorite can belong to one meal
+    meal = db.relationship("Meal", back_populates = "favorites")
 
 
 if __name__ == "__main__":

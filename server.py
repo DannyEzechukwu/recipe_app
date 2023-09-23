@@ -48,15 +48,15 @@ def register_user():
     password = request.form.get("password")
 
     if crud.get_user_by_email(email): 
-        flash('You cannot create an account with this email. Try again.')
-        return redirect('/create_account')
+        flash("This email already exists. Please try again.")
+        return redirect("/create_account")
     else: 
         new_user = crud.create_user(fname, lname, email, password)
         db.session.add(new_user)
         db.session.commit()
         session["id"] = new_user.user_id
 
-        flash(f"Welcome {new_user.name.title()}!")
+        flash(f"Welcome {new_user.fname.title()}!")
         return redirect(f"/user_profile/{session['id']}")
 
 # Route containing form to input email and password
@@ -83,7 +83,7 @@ def confirm():
         flash(f"Welcome back {current_user.fname.title()}!")
         return redirect(f"/user_profile/{current_user.user_id}")
     else: 
-        flash("Username or password incorrect. Try again.")
+        flash("Email or password incorrect. Please try again.")
         return redirect("/login")
 #-------------------------------------------------------------------
 
@@ -312,7 +312,7 @@ def create_a_meal():
         return redirect("/")
 #----------------------------------------------------------------------
 
-#ADDING DATA TO  DATABASE
+#ADDING/REMOVING DATA TO/FROM  DATABASE
 
 #Creating a new rating and add it to the database
 @app.route("/add_rating_and_comment/<meal_name>/<int:meal_id>", methods = ["POST"])
@@ -326,7 +326,7 @@ def add_rating_and_comment(meal_name, meal_id):
     
     #Handle no comment being added
     if not comment: 
-        flash("Comment required with rating. Try again.")
+        flash("Comment and rating required. Please try again.")
 
     #Create rating and comment Add both to database
     else: 

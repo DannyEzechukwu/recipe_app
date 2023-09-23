@@ -18,20 +18,20 @@
         </div>
 
         <div class="flash-message">
-        {% set phrase = "Try again." %}
+        {% set phrase = "Please try again." %}
         {% for msg in get_flashed_messages() %}
         {% if phrase not in msg%}
             <div class="alert hide" id = "flash">
             <span class="msg">{{ msg }}</span>
             <span class="close-btn" id="removeflash">
-                    <span class="fas fa-times">✅</span>
+                    <span class="fas fa-times">&times;</span>
                 </span>
             </div>
         {% else %}
         <div class="red-alert red-hide" id = "flash">
             <span class="red-msg">{{ msg }}</span>
             <span class="red-close-btn" id="removeflash">
-                <span class="fas red-fa-times">✅</span>
+                <span class="fas red-fa-times">&times;</span>
             </span>
         </div>
         {% endif %}
