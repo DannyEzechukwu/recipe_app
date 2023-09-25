@@ -9,6 +9,51 @@ if (removeFlashButton) {
   })
 }
 
+// Gets last 6 comments and ratings for a user on user_details_page.html;
+const getRecentActivityForm = document.getElementById("get-recent-activity");
+const activityAndFavoritesDisplay = document.getElementById("activity-favorites-display");
+const mealDetailsUserIDValue = document.getElementById("user-info-output-id");
+
+if(getRecentActivityForm){
+  getRecentActivityForm.addEventListener("submit" , (evt) => {
+    evt.preventDefault();
+    activityAndFavoritesDisplay.innerHTML = "";
+    activityAndFavoritesDisplay.innerHTML = `
+    <h1>Last 6 Ratings & Comments</h1>
+      <table class="meal-rating-and-comment-table">
+        <thead> 
+          <tr>
+            <th>Meal Name</th>
+            <th>Meal Image 😋</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Post Date</th>
+          </tr>
+      </thead>
+      <tbody id="activity-data">
+      </tbody>`;
+    const activityAndFavoritesDataSection = document.getElementById('activity-data');
+    fetch(`/user_profile/${mealDetailsUserIDValue.value}/json`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.output.forEach((output) => {
+          activityAndFavoritesDataSection.insertAdjacentHTML('beforeend', 
+          `<tr>
+            <td>${output.meal_name}</td>
+            <td>
+              <a href = "/recipe/${output.meal_name}/${output.meal_id}">
+                <img src = "${output.meal_image_url}" width="100" height= "100"/>
+              </a>
+            </td>
+            <td>${output.meal_rating}</td>
+            <td>${output.comment}</td>
+            <td>${output.created_at}</td>
+          </tr>`);
+        })
+      })
+  })
+}
+
 // Renders meals based on inputs given on meal_picker.html 
 const theMealForm = document.querySelector("#get-meal-options-form");
 
@@ -48,7 +93,6 @@ if (theMealForm){
       });
   })
 }
-
 
 // Handles liking and disliking a meal on meal_details.html
 const userIDValue = document.getElementById("like-or-dislike-user-id");
@@ -151,3 +195,5 @@ if (ingredientRemoverButton){
     }
   })
 }
+
+

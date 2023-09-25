@@ -62,7 +62,6 @@ def get_all_cook_times():
     
     return cook_times_set
 
-
 #Get all meal objects in database
 def get_all_meals(): 
     return Meal.query.all()

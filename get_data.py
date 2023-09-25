@@ -5,7 +5,7 @@ import json
 first_letters = 'abcdefghijklmnopqrstuvwxyz'
 
 #API URL to get all meal details by first letter
-url = "http://www.themealdb.com/api/json/v2/9973533/search.php?f="
+url = "http://www.themealdb.com/api/json/v1/1/search.php?f="
 
 #Initialize an empty dictionary to hold all meals in the database
 meal_by_letter_dictionary = {}

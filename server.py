@@ -97,8 +97,7 @@ def get_user_id():
     if user: 
         return jsonify({"user_id" : user.user_id})
 
-#-------------------------------------------------------------------
-
+#--------------------------------------------------------------------
 #USER PROFILE
 
 #Route that displays a user's 6 most recent ratings and comments
@@ -144,11 +143,93 @@ def user_profile(user_id):
 
 
         return render_template("user_details_page.html", 
-                            user = user,
+                            user= user,
                             meal_scores_comments_and_times = meal_scores_comments_and_times)
     
     else: 
         return redirect("/")
+    
+
+#Route that displays a user's 6 most recent ratings and comments
+@app.route("/user_profile/<int:user_id>/json", methods = ["GET", "POST"])
+def data_for_user_profile(user_id):
+  
+    #Identify user by value of user_id
+    user = crud.get_user_by_id(user_id)
+
+    #Empty list that will hold all favorites that can be sent to frontend
+    front_end_favorites = []
+
+    #Identify user favorites and user ratings through use of
+    # magical relationship variables User.favorites
+    user_favorites = user.favorites
+
+    #Empty set that will hold all comments that can be returned to the frontend
+    front_end_recent_comments_and_ratings = []
+
+    #Identify user comments and ratings through use of magical relationship 
+    # variables User.comments and User.ratings
+    user_comments = user.comments
+    user_ratings = user.ratings
+    print(user_comments)
+
+    for comment in user_comments:
+        for rating in user_ratings:
+            actual_comment = comment.comment
+            comment_created_at = comment.created_at
+            meal = crud.get_meal_by_id(comment.comment_meal_id)
+            score = rating.score
+        front_end_recent_comments_and_ratings.append({
+            "meal_name" : meal.meal_name, 
+            "meal_image_url" : meal.meal_image_url,
+            "meal_rating" : score,
+            "comment": actual_comment,
+            "created_at": comment_created_at,
+            "meal_id": meal.meal_id
+            })
+        
+    return jsonify({"output" : front_end_recent_comments_and_ratings[:6]})
+
+
+    #Identify
+
+    # #Container to hold name of meals rated
+    # meals_scored = []
+    # #Container to hold rated meal image url
+    # rated_meal_images = []
+    # #Container to rating scores
+    # rating_scores = []
+    # #Container to hold comment user maid on meal
+    # meal_comments = []
+    # #Container to hold  dates and times scores were given
+    # rating_and_comment_created_at = []
+
+    # #List of ratings given by user in the session
+    # ratings = crud.get_ratings_by_user_id(user_id)
+    # for rating in ratings:
+    #     rating_scores.append(rating.score)
+    #     rating_and_comment_created_at.append(rating.created_at)
+
+    #     meal = crud.get_meal_by_id(rating.rating_meal_id)
+    #     meals_scored.append((meal.meal_name , meal.meal_id))
+    #     rated_meal_images.append(meal.meal_image_url)
+    
+    # comments = crud.get_comments_by_user_id(user_id)
+    # for comment in comments:
+    #     meal_comments.append(comment.comment)
+
+    # #Zip lists to get elements in following format
+    # #(name_of_meal, score, time_created)
+    # meal_scores_comments_and_times = list(zip(meals_scored, 
+    #                             rated_meal_images, 
+    #                             rating_scores, 
+    #                             meal_comments, 
+    #                             rating_and_comment_created_at ))
+
+
+    # return render_template("user_details_page.html", 
+    #                     user = user,
+    #                     meal_scores_comments_and_times = meal_scores_comments_and_times)   
 #-------------------------------------------------------------------
 
 #MEAL DISPLAYS

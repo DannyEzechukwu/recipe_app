@@ -3,8 +3,23 @@
 {% block title %}{{ user.fname }}'s - Details{% endblock %}
 
 {% block body %}
+<div class = "header">
+    <form id="get-recent-activity" action="/user_profile/user_id/json" method="POST"> 
+        <input type="submit" id="recent-activity" class="button" value="Recent Activity">
+    </form>
+    &nbsp;
+    &nbsp;
+    <form id="get-favorites" action="/user_profile/user_id/json" method="POST"> 
+        <input type="submit" id="favorite-meals" class="button" value="Favorite Meals">
+    </form>
+</div>
 
-<h1>{{ user.fname }}'s Last 6 Ratings & Comments</h1>
+<input type="hidden" id="user-info-output-id" value="{{user.user_id}}">
+
+<div id="activity-favorites-display">
+</div>
+
+<!-- <h2>{{ user.fname }}'s Last 6 Ratings & Comments</h2>
 
 <table class="meal-rating-and-comment-table">
     <thead> 
@@ -31,7 +46,7 @@
         </tr>
     </tbody>
     {% endfor %}
-</table>
+</table> -->
 
 <script src="/static/js/Components.jsx" type="text/jsx"></script>
 
