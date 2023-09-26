@@ -150,18 +150,14 @@ def user_profile(user_id):
         return redirect("/")
     
 
-#Route that displays a user's 6 most recent ratings and comments
+#Route that runs ajax to display a user's 6 most recent ratings and comments
 @app.route("/recent_activity/<int:user_id>/json", methods = ["GET", "POST"])
-def data_for_user_profile(user_id):
+def recent_activity_data_for_user_profile(user_id):
   
     #Identify user by value of user_id
     user = crud.get_user_by_id(user_id)
 
-    #Identify user favorites and user ratings through use of
-    # magical relationship variables User.favorites
-    user_favorites = user.favorites
-
-    #Empty set that will hold all comments that can be returned to the frontend
+    #Empty list that will hold all comments that can be returned to the frontend
     front_end_recent_comments_and_ratings = []
 
     #Container to hold name of meals rated
@@ -179,14 +175,20 @@ def data_for_user_profile(user_id):
 
     #List of ratings given by user in the session
     ratings = crud.get_ratings_by_user_id(user_id)
+    #Loop through ratings
     for rating in ratings:
+        #Append scores to rating_scores
         rating_scores.append(rating.score)
+        #Append time rating was added to rating_and_comment_created_at
         rating_and_comment_created_at.append(rating.created_at)
 
+        #Get Meal object using the meal_id foreign key in ratings table
         meal = crud.get_meal_by_id(rating.rating_meal_id)
+        #Append meal name to meals_scored_by_name
         meals_scored_by_name.append(meal.meal_name)
+        #Append meal_id to meals_scored_by_id
         meals_scored_by_id.append(meal.meal_id)
-
+        #Append meal_id to meal_image_url to rated_meal_images
         rated_meal_images.append(meal.meal_image_url)
     
     comments = crud.get_comments_by_user_id(user_id)
@@ -213,6 +215,40 @@ def data_for_user_profile(user_id):
         })
     
     return jsonify({"output" : front_end_recent_comments_and_ratings[-6:]})
+
+#Route that runs ajax to display all of a user's favorite meals
+@app.route("/favorites/<int:user_id>/json", methods = ["GET", "POST"])
+def favorite_data_for_user_profile(user_id):
+
+    #Identify user by value of user_id
+    user = crud.get_user_by_id(user_id)
+
+    #Identify user favorites through use of magical relationship variable 
+    #User.favorites
+    user_favorites = user.favorites
+
+    #Empty list that will hold favorites that can be returned to the frontend
+    front_end_favorites = []
+
+    #Loopp through user_favorites
+    for favorite in user_favorites: 
+        meal = crud.get_meal_by_id(favorite.favorite_meal_id)
+        meal_name = meal.meal_name
+        meal_id = meal.meal_id 
+        meal_area = meal.area
+        meal_category = meal.category 
+        meal_image_url = meal.meal_image_url
+
+        front_end_favorites.append({
+            "meal_name" : meal_name,
+            "meal_id" : meal_id, 
+            "meal_area" : meal_area,
+            "meal_category" : meal_category,
+            "meal_image_url" : meal_image_url
+        })
+
+    return jsonify({"output" : front_end_favorites})
+
 #-------------------------------------------------------------------
 
 #MEAL DISPLAYS

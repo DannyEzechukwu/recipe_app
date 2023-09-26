@@ -231,7 +231,7 @@ class Like(db.Model):
     #A like can belong to one meal
     meal = db.relationship("Meal", back_populates = "likes")
 
-#Favorite Table
+#Dislike Table
 class Dislike(db.Model):
     __tablename__ = "dislikes"
 
@@ -255,6 +255,7 @@ class Dislike(db.Model):
     #A dislike can belong to one meal
     meal = db.relationship("Meal", back_populates = "dislikes")
 
+#Favorite Table
 class Favorite(db.Model):
     __tablename__ = "favorites"
 

@@ -9,8 +9,10 @@ if (removeFlashButton) {
   })
 }
 
-// Gets last 6 comments and ratings for a user on user_details_page.html;
+// Gets last 6 comments and ratings for a user on user_details_page.html - AJAX
+// Gets favorite meals for a user on user_details_page.html - AJAX
 const getRecentActivityForm = document.getElementById("get-recent-activity");
+const getFavoritesForm = document.getElementById("get-favorites");
 const activityAndFavoritesDisplay = document.getElementById("activity-favorites-display");
 const mealDetailsUserIDValue = document.getElementById("user-info-output-id");
 
@@ -20,7 +22,7 @@ if(getRecentActivityForm){
     activityAndFavoritesDisplay.innerHTML = "";
     activityAndFavoritesDisplay.innerHTML = `
     <h1 class="header">Last 6 Ratings & Comments</h1>
-      <table class="meal-rating-and-comment-table">
+      <table class="meal-rating-and-comment-or-favorite-table">
         <thead> 
           <tr>
             <th>Meal<br>Name</th>
@@ -32,12 +34,12 @@ if(getRecentActivityForm){
       </thead>
       <tbody id="activity-data">
       </tbody>`;
-    const activityAndFavoritesDataSection = document.getElementById('activity-data');
+    const activityDataSection = document.getElementById('activity-data');
     fetch(`/recent_activity/${mealDetailsUserIDValue.value}/json`)
       .then((response) => response.json())
       .then((data) => {
         data.output.forEach((output) => {
-          activityAndFavoritesDataSection.insertAdjacentHTML('beforeend', 
+          activityDataSection.insertAdjacentHTML('beforeend', 
           `<tr>
             <td>${output.meal_name}</td>
             <td>
@@ -54,7 +56,48 @@ if(getRecentActivityForm){
   })
 }
 
-// Renders meals based on inputs given on meal_picker.html 
+if(getFavoritesForm){
+  getFavoritesForm.addEventListener("submit" , (evt) => {
+    evt.preventDefault();
+    activityAndFavoritesDisplay.innerHTML = "";
+    activityAndFavoritesDisplay.innerHTML = `
+    <h1 class="header">Favorites</h1>
+      <table class="meal-rating-and-comment-or-favorite-table">
+        <thead> 
+          <tr>
+            <th>Meal<br>Name</th>
+            <th>Meal<br>Image</th>
+            <th>Category &<br>Area</th>
+          </tr>
+      </thead>
+      <tbody id="favorite-data">
+      </tbody>`;
+    const favoritesDataSection = document.getElementById('favorite-data');
+    fetch(`/favorites/${mealDetailsUserIDValue.value}/json`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.output.forEach((output) => {
+          favoritesDataSection.insertAdjacentHTML('beforeend', 
+          `<tr>
+            <td>${output.meal_name}</td>
+            <td>
+              <a href = "/recipe/${output.meal_name}/${output.meal_id}">
+                <img src = "${output.meal_image_url}" width="100" height= "100"/>
+              </a>
+            </td>
+            <td>
+              <ul>
+                <li>${output.meal_category}</li>
+                <li>${output.meal_area}</li>
+              </ul>
+            </td>
+          </tr>`);
+        })
+      })
+  })
+}
+
+// Renders meals based on inputs given on meal_picker.html - AJAX 
 const theMealForm = document.querySelector("#get-meal-options-form");
 
 if (theMealForm){
@@ -94,7 +137,7 @@ if (theMealForm){
   })
 }
 
-// Handles liking and disliking a meal on meal_details.html
+// Handles liking and disliking a meal on meal_details.html - AJAX
 const userIDValue = document.getElementById("like-or-dislike-user-id");
 const mealIDValue = document.getElementById("like-or-dislike-meal-id");
 
@@ -136,7 +179,7 @@ if(dislikeForm){
   })
 }
 
-// Handles favoriting a meal on meal_details.html
+// Handles favoriting a meal on meal_details.html - AJAX
 const favoriteForm = document.getElementById("favorite-form");
 const favorite = document.getElementById("favorite");
 

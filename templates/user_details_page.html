@@ -4,12 +4,12 @@
 
 {% block body %}
 <div class = "header">
-    <form id="get-recent-activity" action="/user_profile/user_id/json" method="POST"> 
+    <form id="get-recent-activity" action="/recent_activity/{{user.user_id}}/json" method="POST"> 
         <input type="submit" id="recent-activity" class="button" value="Recent Activity">
     </form>
     &nbsp;
     &nbsp;
-    <form id="get-favorites" action="/user_profile/user_id/json" method="POST"> 
+    <form id="get-favorites" action="/favorites/{{user.user_id}}/json" method="POST"> 
         <input type="submit" id="favorite-meals" class="button" value="Favorite Meals">
     </form>
 </div>
