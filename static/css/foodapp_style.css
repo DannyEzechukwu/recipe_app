@@ -10,6 +10,20 @@ body {
   background-color: lightgoldenrodyellow;
 }
 
+.header{
+  text-align: center;
+}
+
+.button{
+  color: white;
+  background-color: green;
+}
+
+/* Welcome Page Styles */
+.login-form{
+  text-align: center;
+}
+
 /* Nav Bar Styling */
 .nav {
   background-color: darkslategrey;
@@ -168,27 +182,17 @@ body {
   margin-top: 100px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
 }
 
-/* Welcome Page Styles */
-.login-form{
+/* User Details Page Styles */
+.meal-rating-and-comment-table{
+  margin: 0 auto;
+} 
+
+
+.table-scores{
   text-align: center;
 }
-
-/*header class styles */
-.header{
-  text-align: center;
-}
-
-
-/* All Buttons */
-
-.button{
-  color: white;
-  background-color: green;
-}
-
 
 /* Recipe Page Styles */
-
 .recipe-title{
   text-align: center;
 }
@@ -242,6 +246,7 @@ H3.instructions{
 .rating{
   text-align: center;
 }
+
 #comment-field{
   background-color: lightgoldenrodyellow ;
 }

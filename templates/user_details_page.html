@@ -19,35 +19,6 @@
 <div id="activity-favorites-display">
 </div>
 
-<!-- <h2>{{ user.fname }}'s Last 6 Ratings & Comments</h2>
-
-<table class="meal-rating-and-comment-table">
-    <thead> 
-        <tr>
-            <th>Name of Meal</th>
-            <th> Meal Image 😋</th>
-            <th> Rating</th>
-            <th>Comment</th>
-            <th>Date of Post</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for element in meal_scores_comments_and_times[-6:] %}
-        <tr>
-            <td>{{ element[0][0] }}</td>
-            <td>
-                <a href = "/recipe/{{ element[0][0] }}/{{ element[0][1] }}">
-                <img src = "{{ element[1] }}" alt ="{{ element[0] }}" width="100" height= "100"/>
-                </a>
-            </td>
-            <td>{{ element[2] }}</td>
-            <td>{{ element[3] }}</td>
-            <td>{{ element[4] }}</td>
-        </tr>
-    </tbody>
-    {% endfor %}
-</table> -->
-
 <script src="/static/js/Components.jsx" type="text/jsx"></script>
 
 {% endblock %}

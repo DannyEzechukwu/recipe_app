@@ -148,6 +148,10 @@ def get_ratings_by_user_id(rating_user_id):
 def get_ratings_by_meal_id(rating_meal_id): 
     return Rating.query.filter(Rating.rating_meal_id == rating_meal_id).all()
 
+#Get ratings by user_id and meal_id 
+def get_ratings_by_user_id_and_meal_id(rating_user_id, rating_meal_id): 
+    return Rating.query.filter((Rating.rating_user_id == rating_user_id) & (Rating.rating_meal_id == rating_meal_id)).all()
+
 #---------------------------------------------------------------------------------
 #Comment crud functions
 

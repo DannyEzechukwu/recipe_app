@@ -19,12 +19,12 @@ if(getRecentActivityForm){
     evt.preventDefault();
     activityAndFavoritesDisplay.innerHTML = "";
     activityAndFavoritesDisplay.innerHTML = `
-    <h1>Last 6 Ratings & Comments</h1>
+    <h1 class="header">Last 6 Ratings & Comments</h1>
       <table class="meal-rating-and-comment-table">
         <thead> 
           <tr>
-            <th>Meal Name</th>
-            <th>Meal Image 😋</th>
+            <th>Meal<br>Name</th>
+            <th>Meal<br>Image</th>
             <th>Rating</th>
             <th>Comment</th>
             <th>Post Date</th>
@@ -33,7 +33,7 @@ if(getRecentActivityForm){
       <tbody id="activity-data">
       </tbody>`;
     const activityAndFavoritesDataSection = document.getElementById('activity-data');
-    fetch(`/user_profile/${mealDetailsUserIDValue.value}/json`)
+    fetch(`/recent_activity/${mealDetailsUserIDValue.value}/json`)
       .then((response) => response.json())
       .then((data) => {
         data.output.forEach((output) => {
@@ -45,7 +45,7 @@ if(getRecentActivityForm){
                 <img src = "${output.meal_image_url}" width="100" height= "100"/>
               </a>
             </td>
-            <td>${output.meal_rating}</td>
+            <td class="table-scores">${output.meal_score}</td>
             <td>${output.comment}</td>
             <td>${output.created_at}</td>
           </tr>`);

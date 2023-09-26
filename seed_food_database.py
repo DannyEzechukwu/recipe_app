@@ -123,7 +123,8 @@ average_comments = [
     "Solid. Nothing to write home about. It got the job done.",
     "Mehhh",
     "Anyone got the mobile version??",
-    "b-a-s-i-c"
+    "Not bad, not good. Average at best."
+    "I've worn thos one out. Time to move on to something 🆕"
 ]
 
 bad_comments = [
@@ -133,7 +134,8 @@ bad_comments = [
     "After eating this, I think it is safe to say that I am looking into other apps.",
     "Same dish tasted better on a different app 🤷🏾‍♂️.",
     "This one was just crazy. Who would eat this?!",
-    "Man, this was bad."
+    "Man, this was bad.",
+    "b-a-s-i-c"
 ]
 
 #Container to hold user objects to add to database 
@@ -154,7 +156,7 @@ for i in range (1, 16):
     #Create user ratings comments
     for _ in range(1,15):
         random_meal = choice(meal_objects)
-        score = randint(1, 6)
+        score = randint(1, 7)
         if score >=5:
             comment = choice(good_comments)
         elif score ==3 or score ==4:
