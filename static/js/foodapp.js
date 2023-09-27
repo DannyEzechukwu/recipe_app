@@ -40,14 +40,15 @@ if(getRecentActivityForm){
       .then((data) => {
         data.output.forEach((output) => {
           activityDataSection.insertAdjacentHTML('beforeend', 
-          `<tr>
+          `<br> 
+            <tr class="center_value">
             <td>${output.meal_name}</td>
             <td>
               <a href = "/recipe/${output.meal_name}/${output.meal_id}">
                 <img src = "${output.meal_image_url}" width="100" height= "100"/>
               </a>
             </td>
-            <td class="table-scores">${output.meal_score}</td>
+            <td>${output.meal_score}</td>
             <td>${output.comment}</td>
             <td>${output.created_at}</td>
           </tr>`);
@@ -67,7 +68,7 @@ if(getFavoritesForm){
           <tr>
             <th>Meal<br>Name</th>
             <th>Meal<br>Image</th>
-            <th>Category &<br>Area</th>
+            <th>Details</th>
           </tr>
       </thead>
       <tbody id="favorite-data">
@@ -78,7 +79,8 @@ if(getFavoritesForm){
       .then((data) => {
         data.output.forEach((output) => {
           favoritesDataSection.insertAdjacentHTML('beforeend', 
-          `<tr>
+          ` <br>
+            <tr>
             <td>${output.meal_name}</td>
             <td>
               <a href = "/recipe/${output.meal_name}/${output.meal_id}">
@@ -86,9 +88,9 @@ if(getFavoritesForm){
               </a>
             </td>
             <td>
-              <ul>
-                <li>${output.meal_category}</li>
-                <li>${output.meal_area}</li>
+              <ul style="list-style: none;">
+                <li>Category : ${output.meal_category}</li>
+                <li>Area : ${output.meal_area}</li>
               </ul>
             </td>
           </tr>`);

@@ -185,11 +185,16 @@ body {
 /* User Details Page Styles */
 .meal-rating-and-comment-or-favorite-table{
   margin: 0 auto;
+  border: 3px solid black;
+  word-wrap: break-word;
+  width: 700px;
+  text-align: center;
+  border-collapse: collapse;
 } 
 
-
-.table-scores{
-  text-align: center;
+.meal-rating-and-comment-or-favorite-table th, .meal-rating-and-comment-or-favorite-table td {
+  border: 3px solid black;
+  padding: 10px;
 }
 
 /* Recipe Page Styles */
