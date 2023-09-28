@@ -107,44 +107,8 @@ def user_profile(user_id):
     if "id" in session:   
         #Identify user by value of user_id
         user = crud.get_user_by_id(user_id)
-
-        #Container to hold name of meals rated
-        meals_scored = []
-        #Container to hold rated meal image url
-        rated_meal_images = []
-        #Container to rating scores
-        rating_scores = []
-        #Container to hold comment user maid on meal
-        meal_comments = []
-        #Container to hold  dates and times scores were given
-        rating_and_comment_created_at = []
-
-        #List of ratings given by user in the session
-        ratings = crud.get_ratings_by_user_id(user_id)
-        for rating in ratings:
-            rating_scores.append(rating.score)
-            rating_and_comment_created_at.append(rating.created_at)
-
-            meal = crud.get_meal_by_id(rating.rating_meal_id)
-            meals_scored.append((meal.meal_name , meal.meal_id))
-            rated_meal_images.append(meal.meal_image_url)
-        
-        comments = crud.get_comments_by_user_id(user_id)
-        for comment in comments:
-            meal_comments.append(comment.comment)
-
-        #Zip lists to get elements in following format
-        #(name_of_meal, score, time_created)
-        meal_scores_comments_and_times = list(zip(meals_scored, 
-                                    rated_meal_images, 
-                                    rating_scores, 
-                                    meal_comments, 
-                                    rating_and_comment_created_at ))
-
-
         return render_template("user_details_page.html", 
-                            user= user,
-                            meal_scores_comments_and_times = meal_scores_comments_and_times)
+                        user= user)
     
     else: 
         return redirect("/")
@@ -510,7 +474,7 @@ def add_meal_and_ingredients():
         else: 
             ingredient_url = None
         
-        # Obtain name measure and url from form inputs by user
+        #Obtain name measure and url from form inputs by user
         #Use dictionary to store data for each ingredient
         #Append each dictionary to a ingredient_list container
         if ingredient_name is not None:
@@ -520,16 +484,16 @@ def add_meal_and_ingredients():
             "url": ingredient_url 
         })
     
-    #Loop thorough each dictionary in the ingredient list
+    #Loop through dictionaries in the ingredient list
     for dictionary in ingredient_list:
         # Check if an ingredient with the same name already exists
         # Create a variable and set it equal to the object returned if it does
         existing_ingredient = crud.get_ingredient_by_name(dictionary["name"])
 
+        # Use the existing ingredient to get name and url to create ingredient object
+        # Add to database and commit change
         if existing_ingredient is not None:
-        # Use the existing ingredient to get name and url. Add to database and commit change
-            new_meal_ingredient = existing_ingredient
-                
+            new_meal_ingredient = existing_ingredient  
             new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
                                 new_meal_ingredient.ingredient_name, 
                                 ingredient_measure =  dictionary["measure"] , 
@@ -537,9 +501,10 @@ def add_meal_and_ingredients():
                 
             db.session.add(new_meal_ingredient_object)
             db.session.commit()
-   
+        
+        #If existing ingredient does not exist and url has been added
+        #create object, add it to database, and commit change
         elif existing_ingredient is None and dictionary["url"] is not None:
-            #Create new_meal object, add it to database, and commit change
             new_meal_ingredient_object = crud.create_ingredient(new_meal.meal_id, 
                                 ingredient_name = dictionary["name"], 
                                 ingredient_measure = dictionary["measure"], 
@@ -547,14 +512,14 @@ def add_meal_and_ingredients():
             
             db.session.add(new_meal_ingredient_object)
             db.session.commit()
-    
+
+        #if ingredient does not exist in datbase and url has not been added
+        #Set the ingredient name to dictionary["name"] in ingredient_list
         else:
-            #if ingredient does not exist in datbase
-            #Set the ingredient name to dictionary["name"] in ingredient_list
-            ing_name = dictionary["name"]
-            needs_image.append(f"{ing_name}")
+            needs_image.append(dictionary["name"])
             return render_template("required_ingredient_images.html", needs_image = needs_image)
- 
+    
+    print(new_meal)
     flash(f"Meal {len(total_meals_in_db) + 1} and it's ingredients added!")
     return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")            
 

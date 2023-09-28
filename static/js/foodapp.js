@@ -40,8 +40,7 @@ if(getRecentActivityForm){
       .then((data) => {
         data.output.forEach((output) => {
           activityDataSection.insertAdjacentHTML('beforeend', 
-          `<br> 
-            <tr class="center_value">
+          `<tr>
             <td>${output.meal_name}</td>
             <td>
               <a href = "/recipe/${output.meal_name}/${output.meal_id}">
@@ -79,8 +78,7 @@ if(getFavoritesForm){
       .then((data) => {
         data.output.forEach((output) => {
           favoritesDataSection.insertAdjacentHTML('beforeend', 
-          ` <br>
-            <tr>
+          `<tr>
             <td>${output.meal_name}</td>
             <td>
               <a href = "/recipe/${output.meal_name}/${output.meal_id}">
@@ -232,7 +230,6 @@ if (ingredientRemoverButton){
   ingredientRemoverButton.addEventListener("click", (evt) => {
     evt.preventDefault();
     if (addedIngredientsSection.rows.length > 1){
-      // addedIngredientsSection.lastChild.remove();
       addedIngredientsSection.deleteRow(addedIngredientsSection.rows.length - 1);
       idIncrementer --;
     } else{
