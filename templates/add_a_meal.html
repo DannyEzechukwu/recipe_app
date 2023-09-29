@@ -31,7 +31,7 @@
                     <select name = "cook-time" id = "cook-time" required>
                         <option value="None">None</option>
                         {% for time in cook_times %}
-                            <option value = "{{ time }}"> {{ time }} </option>
+                            <option value = "{{ time }}" id="{{ time }}"> {{ time }} </option>
                         {% endfor %}
                     </select>
                 </td>
@@ -69,7 +69,7 @@
         <button type="button" class="button" id="ingredient-remover">Remove Ingredient</button>
 
         <p>
-        <input type = "submit" class="button" value= "Add Your Meal" />
+        <input type = "submit" id="adddatmeal" class="button" value= "Add Your Meal" />
         </p>
     
     </form>

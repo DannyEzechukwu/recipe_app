@@ -15,9 +15,9 @@ function NavComponent(){
         <nav className = "nav">
             <a href={user_profile_url} className ="user-profile-option">User Profile</a> 
             <ul className="other-options">
-                <li><a href="/get_meals">Get Meal Ideas</a></li>
-                <li><a href="/create_a_meal">Add Your Own Dish</a></li>
-                <li><a href="/">Log Out And Start Cooking</a></li>
+                <li><a href="/get_meals" id="get_meals">Get Meal Ideas</a></li>
+                <li><a href="/create_a_meal" id="create_a_meal">Add Your Own Dish</a></li>
+                <li><a href="/" id="log_out">Log Out And Start Cooking</a></li>
             </ul>
         </nav>
     )

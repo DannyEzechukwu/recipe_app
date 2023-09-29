@@ -21,6 +21,13 @@ def get_user_by_id(user_id):
 def get_user_by_email(email): 
     return User.query.filter((User.email == email)).first()
 
+#Delete a user by their email
+def delete_user_by_email(email):
+    user = User.query.filter((User.email == email)).first()
+    print(f"User {user.user_id} deleted")
+    db.session.delete(user)
+    db.session.commit()
+    
 #-----------------------------------------------------------------------------------
 #Meal crud functions
 
