@@ -39,9 +39,9 @@ for letter in first_letters:
             meal_image_url = meal_dictionary["strMealThumb"]
             meal_video_url = meal_dictionary["strYoutube"].replace("watch?v=", "embed/")
             
-            meal_object = crud.create_meal(meal_name, 
-                                category, 
-                                area,
+            meal_object = crud.create_meal(meal_name.title(), 
+                                category.title(), 
+                                area.title(),
                                 cook_time,
                                 recipe,
                                 meal_api_id,
