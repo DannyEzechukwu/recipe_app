@@ -271,7 +271,7 @@ def get_meals_to_display():
         #Loop through ingredients from magical attribute .ingredients
         #from database for each meal
         for ingredient in meal_object.ingredients:
-            #Loop through the the values generated form the ingredients entered by
+            #Loop through the the values generated form the ingredients selected by
             # user in in_dictionary 
             for name in in_dictionary.values():
                 #Condition for if ingredient_name from magical attribute is
@@ -342,11 +342,13 @@ def show_meal_details(meal_name, meal_id):
     user_like = crud.get_like_by_user_id_and_meal_id(user.user_id , meal_id)
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user.user_id, meal_id)
     user_favorite = crud.get_favorite_by_user_id_and_meal_id(user.user_id, meal_id)
+    recipe = crud.format_recipe(meal.recipe)
     
     
     return render_template("meal_details_page.html", 
                            user = user,  
-                           meal = meal, 
+                           meal = meal,
+                           recipe = recipe,  
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
                            meal_comments_list = meal_comments_list,

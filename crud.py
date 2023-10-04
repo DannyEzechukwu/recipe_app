@@ -62,6 +62,7 @@ def get_all_areas():
     
     return area_set
 
+#Get all cook times
 def get_all_cook_times():
     cook_times_set = set()
     for meal in Meal.query.all(): 
@@ -83,6 +84,22 @@ def get_meal_by_cook_time(cook_time):
 #Get a meal object by its name
 def get_meal_by_name_and_id(meal_name, meal_id): 
    return Meal.query.filter((Meal.meal_name == meal_name) & (Meal.meal_id == meal_id)).first()
+
+#Format meal recipe
+def format_recipe(meal_recipe): 
+    recipe_list = meal_recipe.split(". ")
+    lower_case_recipe_list = [line.lower() for line in recipe_list]
+    standard_case_recipe_list = [line.capitalize() for line in lower_case_recipe_list]
+
+    final_recipe_list = []
+    for line in standard_case_recipe_list: 
+        if "." in line: 
+            line = line[:-1]
+        final_recipe_list.append(line)
+    
+    return final_recipe_list
+
+
 
 
 #Get meal objects by ingredients only

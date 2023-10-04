@@ -69,9 +69,13 @@
 </div>
 {% endfor %}
 
-<div class="recipe-title">
-    <H3>Instructions:</H3>
-    <p>{{ meal.recipe }}</p>
+<H3 class="header">Instructions:</H3>
+<div class="recipe-instructions">
+    <ol>
+        {% for line in recipe %}
+        <li>{{ line }}</li>
+        {% endfor %}
+    </ol>
 </div>
 
 <br>
