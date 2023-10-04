@@ -343,6 +343,7 @@ def show_meal_details(meal_name, meal_id):
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user.user_id, meal_id)
     user_favorite = crud.get_favorite_by_user_id_and_meal_id(user.user_id, meal_id)
     
+    
     return render_template("meal_details_page.html", 
                            user = user,  
                            meal = meal, 

@@ -277,7 +277,7 @@ def get_dislikes_by_meal_id(meal_id):
     meal = Meal.query.get(meal_id)
     return meal.dislikes
 
-#Get dislikes by meal_id and user_id
+#Get dislike by meal_id and user_id
 def get_dislike_by_user_id_and_meal_id(user_id , meal_id):
     return Dislike.query.filter((Dislike.dislike_user_id == user_id) & (Dislike.dislike_meal_id == meal_id)).first()
 
@@ -308,7 +308,7 @@ def get_favorites_by_meal_id(meal_id):
     meal = Meal.query.get(meal_id)
     return meal.favorites
 
-#Get Dislikes by meal_id and user_id
+#Get favorite by meal_id and user_id
 def get_favorite_by_user_id_and_meal_id(user_id , meal_id):
     return Favorite.query.filter((Favorite.favorite_user_id == user_id) & (Favorite.favorite_meal_id == meal_id)).first()
 

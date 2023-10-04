@@ -50,7 +50,7 @@
     &nbsp;
     &nbsp;
 
-    <form id="favorite-form" action = "/favorite/{{user.user_id}}/{{ meal.meal_id}}/json" method = "POST">
+    <form id="favorite-form" action = "/favorite/{{ user.user_id }}/{{ meal.meal_id }}/json" method = "POST">
         {% if user_favorite %}
         <input type = "submit" id="favorite" class="buttonblue vote-button" value="❤️"/>
         {% else %}

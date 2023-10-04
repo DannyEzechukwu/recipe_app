@@ -270,9 +270,6 @@ class Favorite(db.Model):
                     db.ForeignKey("meals.meal_id"),
                     index = True)
     
-    created_at = db.Column(db.String, 
-                    default = datetime.now().date().strftime('%A, %B, %d %Y'))
-    
     def __repr__(self): 
         return f'<Favorite favorite_id = {self.favorite_id}, favorite_user_id= {self.favorite_user_id}, favorite_meal_id = {self.favorite_meal_id}>'
 
