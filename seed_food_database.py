@@ -13,8 +13,7 @@ os.system('createdb food')
 model.connect_to_db(server.app)
 model.db.create_all()
 
-first_letters = 'abcdefghijklmnopqrstuvwxyz'
-cook_times = ["20 min", "30 min", "45 min", "60 min", "90 min", "120 min"]
+first_letters = 'abcdefghijklmn'
 
 with open('data/data.json') as f:
     meal_data = json.loads(f.read())
@@ -34,7 +33,6 @@ for letter in first_letters:
             meal_name = meal_dictionary['strMeal']
             category = meal_dictionary["strCategory"]
             area = meal_dictionary["strArea"]
-            cook_time = choice(cook_times)
             recipe = meal_dictionary["strInstructions"].replace("\r\n", " ")
             meal_image_url = meal_dictionary["strMealThumb"]
             meal_video_url = meal_dictionary["strYoutube"].replace("watch?v=", "embed/")
@@ -42,7 +40,6 @@ for letter in first_letters:
             meal_object = crud.create_meal(meal_name.title(), 
                                 category.title(), 
                                 area.title(),
-                                cook_time,
                                 recipe,
                                 meal_api_id,
                                 meal_image_url, 

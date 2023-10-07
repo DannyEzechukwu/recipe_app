@@ -25,17 +25,6 @@
                 <td><input type="text" id="meal-area" name="meal-area" placeholder = "area" /></td>
             </tr>
 
-            <tr>
-                <td>Cook Time<span class="required-asterisk">*</span></td>
-                <td>
-                    <select name = "cook-time" id = "cook-time" required>
-                        <option value="None">None</option>
-                        {% for time in cook_times %}
-                            <option value = "{{ time }}" id="{{ time }}"> {{ time }} </option>
-                        {% endfor %}
-                    </select>
-                </td>
-            </tr>
 
             <tr>
                 <td>Recipe<span class="required-asterisk">*</span></td>

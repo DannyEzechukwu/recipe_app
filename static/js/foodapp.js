@@ -113,7 +113,9 @@ if (theMealForm){
       .then((response) => response.json())
       .then((data) => {
         const mealsDiv = document.getElementById("returned-meals");
+        bonAppétitSection = document.querySelector("#Bon-Appétit");
         mealsDiv.innerHTML = "";
+        bonAppétitSection.innerHTML = "Bon Appétit!";
         data.meals.forEach((meal) => {
           const mealDiv = document.createElement("div");
           mealDiv.classList.add("meal-item");
@@ -123,7 +125,6 @@ if (theMealForm){
             <p>Area: ${meal.area}</p>
             <img src="${meal.image}" alt="${meal.name}" class="mini-meal" />
             <p><em>Contains ${meal.ingredient}</em></p>
-            <p>⏱️${meal.cook_time} </p>
             <p>👍 ${meal.likes}</p>
             <p>
             <a href="/recipe/${meal.name}/${meal.id}">

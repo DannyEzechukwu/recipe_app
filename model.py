@@ -81,9 +81,6 @@ class Meal(db.Model):
                     index = True,
                     nullable = False)
     
-    cook_time = db.Column(db.String, 
-                        index = True, 
-                        nullable = False)
     
     recipe = db.Column(db.Text,
                     index = True, 

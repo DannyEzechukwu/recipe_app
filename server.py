@@ -285,7 +285,6 @@ def get_meals_to_display():
             "image": meal_object.meal_image_url, 
             "category": meal_object.category ,
             "area":  meal_object.area,
-            "cook_time" : meal_object.cook_time,
             "ingredient" : ingredient_of_interest,
             "likes": len(meal_object.likes)
         })
@@ -363,7 +362,6 @@ def show_meal_details(meal_name, meal_id):
 #Data is sent to /add_a_meal
 @app.route("/create_a_meal")
 def create_a_meal(): 
-    cook_times = ["20 min", "30 min", "45 min", "60 min", "90 min", "120 min"]
 
     if "id" in session: 
         #Identify user in the session
@@ -374,9 +372,7 @@ def create_a_meal():
 
         return render_template("add_a_meal.html", 
                         user = user, 
-                        total_meals_in_db = total_meals_in_db,
-                        cook_times = cook_times)
-
+                        total_meals_in_db = total_meals_in_db)
     else: 
         return redirect("/")
 #----------------------------------------------------------------------
@@ -434,7 +430,6 @@ def add_meal_and_ingredients():
     else: 
         area = "Unknown"
     
-    cook_time = request.form.get("cook-time")
     recipe = request.form.get("meal-recipe")
     meal_image_url = request.form.get("meal-image")
     
@@ -453,7 +448,6 @@ def add_meal_and_ingredients():
     new_meal = crud.create_meal(meal_name, 
                     category, 
                     area,
-                    cook_time,
                     recipe,
                     meal_api_id,
                     meal_image_url, 
