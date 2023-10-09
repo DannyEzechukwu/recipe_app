@@ -77,41 +77,43 @@ for letter in first_letters:
     
 
 last_names = ['Smith', 
-              'Jones', 
-              'Dodson', 
-              'Albert', 
-              'Cole', 
-              'Fitzgerald', 
-              'Robinson',
-              'Vincent', 
-              'Parsons', 
-              'Long', 
-              'Murray',
-              'Nolen',
-              'Turner', 
-              'Owens', 
-              'Edwards',
-              'Farris',
-              'Gregory',
-              'Williams',
-              'Harrison',
-              'Knight',
-              'Bowens',
-              'Irvin']
+        'Jones', 
+        'Dodson', 
+        'Albert', 
+        'Cole', 
+        'Fitzgerald', 
+        'Robinson',
+        'Vincent', 
+        'Parsons', 
+        'Long', 
+        'Murray',
+        'Nolen',
+        'Turner', 
+        'Owens', 
+        'Edwards',
+        'Farris',
+        'Gregory',
+        'Williams',
+        'Harrison',
+        'Knight',
+        'Bowens',
+        'Irvin'
+    ]
 
 good_comments = ["Love this one. Made it a couple of times this week 💯", 
-            "Where has this been all my life 🙏!!",
-            "Super happy my friend recommended this app!",
-            "Just starting to get into cooking again. Great first start 👨🏾‍🍳",
-            "So many dishes to pick from. I almost couldn\'t choose", 
-            "This app is a life saver. Hopefully they add more meals soon", 
-            "This app saves me so much money 💰",  
-            "So much food so little time 🤤🤤🤤",
-            "This app is a keeper. Kid's enjoyed this one 👧🏻.",
-            "10/10. This app is a keeper ✅!",
-            "This is my love language ❤️", 
-            "No way this app should be free! Too much value!"
-]
+        "Where has this been all my life 🙏!!",
+        "Super happy my friend recommended this app!",
+        "Just starting to get into cooking again. Great first start 👨🏾‍🍳",
+        "So many dishes to pick from. I almost couldn\'t choose", 
+        "This app is a life saver. Hopefully they add more meals soon", 
+        "This app saves me so much money 💰",  
+        "So much food so little time 🤤🤤🤤",
+        "This app is a keeper. Kid's enjoyed this one 👧🏻.",
+        "10/10. This app is a keeper ✅!",
+        "This is my love language ❤️", 
+        "No way this app should be free! Too much value!",
+        "Taste is okay, but I can't help but think it's not coming out right. I'll keeping giving this one a try!"
+    ]
 
 average_comments = [
     "This tasted okay. I do not think I added enough salt🧂.",
@@ -120,8 +122,9 @@ average_comments = [
     "Solid. Nothing to write home about. It got the job done.",
     "Mehhh",
     "Anyone got the mobile version??",
-    "Not bad, not good. Average at best."
-    "I've worn thos one out. Time to move on to something 🆕"
+    "Not bad, not good. Average at best.",
+    "I've worn thos one out. Time to move on to something 🆕",
+    "Following instructions is hard."
 ]
 
 bad_comments = [

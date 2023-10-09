@@ -118,6 +118,7 @@ body {
   color: #ce8500;
   font-size: 22px;
   line-height: 40px;
+  cursor: pointer;
 }
 
 /* Flash Message Styles - Red */
@@ -171,6 +172,7 @@ body {
   color: #9e0300;
   font-size: 22px;
   line-height: 40px;
+  cursor: pointer ;
 }
 
 /* Adjust content and flash message so that it is not covered by nav bar */
@@ -198,9 +200,6 @@ body {
 }
 
 /* Recipe Page Styles */
-/* .recipe-title{
-  text-align: center;
-} */
 
 .meal-visual-container {
   margin: 0;
