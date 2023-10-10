@@ -81,6 +81,49 @@ if(getRecentActivityForm){
 }
 // ---------------------------------------------------------------------
 
+// Modal functionality for areas and categories in favorites table
+
+const modalTitle = document.getElementById("modal-title");
+const modalBodyList = document.getElementById("modal-body-list");
+const openModalButtons = document.querySelectorAll('[data-modal-target]');
+const closeModalButtons = document.querySelectorAll('[data-modal-closer]');
+const overlay = document.getElementById('overlay');
+
+openModalButtons.forEach(button  => {
+  button.addEventListener("click", (evt) => {
+    evt.preventDefault();
+    const modal = document.querySelector(button.dataset.modalTarget);
+    modal.classList.add("active");
+    overlay.classList.add("active");
+    modalTitle.innerText = `Other ${button.value} Meals`;
+
+    const classSearchString = "category-modal-outputer";
+
+    if(button.className == classSearchString){
+      fetch("/category_output/json")
+        .then(response => response.json())
+        .then(data => {
+          data.category_modal_meals.forEach((meal) => {
+            modalBodyList.insertAdjacentHTML("beforeend",
+            `<li><a href="/recipe/${meal.meal_name}/${meal.meal_id}">${meal.meal_name}</a></li>`
+            );
+          })
+        })
+    }else{
+      fetch("/area_output/json")
+        .then(response => response.json())
+        .then(data => {
+          data.area_modal_meals.forEach((meal) => {
+            modalBodyList.insertAdjacentHTML("beforeend",
+            `<li><a href="/recipe/${meal.meal_name}/${meal.meal_id}">${meal.meal_name}</a></li>`
+            );
+          })
+        })
+    }
+  })
+})
+
+// --------------------------------------------------------------------
 // Renders meals based on inputs given on meal_picker.html - AJAX 
 const theMealForm = document.querySelector("#get-meal-options-form");
 

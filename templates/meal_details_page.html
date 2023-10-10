@@ -59,7 +59,7 @@
     </form>
 </div>
 
-<H3 class = "header">To make {{meal.meal_name.title()}}, you'll need:</H3>
+<H2 class>To make {{meal.meal_name.title()}}, you'll need:</H2>
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
@@ -68,11 +68,12 @@
 </div>
 {% endfor %}
 
-<H3 class="header">Instructions:</H3>
+<H2>Instructions:</H2>
 <div class="recipe-instructions">
     <ol>
         {% for line in recipe %}
         <li>{{ line }}</li>
+        <br>
         {% endfor %}
     </ol>
 </div>
@@ -89,7 +90,7 @@
 {% endif %}
 </div>
 
-<H3>Leave a comment and a rating!</H3>
+<H2>Leave a comment and a rating!</H2>
 
 <form action = "/add_rating_and_comment/{{ meal.meal_name }}/{{ meal.meal_id }}" id= "review" method = "POST">
     <fieldset class="rating">

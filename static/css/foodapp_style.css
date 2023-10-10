@@ -17,6 +17,7 @@ body {
 .button{
   color: white;
   background-color: green;
+  cursor: pointer;
 }
 
 /* Adjust content and flash message so that it is not covered by nav bar */
@@ -251,7 +252,7 @@ body {
   background-color: darkslategrey;
 }
 
-.modal-header .title{
+.modal-header .modal-title{
   color: white;
   font-size: 1.25rem; /* make the title obvious */
   font-weight: bold; /* make the title obvious */
@@ -284,7 +285,7 @@ body {
 }
 
 #overlay .active{
-  opacity:1;
+  opacity: 1;
   pointer-events: all; /*allows us to toggle and untoggle overlay */
 }
 

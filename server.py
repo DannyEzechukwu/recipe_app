@@ -47,7 +47,23 @@ def register_user():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    if crud.get_user_by_email(email): 
+    inputs = [fname, lname, email, password]
+    print(inputs)
+    
+    
+    if inputs[0] == "":
+        flash("First name not included. Please try again.")
+        return redirect("/create_account")
+    elif inputs[1] == "": 
+        flash("Last name not included. Please try again.")
+        return redirect("/create_account")
+    elif inputs[2] == "": 
+        flash("Email not included. Please try again.")
+        return redirect("/create_account")
+    elif inputs[3] == "": 
+        flash("Password not included. Please try again.")
+        return redirect("/create_account")
+    elif crud.get_user_by_email(email): 
         flash("This email already exists. Please try again.")
         return redirect("/create_account")
     else: 
@@ -118,7 +134,6 @@ def user_profile(user_id):
                 "category" : meal.category,
                 "area" : meal.area
             })
-        print(favorited_meal_info)
 
         return render_template("user_details_page.html", 
                         user= user, 
@@ -252,8 +267,12 @@ def category_modal_output():
                         "meal_id" : meal_object.meal_id
                     })
 
-    print(front_end_meals)         
-    return jsonify({"category_modal_meals" : front_end_meals})
+    print(front_end_meals)
+
+    if len(front_end_meals) >= 5:
+        return jsonify({"category_modal_meals" : random.sample(front_end_meals, 5)})
+    else:
+        return jsonify({"category_modal_meals" : front_end_meals})     
 
 #Route that runs ajax to render all meals associated with an area
 @app.route("/area_output/json", methods = ["GET", "POST"])
@@ -280,8 +299,12 @@ def area_modal_output():
                         "meal_id" : meal_object.meal_id, 
                     })
 
-    print(front_end_meals)       
-    return jsonify({"area_modal_meals" : front_end_meals})
+    print(front_end_meals)
+    
+    if len(front_end_meals) >= 5:
+        return jsonify({"area_modal_meals" : random.sample(front_end_meals, 5)})
+    else:
+        return jsonify({"area_modal_meals" : front_end_meals})      
 
 #-------------------------------------------------------------------
 
@@ -406,7 +429,7 @@ def show_meal_details(meal_name, meal_id):
         meal_rating_score_list.append(rating.score)
         
         if meal_rating_score_list:
-            average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list), 2)
+            average_score = round(sum(meal_rating_score_list) / len(meal_rating_score_list))
 
     user_like = crud.get_like_by_user_id_and_meal_id(user.user_id , meal_id)
     user_dislike = crud.get_dislike_by_user_id_and_meal_id(user.user_id, meal_id)
@@ -500,9 +523,9 @@ def add_meal_and_ingredients():
     else: 
         area = "Unknown"
     
-    recipe = request.form.get("meal-recipe")
+    recipe = str(request.form.get("meal-recipe"))
+    print(recipe)
     meal_image_url = request.form.get("meal-image")
-    
     
     if request.form.get("meal-video"):
         if "https://www.youtube.com/" in request.form.get("meal-video"):
@@ -586,7 +609,6 @@ def add_meal_and_ingredients():
             needs_image.append(dictionary["name"])
             return render_template("required_ingredient_images.html", needs_image = needs_image)
     
-    print(new_meal)
     flash(f"Meal {len(total_meals_in_db) + 1} and it's ingredients added!")
     return redirect(f"/recipe/{meal_name}/{increase_total_meals_in_db}")            
 

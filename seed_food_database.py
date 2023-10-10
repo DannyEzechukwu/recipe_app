@@ -156,7 +156,7 @@ for i in range (1, 16):
     #Create user ratings comments
     for _ in range(1,15):
         random_meal = choice(meal_objects)
-        score = randint(1, 7)
+        score = randint(1, 6)
         if score >=5:
             comment = choice(good_comments)
         elif score ==3 or score ==4:
