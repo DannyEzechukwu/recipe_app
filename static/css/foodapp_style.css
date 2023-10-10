@@ -1,4 +1,4 @@
-/* Universal Styling */
+/*---------------------- UNIVERSAL STYLING -------------------------*/
 
 * {
   box-sizing: border-box;
@@ -19,12 +19,21 @@ body {
   background-color: green;
 }
 
-/* Welcome Page Styles */
+/* Adjust content and flash message so that it is not covered by nav bar */
+.flash-message{
+  margin-top: 50px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+}
+
+.content{
+  margin-top: 100px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+}
+
+/*------------------ WELCOME PAGE STYLING ------------------*/
 .login-form{
   text-align: center;
 }
 
-/* Nav Bar Styling */
+/*------------------- NAV BAR STYLING ----------------------*/
 .nav {
   background-color: darkslategrey;
   color: white;
@@ -67,7 +76,7 @@ body {
   background-color: #777;
 }
 
-/* Flash Message Styles - Yellow */
+/*---------------------- YELLOW FLASH MESSAGE STYLING ----------------------*/
 .alert {
   background: #ffdb9b;
   padding: 20px 40px;
@@ -121,7 +130,7 @@ body {
   cursor: pointer;
 }
 
-/* Flash Message Styles - Red */
+/*-------------------- RED FLASH MESSAGE STYLING ---------------------*/
 .red-alert {
   background: lightcoral;
   padding: 20px 40px;
@@ -175,16 +184,16 @@ body {
   cursor: pointer ;
 }
 
-/* Adjust content and flash message so that it is not covered by nav bar */
-.flash-message{
-  margin-top: 50px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+/*---------------------- USER DETAILS PAGE STYLING -------------------------*/
+
+#favorites-header{
+  display: none;
 }
 
-.content{
-  margin-top: 100px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+#favorites-table{
+  display: none;
 }
 
-/* User Details Page Styles */
 .meal-rating-and-comment-or-favorite-table{
   margin: 0 auto;
   border: 3px solid black;
@@ -199,7 +208,87 @@ body {
   padding: 10px;
 }
 
-/* Recipe Page Styles */
+.category-modal-outputer{
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  font-family: Verdana;
+  font-size: medium;
+}
+
+.area-modal-outputer{
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  font-family: Verdana;
+  font-size: medium;
+}
+
+.modal{
+  position: fixed; /* As user scrolls on page, modal will follow */
+  top: 50%; /* To center top left corner of modal in middle of screen */
+  left: 50%; /* To center top left corner of modal in middle of screen */
+  transform: translate(-50%, -50%) scale(0);  /* Centers modal in container, Scale makes modal invisible by default */
+  transition: 200ms ease-in-out;
+  border: 1px solid black;
+  z-index: 10; /* Modal will draw above everything else in the z direction */
+  background-color: lightgoldenrodyellow;;
+  width: 500px; /* Default width */
+  max-width: 80%; /* Never larger than 80% of the size of our screen */
+}
+
+.modal .active {
+  transform: translate(-50%, -50%) scale(1); /* Makes modal visible */
+}
+
+.modal-header{
+  padding: 10px 15px; /* Push content away from edges */
+  display: flex; /* Puts elements side by side */
+  justify-content: space-between; /* Puts space between elements*/
+  align-items: center; /*Seperates elements completely, and aligns them in the center */
+  background-color: darkslategrey;
+}
+
+.modal-header .title{
+  color: white;
+  font-size: 1.25rem; /* make the title obvious */
+  font-weight: bold; /* make the title obvious */
+}
+
+.modal-header .closer{
+  color: white;
+  cursor: pointer; /* let's user know that they can click on button */
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.modal .padding{
+  padding: 10px 15px;
+}
+
+#overlay{
+  position: fixed; /* As user scrolls on page, overlay will follow */
+  opacity: 0;  /* Does not appear by default */
+  transition: 200ms ease-in-out;
+  top: 0;
+  left: 0;
+  right: 0; 
+  bottom: 0;
+  background-color: rgba(0,0,0, .5);
+  pointer-events: none; /* When overlay is invible, this makes it so our overlay won't capture click events  */
+}
+
+#overlay .active{
+  opacity:1;
+  pointer-events: all; /*allows us to toggle and untoggle overlay */
+}
+
+/*------------------ RECIPE PAGE STYLING ------------------- */
 
 .meal-visual-container {
   margin: 0;
@@ -255,7 +344,7 @@ H3.instructions{
   background-color: lightgoldenrodyellow ;
 }
 
-/* Get a Meal Page Styles */
+/*------------------- GET A MEAL PAGE STYLING --------------------*/
 .meal-item {
   width: 16em;
   height: 16em;
@@ -268,7 +357,7 @@ H3.instructions{
   width: 120px;
 }
 
-/* add_a_meal Page Styles */
+/*-------------- ADD A MEAL PAGE STYLING -----------------*/
 .required-asterisk{
   color: red;
 

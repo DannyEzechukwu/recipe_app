@@ -107,8 +107,22 @@ def user_profile(user_id):
     if "id" in session:   
         #Identify user by value of user_id
         user = crud.get_user_by_id(user_id)
+
+        favorited_meal_info = []
+        for favorite in user.favorites:
+            meal = crud.get_meal_by_id(favorite.favorite_meal_id)
+            favorited_meal_info.append({
+                "meal_id": meal.meal_id,
+                "meal_name": meal.meal_name,
+                "image" :  meal.meal_image_url,
+                "category" : meal.category,
+                "area" : meal.area
+            })
+        print(favorited_meal_info)
+
         return render_template("user_details_page.html", 
-                        user= user)
+                        user= user, 
+                        favorites = favorited_meal_info)
     
     else: 
         return redirect("/")
@@ -181,37 +195,93 @@ def recent_activity_data_for_user_profile(user_id):
     return jsonify({"output" : front_end_recent_comments_and_ratings[-6:]})
 
 #Route that runs ajax to display all of a user's favorite meals
-@app.route("/favorites/<int:user_id>/json", methods = ["GET", "POST"])
-def favorite_data_for_user_profile(user_id):
+# @app.route("/favorites/<int:user_id>/json", methods = ["GET", "POST"])
+# def favorite_data_for_user_profile(user_id):
 
-    #Identify user by value of user_id
-    user = crud.get_user_by_id(user_id)
+#     #Identify user by value of user_id
+#     user = crud.get_user_by_id(user_id)
 
-    #Identify user favorites through use of magical relationship variable 
-    #User.favorites
-    user_favorites = user.favorites
+#     #Identify user favorites through use of magical relationship variable 
+#     #User.favorites
+#     user_favorites = user.favorites
 
-    #Empty list that will hold favorites that can be returned to the frontend
-    front_end_favorites = []
+#     #Empty list that will hold favorites that can be returned to the frontend
+#     front_end_favorites = []
 
-    #Loopp through user_favorites
-    for favorite in user_favorites: 
-        meal = crud.get_meal_by_id(favorite.favorite_meal_id)
-        meal_name = meal.meal_name
-        meal_id = meal.meal_id 
-        meal_area = meal.area
-        meal_category = meal.category 
-        meal_image_url = meal.meal_image_url
+#     #Loopp through user_favorites
+#     for favorite in user_favorites: 
+#         meal = crud.get_meal_by_id(favorite.favorite_meal_id)
+#         meal_name = meal.meal_name
+#         meal_id = meal.meal_id 
+#         meal_area = meal.area
+#         meal_category = meal.category 
+#         meal_image_url = meal.meal_image_url
 
-        front_end_favorites.append({
-            "meal_name" : meal_name,
-            "meal_id" : meal_id, 
-            "meal_area" : meal_area,
-            "meal_category" : meal_category,
-            "meal_image_url" : meal_image_url
-        })
+#         front_end_favorites.append({
+#             "meal_name" : meal_name,
+#             "meal_id" : meal_id, 
+#             "meal_area" : meal_area,
+#             "meal_category" : meal_category,
+#             "meal_image_url" : meal_image_url
+#         })
 
-    return jsonify({"output" : front_end_favorites})
+#     return jsonify({"output" : front_end_favorites})
+
+#Route that runs ajax to render all meals associated with a category in a modal
+@app.route("/category_output/json", methods = ["GET", "POST"])
+def category_modal_output():
+
+    #Container to hold dictionaries of meal attribute details that
+    #will be sent to the front end
+    front_end_meals = []
+    #Check if the request method is POST
+    if request.method =="POST":
+        #Loop through the field names in request.form
+        for field_name in request.form:
+            #Obtain the value of each name in request.form 
+            field_value = request.form.get(field_name)
+            print(field_value)
+
+            #Condition for if field value exist
+            if field_value: 
+                meals = crud.get_meal_by_category(field_value)
+
+                for meal_object in meals: 
+                    front_end_meals.append({
+                        "meal_name" : meal_object.meal_name,
+                        "meal_id" : meal_object.meal_id
+                    })
+
+    print(front_end_meals)         
+    return jsonify({"category_modal_meals" : front_end_meals})
+
+#Route that runs ajax to render all meals associated with an area
+@app.route("/area_output/json", methods = ["GET", "POST"])
+def area_modal_output():
+
+    #Container to hold dictionaries of meal attribute details that
+    #will be sent to the front end
+    front_end_meals = []
+    #Check if the request method is POST
+    if request.method =="POST":
+        #Loop through the field names in request.form
+        for field_name in request.form:
+            #Obtain the value of each name in request.form 
+            field_value = request.form.get(field_name)
+            print(field_value)
+
+            #Condition for if field value exist
+            if field_value: 
+                meals = crud.get_meal_by_area(field_value)
+
+                for meal_object in meals: 
+                    front_end_meals.append({
+                        "meal_name" : meal_object.meal_name,
+                        "meal_id" : meal_object.meal_id, 
+                    })
+
+    print(front_end_meals)       
+    return jsonify({"area_modal_meals" : front_end_meals})
 
 #-------------------------------------------------------------------
 

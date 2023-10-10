@@ -69,6 +69,13 @@ def get_all_meals():
 def get_meal_by_id(meal_id): 
    return Meal.query.get(meal_id)
 
+#Get meal objects by category
+def get_meal_by_category(category): 
+    return Meal.query.filter(Meal.category == category.title()).all()
+
+#Get meal objects by area
+def get_meal_by_area(area):
+    return Meal.query.filter(Meal.area == area.title()).all()
 
 #Get a meal object by its name
 def get_meal_by_name_and_id(meal_name, meal_id): 
@@ -86,7 +93,6 @@ def format_recipe(meal_recipe):
         final_recipe_list.append(line)
     
     return final_recipe_list
-
 
 #Get meal objects by ingredients only
 def get_meal_by_ingredients(*ingredients):

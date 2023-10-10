@@ -8,17 +8,39 @@ if (removeFlashButton) {
       elementToRemove.remove();
   })
 }
+// ---------------------------------------------------------------------------
 
-// Gets last 6 comments and ratings for a user on user_details_page.html - AJAX
-// Gets favorite meals for a user on user_details_page.html - AJAX
-const getRecentActivityForm = document.getElementById("get-recent-activity");
+// Gets favorite meals for a user to render in a table on user_details_page.html - JINJA LOOP
 const getFavoritesForm = document.getElementById("get-favorites");
 const activityAndFavoritesDisplay = document.getElementById("activity-favorites-display");
+const favoritesHeader = document.getElementById("favorites-header");
+const favoritesTable =  document.getElementById("favorites-table");
+
+if (getFavoritesForm){
+  getFavoritesForm.addEventListener("submit", (evt) =>{
+    evt.preventDefault()
+    activityAndFavoritesDisplay.innerHTML = "";
+    let combinedHTML = "";
+    favoritesHeader.style.display = 'block';
+    favoritesTable.style.display = 'table';
+    const elementsArray = [favoritesHeader, favoritesTable];
+    elementsArray.forEach(element => {
+      combinedHTML + element.outerHTML; // Use outerHTML to include the element's opening and closing tags
+    })
+    activityAndFavoritesDisplay.innerHTML = combinedHTML;
+})
+}
+// ----------------------------------------------------------------------------
+
+// Gets last 6 comments and ratings for a user on user_details_page.html - AJAX
+const getRecentActivityForm = document.getElementById("get-recent-activity");
 const mealDetailsUserIDValue = document.getElementById("user-info-output-id");
 
 if(getRecentActivityForm){
   getRecentActivityForm.addEventListener("submit" , (evt) => {
     evt.preventDefault();
+    favoritesHeader.style.display = 'none';
+    favoritesTable.style.display = 'none';
     activityAndFavoritesDisplay.innerHTML = "";
     activityAndFavoritesDisplay.innerHTML = `
     <h1 class="header">Last 6 Ratings & Comments</h1>
@@ -31,9 +53,11 @@ if(getRecentActivityForm){
             <th>Comment</th>
             <th>Post Date</th>
           </tr>
-      </thead>
-      <tbody id="activity-data">
-      </tbody>`;
+        </thead>
+        <tbody id="activity-data">
+        </tbody>
+      </table>`
+      ;
     const activityDataSection = document.getElementById('activity-data');
     fetch(`/recent_activity/${mealDetailsUserIDValue.value}/json`)
       .then((response) => response.json())
@@ -55,47 +79,7 @@ if(getRecentActivityForm){
       })
   })
 }
-
-if(getFavoritesForm){
-  getFavoritesForm.addEventListener("submit" , (evt) => {
-    evt.preventDefault();
-    activityAndFavoritesDisplay.innerHTML = "";
-    activityAndFavoritesDisplay.innerHTML = `
-    <h1 class="header">Favorites</h1>
-      <table class="meal-rating-and-comment-or-favorite-table">
-        <thead> 
-          <tr>
-            <th>Meal<br>Name</th>
-            <th>Meal<br>Image</th>
-            <th>Details</th>
-          </tr>
-      </thead>
-      <tbody id="favorite-data">
-      </tbody>`;
-    const favoritesDataSection = document.getElementById('favorite-data');
-    fetch(`/favorites/${mealDetailsUserIDValue.value}/json`)
-      .then((response) => response.json())
-      .then((data) => {
-        data.output.forEach((output) => {
-          favoritesDataSection.insertAdjacentHTML('beforeend', 
-          `<tr>
-            <td>${output.meal_name}</td>
-            <td>
-              <a href = "/recipe/${output.meal_name}/${output.meal_id}">
-                <img src = "${output.meal_image_url}" width="100" height= "100"/>
-              </a>
-            </td>
-            <td>
-              <ul style="list-style: none;">
-                <li>Category : ${output.meal_category}</li>
-                <li>Area : ${output.meal_area}</li>
-              </ul>
-            </td>
-          </tr>`);
-        })
-      })
-  })
-}
+// ---------------------------------------------------------------------
 
 // Renders meals based on inputs given on meal_picker.html - AJAX 
 const theMealForm = document.querySelector("#get-meal-options-form");
@@ -137,6 +121,7 @@ if (theMealForm){
       });
   })
 }
+// -----------------------------------------------------------------------------
 
 // Handles liking and disliking a meal on meal_details.html - AJAX
 const userIDValue = document.getElementById("like-or-dislike-user-id");
@@ -179,6 +164,7 @@ if(dislikeForm){
     })
   })
 }
+// --------------------------------------------------------------------------
 
 // Handles favoriting a meal on meal_details.html - AJAX
 const favoriteForm = document.getElementById("favorite-form");
@@ -198,6 +184,7 @@ favoriteForm.addEventListener("submit", (evt) => {
     })
   })
 }
+// -----------------------------------------------------------------------------
 
 //Include or Remove ingredients for the meal being added on the add_a_meal.html
 const ingredientAdderButton = document.getElementById("ingredient-adder");
