@@ -349,7 +349,7 @@ H3.instructions{
 /*------------------- GET A MEAL PAGE STYLING --------------------*/
 .meal-item {
   width: 16em;
-  height: 16em;
+  height: 10em;
   margin: 2em;
   display: inline-block;
 }

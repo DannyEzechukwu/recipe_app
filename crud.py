@@ -84,13 +84,24 @@ def get_meal_by_name_and_id(meal_name, meal_id):
 #Format meal recipe
 def format_recipe(meal_recipe): 
     recipe_list = meal_recipe.split(". ")
-    standard_case_recipe_list = [line[0].upper() + line[1:] for line in recipe_list]
+    # standard_case_recipe_list = [line[0].upper() + line[1:] for line in recipe_list]
+    print(recipe_list)
+
+    standard_case_recipe_list = []
+    for line in recipe_list: 
+        new_line = line[0].upper() + line[1:]
+        standard_case_recipe_list.append(new_line)
+    
+    print(standard_case_recipe_list)
 
     final_recipe_list = []
+
     for line in standard_case_recipe_list: 
         if "." in line: 
             line = line[:-1]
         final_recipe_list.append(line)
+    
+    print(final_recipe_list)
     
     return final_recipe_list
 

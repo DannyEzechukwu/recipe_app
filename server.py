@@ -522,8 +522,7 @@ def add_meal_and_ingredients():
     else: 
         area = "Unknown"
     
-    recipe = str(request.form.get("meal-recipe"))
-    print(recipe)
+    recipe = request.form.get("meal-recipe")
     meal_image_url = request.form.get("meal-image")
     
     if request.form.get("meal-video"):
