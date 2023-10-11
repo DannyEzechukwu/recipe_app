@@ -59,7 +59,8 @@
     </form>
 </div>
 
-<H2 class>To make {{meal.meal_name.title()}}, you'll need:</H2>
+<br>
+<H2 class="header">To make {{meal.meal_name.title()}}, you'll need:</H2>
 
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
@@ -68,7 +69,7 @@
 </div>
 {% endfor %}
 
-<H2>Instructions:</H2>
+<H2 class="header">Instructions:</H2>
 <div class="recipe-instructions">
     <ol>
         {% for line in recipe %}
@@ -86,9 +87,12 @@
     <p>Your browser does not support iframes, or the content could not be loaded.</p>
 </iframe>
 {% else %}
-<p>This meal does not contain a video.</p>
+<p><strong>This meal does not contain a video.</strong></p>
 {% endif %}
 </div>
+
+<br>
+
 
 <H2>Leave a comment and a rating!</H2>
 
@@ -109,7 +113,6 @@
         <span class="focus-ring"></span>
      </fieldset>
 
-    <br>
     
     {% for i in range (meal_comments_list|length)  %}
     <div class = "previous-meal-comments">

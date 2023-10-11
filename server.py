@@ -48,9 +48,7 @@ def register_user():
     password = request.form.get("password")
 
     inputs = [fname, lname, email, password]
-    print(inputs)
-    
-    
+
     if inputs[0] == "":
         flash("First name not included. Please try again.")
         return redirect("/create_account")
@@ -111,7 +109,8 @@ def get_user_id():
     user = crud.get_user_by_id(session["id"])
 
     if user: 
-        return jsonify({"user_id" : user.user_id})
+        return jsonify({"user_id" : user.user_id, 
+                    "user_name" : user.fname})
 
 #--------------------------------------------------------------------
 #USER PROFILE

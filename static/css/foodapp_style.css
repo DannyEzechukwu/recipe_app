@@ -325,6 +325,7 @@ H3.instructions{
   height: 10em;
   display: inline-table;
   text-align: center;
+  margin: 10px;
 }
 
 .previous-meal-comments {
