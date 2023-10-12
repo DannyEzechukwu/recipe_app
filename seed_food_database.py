@@ -60,7 +60,7 @@ for letter in first_letters:
                     #Return "chef's preference" if measurementis not available
                     measurement = meal_dictionary.get(f'strMeasure{measure_ingredient_number}', "Chef's Preference")
                     #Create a tuple that contains ingredient name, measurement and meal_id
-                    ingredient_tuple  = (meal_object.meal_id, meal_dictionary[key].title(), measurement,)
+                    ingredient_tuple  = (meal_object.meal_id, meal_dictionary[key].lower(), measurement,)
                     ingredients.append(ingredient_tuple)
 
                     #Loop through each tuple in ingredients set

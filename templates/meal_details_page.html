@@ -65,7 +65,7 @@
 {% for ingredient in meal_ingredients %}
 <div class = "meal-ingredients"> 
     <img src = "{{ ingredient.ingredient_image_url }}" alt="picture of {{ ingredient.ingredient_name }}" width = "100" height="100"/><br>
-    <p class>{{ingredient.ingredient_measure.title()}} {{ingredient.ingredient_name }}</p>
+    <p class>{{ingredient.ingredient_measure}} {{ingredient.ingredient_name.lower() }}</p>
 </div>
 {% endfor %}
 

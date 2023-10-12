@@ -325,7 +325,7 @@ def get_meals():
         ingredients_set = set()
         ingredients = crud.get_all_ingredients()
         for ingredient in ingredients: 
-            ingredients_set.add(ingredient.ingredient_name.title())
+            ingredients_set.add(ingredient.ingredient_name)
         
         ingredients_list = sorted(list(ingredients_set))
 
@@ -570,8 +570,8 @@ def add_meal_and_ingredients():
         #Append each dictionary to a ingredient_list container
         if ingredient_name is not None:
             ingredient_list.append({
-            'name': ingredient_name.title(),
-            'measure': ingredient_measure.title(),
+            'name': ingredient_name.lower(),
+            'measure': ingredient_measure,
             "url": ingredient_url 
         })
     

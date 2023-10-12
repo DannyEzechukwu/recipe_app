@@ -232,7 +232,7 @@ def get_ingredient_by_id(ingredient_id):
 
 #Get ingredient by ingredient_name
 def get_ingredient_by_name(ingredient_name):
-    return Ingredient.query.filter(Ingredient.ingredient_name == ingredient_name).first()
+    return Ingredient.query.filter(Ingredient.ingredient_name == ingredient_name.lower()).first()
     
 
 def get_ingredients_by_meal_id(ingredient_meal_id): 

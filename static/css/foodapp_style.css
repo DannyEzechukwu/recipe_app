@@ -31,7 +31,7 @@ body {
 
 /* Adjust content and flash message so that it is not covered by nav bar */
 .flash-message{
-  margin-top: 50px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
+  margin-top: 10px;   /* Adjusts the height of the Jinja body block to avoid being under navbar */
 }
 
 .content{

@@ -1,6 +1,11 @@
 // Removes all flash messages
+
+// Locate the buttons with the ids 'removeflash and 'flash'
 const removeFlashButton = document.getElementById("removeflash");
 const elementToRemove = document.getElementById("flash");
+
+// Remove the flash element via an event listener added to 
+// removeFlashButton variable
 
 if (removeFlashButton) { 
   removeFlashButton.addEventListener('click', (evt) => {
@@ -9,25 +14,29 @@ if (removeFlashButton) {
   })
 }
 // ---------------------------------------------------------------------------
-
 // Button to take user back to previous page they were on
 
-
+// If element with id 'back_button' exist
 if(document.getElementById("back_button")){
+  // Include event listener to go back to previous page
   document.getElementById("back_button").addEventListener("click", function() {
     // Use the browser's history to navigate back
     history.back();
   })
 }
+
+// If element with id 'required_back_button' exist
 if(document.getElementById("required_back_button")){
+  // Include event listener to go back to previous page
   document.getElementById("required_back_button").addEventListener("click", function() {
     // Use the browser's history to navigate back
     history.back();
   })
 }
 // ---------------------------------------------------------------------------
-
 // Gets favorite meals for a user to render in a table on user_details_page.html - JINJA LOOP
+
+
 const getFavoritesForm = document.getElementById("get-favorites");
 const activityAndFavoritesDisplay = document.getElementById("activity-favorites-display");
 const favoritesHeader = document.getElementById("favorites-header");
@@ -113,7 +122,7 @@ openModalButtons.forEach(button  => {
     modalBodyList.innerHTML = "";
     modal.classList.add("active");
     overlay.classList.add("active");
-    modalTitle.innerText = `Other ${button.value} Meals`;
+    modalTitle.innerText = `Try these other ${button.value} meals`;
 
     const classSearchString = "category-modal-outputer";
     const categoryQueryString = `?category=${button.value}`
