@@ -10,6 +10,23 @@ if (removeFlashButton) {
 }
 // ---------------------------------------------------------------------------
 
+// Button to take user back to previous page they were on
+
+
+if(document.getElementById("back_button")){
+  document.getElementById("back_button").addEventListener("click", function() {
+    // Use the browser's history to navigate back
+    history.back();
+  })
+}
+if(document.getElementById("required_back_button")){
+  document.getElementById("required_back_button").addEventListener("click", function() {
+    // Use the browser's history to navigate back
+    history.back();
+  })
+}
+// ---------------------------------------------------------------------------
+
 // Gets favorite meals for a user to render in a table on user_details_page.html - JINJA LOOP
 const getFavoritesForm = document.getElementById("get-favorites");
 const activityAndFavoritesDisplay = document.getElementById("activity-favorites-display");
@@ -136,6 +153,16 @@ closeModalButtons.forEach(button =>{
     overlay.classList.remove("active");
   })
 })
+
+if(overlay){
+  overlay.addEventListener("click", (evt) =>{
+    evt.preventDefault();
+    modalTitle.innerText = "";
+    modalBodyList.innerHTML = "";
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
+  })
+}
 
 // --------------------------------------------------------------------
 // Renders meals based on inputs given on meal_picker.html - AJAX 
@@ -282,12 +309,3 @@ if (ingredientRemoverButton){
     }
   })
 }
-
-
-
-
-
-document.getElementById("back_button").addEventListener("click", function() {
-  // Use the browser's history to navigate back
-  history.back();
-})

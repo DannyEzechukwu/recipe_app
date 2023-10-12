@@ -3,11 +3,16 @@
 {% block title %}Required Images{% endblock %}
 
 {% block body %}
-<h4>The following ingedient is not in our database. Press back to add it's image.</h4>
+<h4>The following ingedient is not in our database. Click the "< Previous" button to add it's image.</h4>
 
 {% for ingredient in needs_image %}
     <p>Please include an image for <em><strong>{{ ingredient }}</strong></em></p>
 {% endfor %}
+
+<form>
+    <button type="button" class="button" id="required_back_button">< Previous</button>
+</form>
+
 
 <script src="/static/js/Components.jsx" type="text/jsx"></script>
 
