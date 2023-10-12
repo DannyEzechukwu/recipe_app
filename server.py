@@ -71,7 +71,7 @@ def register_user():
         session["id"] = new_user.user_id
 
         flash(f"Welcome {new_user.fname.title()}!")
-        return redirect(f"/user_profile/{session['id']}")
+        return redirect(f"/get_meals")
 
 # Route containing form to input email and password
 # to access application
@@ -95,7 +95,7 @@ def confirm():
     if current_user and current_user.password == password: 
         session["id"] = current_user.user_id
         flash(f"Welcome back {current_user.fname.title()}!")
-        return redirect(f"/user_profile/{current_user.user_id}")
+        return redirect(f"/get_meals")
     else: 
         flash("Email or password incorrect. Please try again.")
         return redirect("/login")
@@ -207,39 +207,6 @@ def recent_activity_data_for_user_profile(user_id):
         })
     
     return jsonify({"output" : front_end_recent_comments_and_ratings[-6:]})
-
-#Route that runs ajax to display all of a user's favorite meals
-# @app.route("/favorites/<int:user_id>/json", methods = ["GET", "POST"])
-# def favorite_data_for_user_profile(user_id):
-
-#     #Identify user by value of user_id
-#     user = crud.get_user_by_id(user_id)
-
-#     #Identify user favorites through use of magical relationship variable 
-#     #User.favorites
-#     user_favorites = user.favorites
-
-#     #Empty list that will hold favorites that can be returned to the frontend
-#     front_end_favorites = []
-
-#     #Loopp through user_favorites
-#     for favorite in user_favorites: 
-#         meal = crud.get_meal_by_id(favorite.favorite_meal_id)
-#         meal_name = meal.meal_name
-#         meal_id = meal.meal_id 
-#         meal_area = meal.area
-#         meal_category = meal.category 
-#         meal_image_url = meal.meal_image_url
-
-#         front_end_favorites.append({
-#             "meal_name" : meal_name,
-#             "meal_id" : meal_id, 
-#             "meal_area" : meal_area,
-#             "meal_category" : meal_category,
-#             "meal_image_url" : meal_image_url
-#         })
-
-#     return jsonify({"output" : front_end_favorites})
 
 #Route that runs ajax to render all meals associated with a category in a modal
 @app.route("/category_output/json", methods = ["GET"])

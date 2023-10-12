@@ -8,9 +8,6 @@ body {
   margin: 0;
   font-family: Verdana;
   background-color: lightgoldenrodyellow;
-  position: relative;
-  min-height: 100vh;
-  padding: 0;
 }
 
 .header{
@@ -44,6 +41,7 @@ body {
 }
 
 /*------------------- NAV BAR STYLING ----------------------*/
+
 .nav {
   background-color: darkslategrey;
   color: white;
@@ -54,7 +52,7 @@ body {
   padding: 0 1rem;
   position: fixed;    /* Set the navbar to fixed position */
   top: 0;             /* Stick it to the top of the viewport */
-  width: 100%;  
+  width: 100%;
 }
 
 .user-profile-option {
