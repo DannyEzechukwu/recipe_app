@@ -39,9 +39,9 @@
             </td>
             <td>
               <ul style="list-style: none;">
-                <li>Category: <form action="/category_output/json" method="POST"><input type="submit" name="{{ dictionary['category'] }}" class="category-modal-outputer" value="{{ dictionary['category'] }}" data-modal-target="#modal"></form></li>
+                <li>Category:<form action="/category_output/json" method="GET"><input type="submit" name="category" class="category-modal-outputer" value="{{ dictionary['category'] }}" data-modal-target="#modal"></form></li>
                 <br>
-                <li>Area: <form action="/area_output/json" method="POST"><input type="submit" name="{{ dictionary['area'] }}" class="area-modal-outputer" value="{{ dictionary['area'] }}" data-modal-target="#modal"></form></li>
+                <li>Area:<form action="/area_output/json" method="GET"><input type="submit" name="area" class="area-modal-outputer" value="{{ dictionary['area'] }}" data-modal-target="#modal"></form></li>
               </ul>
             </td>
         </tr>
@@ -57,7 +57,6 @@
 
     <div class="modal-body" id="modal-body">
         <ul id="modal-body-list"> 
-            <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam dicta maiores error magnam animi veniam veritatis facilis cumque? Excepturi, corrupti doloremque quam dicta fugiat architecto asperiores exercitationem aliquid consequatur omnis distinctio est odio error vel praesentium debitis in nobis neque iusto? Hic rem qui ducimus ab nostrum voluptatum voluptates labore soluta eveniet sapiente quaerat vel, laboriosam commodi velit earum molestiae eos dolorum fuga aliquid tempore. Repellendus, mollitia libero eos esse ut ratione consequatur cupiditate, asperiores nulla suscipit blanditiis molestias! Delectus hic, magni reprehenderit corporis repellendus excepturi voluptate! Quas perspiciatis quos, pariatur voluptas velit dolorem porro perferendis quam quaerat provident.</li>
         </ul>
     </div>
 </div>

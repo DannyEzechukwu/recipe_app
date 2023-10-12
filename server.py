@@ -242,19 +242,20 @@ def recent_activity_data_for_user_profile(user_id):
 #     return jsonify({"output" : front_end_favorites})
 
 #Route that runs ajax to render all meals associated with a category in a modal
-@app.route("/category_output/json", methods = ["GET", "POST"])
+@app.route("/category_output/json", methods = ["GET"])
 def category_modal_output():
 
     #Container to hold dictionaries of meal attribute details that
     #will be sent to the front end
     front_end_meals = []
     #Check if the request method is POST
-    if request.method =="POST":
+    if request.method =="GET":
         #Loop through the field names in request.form
-        for field_name in request.form:
+        for field_name in request.args:
             #Obtain the value of each name in request.form 
-            field_value = request.form.get(field_name)
-            print(field_value)
+            print(field_name)
+            field_value = request.args.get(field_name)
+            
 
             #Condition for if field value exist
             if field_value: 
@@ -263,7 +264,8 @@ def category_modal_output():
                 for meal_object in meals: 
                     front_end_meals.append({
                         "meal_name" : meal_object.meal_name,
-                        "meal_id" : meal_object.meal_id
+                        "meal_id" : meal_object.meal_id,
+                        "meal_category": meal_object.category
                     })
 
     print(front_end_meals)
@@ -274,18 +276,18 @@ def category_modal_output():
         return jsonify({"category_modal_meals" : front_end_meals})     
 
 #Route that runs ajax to render all meals associated with an area
-@app.route("/area_output/json", methods = ["GET", "POST"])
+@app.route("/area_output/json", methods = ["GET"])
 def area_modal_output():
 
     #Container to hold dictionaries of meal attribute details that
     #will be sent to the front end
     front_end_meals = []
     #Check if the request method is POST
-    if request.method =="POST":
+    if request.method =="GET":
         #Loop through the field names in request.form
-        for field_name in request.form:
+        for field_name in request.args:
             #Obtain the value of each name in request.form 
-            field_value = request.form.get(field_name)
+            field_value = request.args.get(field_name)
             print(field_value)
 
             #Condition for if field value exist
@@ -296,6 +298,7 @@ def area_modal_output():
                     front_end_meals.append({
                         "meal_name" : meal_object.meal_name,
                         "meal_id" : meal_object.meal_id, 
+                        "meal_area" : meal_object.area
                     })
 
     print(front_end_meals)

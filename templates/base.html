@@ -17,6 +17,7 @@
         <div id="navroot">
         </div>
 
+
         <div class="flash-message">
         {% set phrase = "Please try again." %}
         {% for msg in get_flashed_messages() %}
@@ -39,6 +40,10 @@
         </div>
 
         <div class="content">
+        <form>
+            <!-- Your form content goes here -->
+            <button type="button" id="back_button"><<<<</button>
+        </form>
         {% block body %}
         {% endblock %}
         </div>

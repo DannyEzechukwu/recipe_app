@@ -111,8 +111,9 @@
         <input type="radio" id="rate6" name="rating" value="6">
         <label for="rate6">6 - Delicious 😋</label>
         <span class="focus-ring"></span>
-     </fieldset>
+    </fieldset>
 
+    <br>
     
     {% for i in range (meal_comments_list|length)  %}
     <div class = "previous-meal-comments">
@@ -130,6 +131,11 @@
     <textarea id = "comment-field" name = "comment-field" rows="5" columns="60"></textarea>
     <br>
     <input type="submit" id = "submit-comment-button" class = "button" value="Post">
+</form>
+
+<form>
+    <!-- Your form content goes here -->
+    <button type="button" id="back_button">Back</button>
 </form>
 
 <script src="/static/js/Components.jsx" type="text/jsx"></script>

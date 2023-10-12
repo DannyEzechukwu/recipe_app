@@ -92,25 +92,28 @@ const overlay = document.getElementById('overlay');
 openModalButtons.forEach(button  => {
   button.addEventListener("click", (evt) => {
     evt.preventDefault();
-    const modal = document.querySelector(button.dataset.modalTarget);
+    modalTitle.innerText = "";
+    modalBodyList.innerHTML = "";
     modal.classList.add("active");
     overlay.classList.add("active");
     modalTitle.innerText = `Other ${button.value} Meals`;
 
     const classSearchString = "category-modal-outputer";
+    const categoryQueryString = `?category=${button.value}`
+    const areaQueryString = `?area=${button.value}`
 
     if(button.className == classSearchString){
-      fetch("/category_output/json")
+      fetch(`/category_output/json${categoryQueryString}`)
         .then(response => response.json())
         .then(data => {
-          data.category_modal_meals.forEach((meal) => {
+          data.category_modal_meals.forEach(( meal) => {
             modalBodyList.insertAdjacentHTML("beforeend",
             `<li><a href="/recipe/${meal.meal_name}/${meal.meal_id}">${meal.meal_name}</a></li>`
             );
           })
         })
     }else{
-      fetch("/area_output/json")
+      fetch(`/area_output/json${areaQueryString}`)
         .then(response => response.json())
         .then(data => {
           data.area_modal_meals.forEach((meal) => {
@@ -120,6 +123,17 @@ openModalButtons.forEach(button  => {
           })
         })
     }
+  })
+})
+
+
+closeModalButtons.forEach(button =>{
+  button.addEventListener("click", (evt) =>{
+    evt.preventDefault();
+    modalTitle.innerText = "";
+    modalBodyList.innerHTML = "";
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
   })
 })
 
@@ -270,3 +284,10 @@ if (ingredientRemoverButton){
 }
 
 
+
+
+
+document.getElementById("back_button").addEventListener("click", function() {
+  // Use the browser's history to navigate back
+  history.back();
+})

@@ -210,7 +210,7 @@ body {
 }
 
 .category-modal-outputer{
-  border: none;
+  
   outline: none;
   background: none;
   cursor: pointer;
@@ -219,7 +219,7 @@ body {
 }
 
 .area-modal-outputer{
-  border: none;
+  
   outline: none;
   background: none;
   cursor: pointer;
@@ -240,7 +240,7 @@ body {
   max-width: 80%; /* Never larger than 80% of the size of our screen */
 }
 
-.modal .active {
+.modal.active {
   transform: translate(-50%, -50%) scale(1); /* Makes modal visible */
 }
 
@@ -268,7 +268,7 @@ body {
   font-weight: bold;
 }
 
-.modal .padding{
+.modal .modal-body{
   padding: 10px 15px;
 }
 
@@ -284,7 +284,7 @@ body {
   pointer-events: none; /* When overlay is invible, this makes it so our overlay won't capture click events  */
 }
 
-#overlay .active{
+#overlay.active{
   opacity: 1;
   pointer-events: all; /*allows us to toggle and untoggle overlay */
 }
@@ -362,5 +362,8 @@ H3.instructions{
 /*-------------- ADD A MEAL PAGE STYLING -----------------*/
 .required-asterisk{
   color: red;
+}
 
+.small-text{
+  font-size: 11px;
 }
