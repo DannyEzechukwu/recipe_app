@@ -117,7 +117,7 @@ good_comments = ["Love this one. Made it a couple of times this week 💯",
 
 average_comments = [
     "This tasted okay. I do not think I added enough salt🧂.",
-    "I was way to heavy with the salt. Almost choked to death!",
+    "I was way too heavy with the salt. Almost choked to death!",
     "Not usually something I go for, but it ended up working out.",
     "Solid. Nothing to write home about. It got the job done.",
     "Mehhh",
@@ -150,12 +150,15 @@ for i in range (1, 16):
     user = crud.create_user(fname, lname, email, password)
     model.db.session.add(user)
     model.db.session.commit()
+
     
 
     
-    #Create user ratings comments
-    for _ in range(1,15):
+    #Create 15 ratings, comments, likes, dislikes, favorites for each user
+    for i in range(1,16):
         random_meal = choice(meal_objects)
+        random_liked_meal= choice(meal_objects[:78])
+        random_disliked_meal = choice(meal_objects[78:])
         score = randint(1, 6)
         if score >=5:
             comment = choice(good_comments)
@@ -164,9 +167,16 @@ for i in range (1, 16):
         else: 
             comment = choice(bad_comments)
         rating = crud.create_rating(user.user_id, random_meal.meal_id, score)
-        comment = crud.create_comment(user.user_id, random_meal.meal_id, comment)
+        comment = crud.create_comment(user.user_id , random_meal.meal_id, comment)
+        like = crud.create_like(user.user_id, random_liked_meal.meal_id)
+        dislike = crud.create_dislike(user.user_id, random_disliked_meal.meal_id)
+        favorite = crud.create_favorite(user.user_id, random_meal.meal_id)
         model.db.session.add(rating)
         model.db.session.add(comment)
+        model.db.session.add(like)
+        model.db.session.add(dislike)
+        model.db.session.add(favorite)
+
         
 
 

@@ -71,7 +71,7 @@ def register_user():
         session["id"] = new_user.user_id
 
         flash(f"Welcome {new_user.fname.title()}!")
-        return redirect(f"/get_meals")
+        return redirect(f"/user_profile/{new_user.user_id}")
 
 # Route containing form to input email and password
 # to access application
@@ -95,7 +95,7 @@ def confirm():
     if current_user and current_user.password == password: 
         session["id"] = current_user.user_id
         flash(f"Welcome back {current_user.fname.title()}!")
-        return redirect(f"/get_meals")
+        return redirect(f"/user_profile/{current_user.user_id}")
     else: 
         flash("Email or password incorrect. Please try again.")
         return redirect("/login")
@@ -220,7 +220,6 @@ def category_modal_output():
         #Loop through the field names in request.form
         for field_name in request.args:
             #Obtain the value of each name in request.form 
-            print(field_name)
             field_value = request.args.get(field_name)
             
 
@@ -234,8 +233,6 @@ def category_modal_output():
                         "meal_id" : meal_object.meal_id,
                         "meal_category": meal_object.category
                     })
-
-    print(front_end_meals)
 
     if len(front_end_meals) >= 5:
         return jsonify({"category_modal_meals" : random.sample(front_end_meals, 5)})
@@ -255,7 +252,6 @@ def area_modal_output():
         for field_name in request.args:
             #Obtain the value of each name in request.form 
             field_value = request.args.get(field_name)
-            print(field_value)
 
             #Condition for if field value exist
             if field_value: 
@@ -267,8 +263,6 @@ def area_modal_output():
                         "meal_id" : meal_object.meal_id, 
                         "meal_area" : meal_object.area
                     })
-
-    print(front_end_meals)
     
     if len(front_end_meals) >= 5:
         return jsonify({"area_modal_meals" : random.sample(front_end_meals, 5)})
