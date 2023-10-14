@@ -138,11 +138,13 @@ bad_comments = [
     "b-a-s-i-c"
 ]
 
-#Container to hold user objects to add to database 
-user_objects = []
+#Container to split number of users in half
+users_1_through_8 = []
+users_9_through_16 =[]
 
-#Create 15 users
-for i in range (1, 16):
+
+#Create 16 users
+for i in range (1, 17):
     fname = f'Test{i}'
     lname = choice(last_names)
     email = f'{fname}@gmail.com'.lower()
@@ -151,11 +153,19 @@ for i in range (1, 16):
     model.db.session.add(user)
     model.db.session.commit()
 
+    for user in crud.get_all_users():
+        if user.user_id <= 8: 
+            users_1_through_8.append(user)
+        else: 
+            users_9_through_16.append(user)
+
     
 
     
-    #Create 15 ratings, comments, likes, dislikes, favorites for each user
-    for i in range(1,16):
+#Create 10 ratings, comments, likes, dislikes, favorites for each user 
+# with id 1 - 8 
+for i in range(1,6):
+    for user in users_1_through_8:
         random_meal = choice(meal_objects)
         random_liked_meal= choice(meal_objects[:78])
         random_disliked_meal = choice(meal_objects[78:])
@@ -170,16 +180,32 @@ for i in range (1, 16):
         comment = crud.create_comment(user.user_id , random_meal.meal_id, comment)
         like = crud.create_like(user.user_id, random_liked_meal.meal_id)
         dislike = crud.create_dislike(user.user_id, random_disliked_meal.meal_id)
-        favorite = crud.create_favorite(user.user_id, random_meal.meal_id)
         model.db.session.add(rating)
         model.db.session.add(comment)
         model.db.session.add(like)
         model.db.session.add(dislike)
-        model.db.session.add(favorite)
 
-        
+#Create 10 ratings, comments, likes, dislikes, favorites for each user 
+# with id 9 - 16 
+for i in range(1,6):
+    for user in users_9_through_16:
+        random_meal = choice(meal_objects)
+        random_liked_meal= choice(meal_objects[78:])
+        random_disliked_meal = choice(meal_objects[:78])
+        score = randint(1, 6)
+        if score >=5:
+            comment = choice(good_comments)
+        elif score ==3 or score ==4:
+            comment = choice(average_comments)
+        else: 
+            comment = choice(bad_comments)
+        rating = crud.create_rating(user.user_id, random_meal.meal_id, score)
+        comment = crud.create_comment(user.user_id , random_meal.meal_id, comment)
+        like = crud.create_like(user.user_id, random_liked_meal.meal_id)
+        dislike = crud.create_dislike(user.user_id, random_disliked_meal.meal_id)
+        model.db.session.add(rating)
+        model.db.session.add(comment)
+        model.db.session.add(like)
+        model.db.session.add(dislike)
 
-
-
- 
 model.db.session.commit()        

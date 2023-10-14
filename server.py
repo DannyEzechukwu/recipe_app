@@ -206,7 +206,7 @@ def recent_activity_data_for_user_profile(user_id):
             "created_at": tuple[5],
         })
     
-    return jsonify({"output" : front_end_recent_comments_and_ratings[-6:]})
+    return jsonify({"output" : front_end_recent_comments_and_ratings[-6:][::-1]})
 
 #Route that runs ajax to render all meals associated with a category in a modal
 @app.route("/category_output/json", methods = ["GET"])
@@ -406,8 +406,8 @@ def show_meal_details(meal_name, meal_id):
                            recipe = recipe,  
                            meal_ingredients = meal_ingredients,
                            average_score  = average_score,
-                           meal_comments_list = meal_comments_list,
-                           meal_rating_score_list = meal_rating_score_list,
+                           meal_comments_list = meal_comments_list[::-1],
+                           meal_rating_score_list = meal_rating_score_list[::-1],
                            meal_likes = meal_likes,
                            meal_dislikes = meal_dislikes,
                            user_like = user_like, 
