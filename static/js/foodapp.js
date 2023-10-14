@@ -122,7 +122,7 @@ openModalButtons.forEach(button  => {
     modalBodyList.innerHTML = "";
     modal.classList.add("active");
     overlay.classList.add("active");
-    modalTitle.innerText = `Try these other ${button.value} meals`;
+    modalTitle.innerText = `Try These Other ${button.value} Meals`;
 
     const classSearchString = "category-modal-outputer";
     const categoryQueryString = `?category=${button.value}`
