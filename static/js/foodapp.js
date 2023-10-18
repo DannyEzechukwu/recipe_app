@@ -214,7 +214,7 @@ if (theMealForm){
           mealsDiv.appendChild(mealDiv);
           });
         } else{
-          mealsDiv.innerHTML = `<h3>No meals found</h3>`;
+          bonAppétitSection.innerHTML= `No meals found`;
         }
       }
     );
