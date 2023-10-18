@@ -13,37 +13,22 @@
 
         <form action="/get_meals/json" id="get-meal-options-form">      
             <label for = "ingredients1">Ingredient1</label>
-            <select name = "ingredient1" id = "ingredient1">
-                <option value="None">None</option>
-                {% for ingredient in ingredients %}
-                <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-                {% endfor %}
-            </select>
+            <input type="text" name = "ingredient1" id = "ingredient1">
+            
 
             <label for = "ingredient2">Ingredient2</label>
-            <!-- <input type = "text" name = "ingredient2" id = "ingredient2"> -->
-            <select name = "ingredient2" id = "ingredient2">
-                <option value="None">None</option>
-                {% for ingredient in ingredients %}
-                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-                {% endfor %}
-            </select>
+            
+            <input type="text" name = "ingredient2" id = "ingredient2">
+                
+    
 
             <label for = "ingredient3">Ingredient3</label>
-            <select name = "ingredient3" id = "ingredient3"> 
-                <option value="None">None</option>
-                {% for ingredient in ingredients %}
-                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-                {% endfor %}
-            </select>
+            <input type="text" name = "ingredient3" id = "ingredient3"> 
+                
 
             <label for = "ingredient4">Ingredient4</label>
-            <select name = "ingredient4" id = "ingredient4"> 
-                <option value="None">None</option>
-                {% for ingredient in ingredients %}
-                    <option value = "{{ ingredient }}"> {{ ingredient }} </option>
-                {% endfor %}
-            </select>
+            <input type="text" name = "ingredient4" id = "ingredient4"> 
+
             <br>
             <br>
 

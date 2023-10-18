@@ -193,7 +193,9 @@ if (theMealForm){
         bonAppétitSection = document.querySelector("#Bon-Appétit");
         mealsDiv.innerHTML = "";
         bonAppétitSection.innerHTML = "Bon Appétit!";
-        data.meals.forEach((meal) => {
+        if (Array.isArray(data.meals) && data.meals.length > 0) {
+          console.log(data.meals);
+          data.meals.forEach((meal) => {
           const mealDiv = document.createElement("div");
           mealDiv.classList.add("meal-item");
           mealDiv.innerHTML = `
@@ -210,8 +212,12 @@ if (theMealForm){
             </p>
             `;
           mealsDiv.appendChild(mealDiv);
-        });
-      });
+          });
+        } else{
+          mealsDiv.innerHTML = `<h3>No meals found</h3>`;
+        }
+      }
+    );
   })
 }
 // -----------------------------------------------------------------------------

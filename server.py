@@ -95,7 +95,7 @@ def confirm():
     if current_user and current_user.password == password: 
         session["id"] = current_user.user_id
         flash(f"Welcome back {current_user.fname.title()}!")
-        return redirect(f"/user_profile/{current_user.user_id}")
+        return redirect(f"/get_meals")
     else: 
         flash("Email or password incorrect. Please try again.")
         return redirect("/login")
