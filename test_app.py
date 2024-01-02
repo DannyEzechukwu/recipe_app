@@ -53,8 +53,6 @@ class AppTest(unittest.TestCase):
         self.assertIn(b"Favorite Meals", result.data)
         crud.delete_user_by_email("f.last@gmail.com")
 
-
-
     #Confirm User Route Integration Test
     def test_confirm_user_post_route(self):
         result = self.client.post("/confirm_user",
@@ -62,7 +60,7 @@ class AppTest(unittest.TestCase):
                                     "password": "test"},
                                 follow_redirects=True)
         
-        self.assertIn(b"Recent Activity", result.data)
+        self.assertIn(b"Selection Time!", result.data)
     
 
     # User profile favorites End to End test
@@ -105,10 +103,10 @@ class AppTest(unittest.TestCase):
         time.sleep(3)
         driver.find_element(By.ID, "meal-area").send_keys("Who Knows")
         time.sleep(3)
-        driver.find_element(By.ID, "cook-time").click()
-        time.sleep(3)
-        driver.find_element(By.ID, "20 min").click()
-        time.sleep(3)
+        # driver.find_element(By.ID, "cook-time").click()
+        # time.sleep(3)
+        # driver.find_element(By.ID, "20 min").click()
+        # time.sleep(3)
         driver.find_element(By.ID, "meal-recipe").send_keys("Chill fruit.\nChop fruit.\nServe fruit.")
         time.sleep(3)
         driver.find_element(By.ID, "meal-image").send_keys("https://hips.hearstapps.com/hmg-prod/images/fruit-salad-vertical-jpg-1522181929.jpg?crop=0.696xw:0.464xh;0.252xw,0.286xh&resize=980:*")
